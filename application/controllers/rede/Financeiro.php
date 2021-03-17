@@ -15,6 +15,9 @@ class Financeiro extends CI_Controller {
   public function balanco() {
     $data['balanco'] = $this->model->selecionaBusca('balanco', "WHERE id_aluno='{$this->session->userdata('id')}' ");
 
+    $data['title'] = 'Balanco';
+    $data['subTitle'] = 'Financeiro';
+
     $this->load->view('rede/balanco', $data);
   }
 

@@ -13,22 +13,22 @@
       <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap" rel="stylesheet">
 
       <!-- Preloader -->
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/vendor/spinkit.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/vendor/spinkit.css" rel="stylesheet">
 
       <!-- Perfect Scrollbar -->
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/vendor/perfect-scrollbar.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/vendor/perfect-scrollbar.css" rel="stylesheet">
 
       <!-- Material Design Icons -->
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/css/material-icons.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/css/material-icons.css" rel="stylesheet">
 
       <!-- Font Awesome Icons -->
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/css/fontawesome.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/css/fontawesome.css" rel="stylesheet">
 
       <!-- Preloader -->
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/css/preloader.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/css/preloader.css" rel="stylesheet">
 
       <!-- App CSS -->
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/css/app.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/css/app.css" rel="stylesheet">
 
       <!-- Datatables CSS -->
       <link type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -37,14 +37,14 @@
       <link type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
 
       <!-- Toastr -->
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/vendor/toastr.min.css" rel="stylesheet">
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/css/toastr.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/vendor/toastr.min.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/css/toastr.css" rel="stylesheet">
 
       <!-- Verificador CSS -->
       <link type="text/css" href="<?php echo site_url('assets/css/verificador.css'); ?>" rel="stylesheet">
 
       <!-- Quill Theme -->
-      <link type="text/css" href="<?php echo site_url('assets/assetsAlison'); ?>/css/quill.css" rel="stylesheet">
+      <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/css/quill.css" rel="stylesheet">
 
       <!-- bootstrap selectpicker -->
       <!-- Latest compiled and minified CSS -->

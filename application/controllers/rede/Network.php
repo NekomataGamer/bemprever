@@ -29,6 +29,9 @@ class Network extends CI_Controller {
 
     $data = array_merge($data, formatterRede($nivel1, $nivel2, $nivel3));
 
+    $data['title'] = 'Sua Matriz';
+    $data['subTitle'] = 'Rede';
+
     $this->load->view('rede/visualizar', $data);
   }
 
@@ -36,6 +39,10 @@ class Network extends CI_Controller {
     $data['tables'] = true;
     $data['unilevel'] = searchActivesByLevel($this->session->userdata('id'), $nivel);
     $data['selected'] = $nivel;
+
+    $data['title'] = 'Unilevel';
+    $data['subTitle'] = 'Rede';
+
     $this->load->view('rede/unilevel', $data);
   }
 

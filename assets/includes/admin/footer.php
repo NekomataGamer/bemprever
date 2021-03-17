@@ -3,7 +3,7 @@
 <div class="bg-white border-top-2 mt-auto">
     <div class="container page__container page-section d-flex flex-column">
         <!-- <p class="text-70 brand mb-24pt">
-            <img class="brand-icon" src="<?php echo site_url('assets/assetsAlison'); ?>/images/logo/black-70@2x.png" width="30" alt="Luma"> Luma
+            <img class="brand-icon" src="<?php echo site_url('assets/assets_old'); ?>/images/logo/black-70@2x.png" width="30" alt="Luma"> Luma
         </p>
         <p class="measure-lead-max text-50 small mr-8pt">Luma is a beautifully crafted user interface for modern Education Platforms, including Courses & Tutorials, Video Lessons, Student and Teacher Dashboard, Curriculum Management, Earnings and Reporting, ERP, HR, CMS, Tasks, Projects, eCommerce and more.</p>
         <p class="mb-8pt d-flex">
@@ -29,7 +29,7 @@
             <!-- Sidebar Content -->
 
             <a href="<?php echo site_url('admin/index'); ?>" class="sidebar-brand ">
-                <!-- <img class="sidebar-brand-icon" src="<?php echo site_url('assets/assetsAlison'); ?>/images/illustration/student/128/white.svg" alt="Luma"> -->
+                <!-- <img class="sidebar-brand-icon" src="<?php echo site_url('assets/assets_old'); ?>/images/illustration/student/128/white.svg" alt="Luma"> -->
 
                 <span class="avatar avatar-xl sidebar-brand-icon h-auto">
 
@@ -217,60 +217,60 @@ if ($avisos != ''){
 ?>
 
 <!-- jQuery -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/jquery.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/jquery.min.js"></script>
 
 <!-- Bootstrap -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/popper.min.js"></script>
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/bootstrap.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/popper.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/bootstrap.min.js"></script>
 
 <!-- Perfect Scrollbar -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/perfect-scrollbar.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/perfect-scrollbar.min.js"></script>
 
 <!-- DOM Factory -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/dom-factory.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/dom-factory.js"></script>
 
 <!-- MDK -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/material-design-kit.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/material-design-kit.js"></script>
 
 <!-- App JS -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/app.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/app.js"></script>
 
 <!-- Preloader -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/preloader.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/preloader.js"></script>
 
 <!-- Global Settings -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/settings.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/settings.js"></script>
 
 <!-- Flatpickr -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/flatpickr/flatpickr.min.js"></script>
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/flatpickr.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/flatpickr/flatpickr.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/flatpickr.js"></script>
 
 <!-- Moment.js -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/moment.min.js"></script>
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/moment-range.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/moment.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/moment-range.js"></script>
 
 <!-- Chart.js -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/Chart.min.js"></script>
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/chartjs.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/Chart.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/chartjs.js"></script>
 
 <!-- Chart.js Samples -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/page.student-dashboard.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/page.student-dashboard.js"></script>
 
 <!-- List.js -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/list.min.js"></script>
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/list.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/list.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/list.js"></script>
 
 <!-- Tables -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/toggle-check-all.js"></script>
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/check-selected-row.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/toggle-check-all.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/check-selected-row.js"></script>
 
 <!-- Toastr -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/toastr.min.js"></script>
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/toastr.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/toastr.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/toastr.js"></script>
 
 <!-- Quill -->
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/quill.min.js"></script>
-<script src="<?php echo site_url('assets/assetsAlison'); ?>/js/quill.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/vendor/quill.min.js"></script>
+<script src="<?php echo site_url('assets/assets_old'); ?>/js/quill.js"></script>
 
 <!-- bootstrap selectpicker -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>

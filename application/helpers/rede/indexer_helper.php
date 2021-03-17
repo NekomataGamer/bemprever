@@ -66,13 +66,13 @@ function get_valid_last($id_niveis, $lengthat=null){
 
     $length = strlen($substr);
     $lC = $substr[$length - 1];
-    if ($length == 1 && $lC == 5){
+    if ($length == 1 && $lC == 4){
         return get_valid_last($id_niveis, $lengthat);
     } else {
         for ($i=$length -1; $i>=0; $i--){
             
             $v = intval($substr[$i]);
-            if ($v < 5){
+            if ($v < 4){
                 $v++;
                 $string = $substr;
                 $string[$i] = $v;

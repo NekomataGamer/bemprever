@@ -123,27 +123,13 @@
                                     </button>
                                 <?php } ?>
                             </div>
-                            <div class="col container_nivel">
-                                <?php if (isset($formato[4]['id'])) {
-                                    $atual = $formato[4]; ?>
-                                    <a href="<?php echo site_url('admin/rede/visualizar/' . $atual['id_niveis']); ?>">
-                                        <button class="btn btn-primary item" title="<?php echo $atual['login']; ?>">
-                                            <i class="fa fa-user"></i><br /><!-- <small class="title-user"><?php echo $atual['login']; ?></small> -->
-                                        </button>
-                                    </a>
-                                <?php } else { ?>
-                                    <button disabled class="btn btn-light item" title="">
-                                        <i class="fa fa-ban"></i><br /><!-- <small class="title-user">N/A</small> -->
-                                    </button>
-                                <?php } ?>
-                            </div>
                         </div>
 
                         <div class="row tree pt-4 mt-2">
-                            <?php for ($i = 0; $i < 5; $i++) { ?>
+                            <?php for ($i = 0; $i < 4; $i++) { ?>
                                 <div class="row tree col">
-                                    <?php for ($j = 0; $j < 5; $j++) { ?>
-                                        <div class="col container_nivel">
+                                    <?php for ($j = 0; $j < 4; $j++) { ?>
+                                        <div class="col-md-6 container_nivel mt-2">
                                             <?php if (isset($formato[$i]['nivel_2'][$j])) {
                                                 $atual = $formato[$i]['nivel_2'][$j]; ?>
                                                 <a href="<?php echo site_url('admin/rede/visualizar/' . $atual['id_niveis']); ?>">

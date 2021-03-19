@@ -125,7 +125,7 @@ function getActions($field)
 #
 function geraMenuFooter($permissoes, $menus)
 {
-    $headings = getHeadings();
+    $headings = getHeadings($permissoes);
     $actualH = 0;
     $endheading = false;
     $menuFooter = '';
@@ -176,7 +176,7 @@ function getFooterNavbar()
 # RETORNA OS HEADINGS DE CADA MENU
 #
 #
-function getHeadings()
+function getHeadings($permissoes)
 {
     $headings = [
         [
@@ -188,20 +188,26 @@ function getHeadings()
                         </a>
                     </li>',
             'start' => 0
-        ],
-        [
-            'h' => '<div class="sidebar-heading">Cursos</div><ul class="sidebar-menu">',
-            'start' => 4
-        ],
-        [
-            'h' => '<div class="sidebar-heading">Rede</div><ul class="sidebar-menu">',
-            'start' => 7
-        ],
-        [
-            'h' => '<div class="sidebar-heading">Extras</div><ul class="sidebar-menu">',
-            'start' => 10
         ]
     ];
+    if (isset($permissoes[4]) || isset($permissoes[5])){
+        $headings[] = [
+            'h' => '<div class="sidebar-heading">Cursos</div><ul class="sidebar-menu">',
+            'start' => 4
+        ];
+    }
+    if (isset($permissoes[6]) || isset($permissoes[7])){
+        $headings[] = [
+            'h' => '<div class="sidebar-heading">Rede</div><ul class="sidebar-menu">',
+            'start' => 7
+        ];
+    }   
+    if (isset($permissoes[9]) || isset($permissoes[12])){
+        $headings[] = [
+            'h' => '<div class="sidebar-heading">Extras</div><ul class="sidebar-menu">',
+            'start' => 10
+        ];
+    }
     return $headings;
 }
 

@@ -7,24 +7,24 @@
             <div class="col-lg-4">
                 <div class="card border-1 border-left-3 border-left-success text-center mb-lg-0">
                     <div class="card-body">
-                        <h4 class="h2 mb-0"><?php echo $totalAln; ?></h4>
-                        <div>Total de alunos</div>
+                        <h4 class="h2 mb-0"><?php echo $assAtivas + $assInativas; ?></h4>
+                        <div>Total de usuários</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                     <div class="card-body">
-                        <h4 class="h2 mb-0"><?php echo $totalUsers; ?></h4>
-                        <div>Ativos na rede</div>
+                        <h4 class="h2 mb-0"><?php echo $assAtivas; ?></h4>
+                        <div>Usuários ativos</div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                     <div class="card-body">
-                        <h4 class="h2 mb-0"><?php echo $totalDependentes; ?></h4>
-                        <div>Dependentes na rede</div>
+                        <h4 class="h2 mb-0"><?php echo $assInativas; ?></h4>
+                        <div>Usuários inativos</div>
                     </div>
                 </div>
             </div>

@@ -161,7 +161,7 @@ class Pagamentos extends CI_Controller
         $data['response_json'] = $this->input->raw_input_stream;
         $array = json_decode($data['response_json'], true);
         $data['response_post'] = print_r($array, TRUE);
-
+        
         if (isset($array['data'][0]['attributes']['status'])) {
             $tipo = $array['eventType'];
             $data['status'] = $array['data'][0]['attributes']['status'];
@@ -172,6 +172,14 @@ class Pagamentos extends CI_Controller
                 $this->verifyIpnCode($idipn, $data['status'], $data['reference']);
                 //chamando a função de tratamento do status recebido
             }
+        }
+    }
+
+
+    public function removeWebhook()
+    {
+        if (removeWebhook()){
+            echo 'WebHook removido com sucesso!';
         }
     }
 }

@@ -360,7 +360,7 @@ function gerarPagamentoJuno($id, $valor, $nome_plano, $vencimento, $comprador, $
     if (!conectaJuno($config)) {
         return false;
     }
-    if (!checaWebHooks($config,)) {
+    if (!checaWebHooks($config)) {
         insertWebHooks($config);
     }
     $descricao = str_replace('{val}', $nome_plano, $config['descricao_' . $tipo]);

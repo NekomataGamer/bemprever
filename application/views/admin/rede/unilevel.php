@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <h5 class="card-title mb-4">Unilevel</h5>
                         <div class="row">
-                            <?php for ($i=1; $i<=10; $i++){
+                            <?php for ($i=1; $i<=7; $i++){
                                 $class = $selected == $i ? "btn-primary" : "btn-light";
                                 if (!isset($user)){
                                     echo '<div class="col" style="padding:0px!important;text-align:center;">

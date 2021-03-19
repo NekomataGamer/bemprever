@@ -206,28 +206,40 @@ class Rede extends CI_Controller
     //FUNÇÃO DE ENTRADA DE GANHO RESIDUAL DE 1 ALUNO ATÉ 10 NÍVEIS ACIMA.
     protected function entrarGanhoResidual($aluno)
     {
+        echo '<br/><hr>ENTRANDO GANHO PELO ALUNO: '.$aluno['login'].'<br/>';
+
         if (!isset($aluno['id_indicador'])) return true;
+
+        echo '<br>ALUNO TEM INDICADOR!';
 
         $valoresResidual = $this->getGanhoResidual();
         $atual = $aluno;
 
         if (!$valoresResidual) {
+            echo '<br>Valores de residual não encontrados';
             errorCallback('cron/Rede/rodarResidual', "Valores de residual não encontrados");
             return false;
         }
 
         $planoUsuarioInicio = $this->buscarPlanoAluno($atual['id']);
-        if (!$planoUsuarioInicio || $planoUsuarioInicio['estado'] != 'ativo') return false; #usuário não tem plano ativo e não gera residual.
 
+        if (!$planoUsuarioInicio || $planoUsuarioInicio['estado'] != 'ativo') return false; #usuário não tem plano ativo e não gera residual.
+        
+        echo '<br/>buscando usuarios';
+        $searcherID = $atual['id_niveis'];
         for ($i = 0; $i < 7; $i++) {
             #busca apenas caso não seja a raiz!
-            if (strlen($atual['id_inveis'] . '') > 1) {
+            echo '<br/>nivel = '.$atual['id_niveis'];
+            if (strlen($atual['id_niveis'] . '') > 1) {
 
-                $searcherID = substr($atual['id_indicador'], 0, -1); #tira o ultimo numero do codigo atual de rede, subindo 1 nível
+                $searcherID = substr($searcherID, 0, -1); #tira o ultimo numero do codigo atual de rede, subindo 1 nível
+                if ($searcherID == "") return true; #usuario é raiz;
+
                 $atual = $this->model->selecionaBusca('aluno', "WHERE id_niveis='{$searcherID}' "); #busca no banco de dados o usuário com o código correspondente
 
                 if (!$atual) return true; #caso o usuário não exista, retorna da função
 
+                
 
                 $atual = $atual[0]; #formatação da array
 

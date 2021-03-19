@@ -25,9 +25,9 @@ class Rede extends CI_Controller
       exit;
     }
     $check = $this->modelo->selecionaBusca('aluno', "WHERE id='{$id}' ");
-    
+
     if (!$check) gera_aviso('erro', 'Aluno não encontrado', 'admin/rede/unilevel');
-    
+
     $nvarr = ['ativo' => 1];
 
     $this->model->update('aluno', $nvarr, $id);
@@ -42,9 +42,9 @@ class Rede extends CI_Controller
       exit;
     }
     $check = $this->modelo->selecionaBusca('aluno', "WHERE id='{$id}' ");
-    
+
     if (!$check) gera_aviso('erro', 'Aluno não encontrado', 'admin/rede/unilevel');
-    
+
     $nvarr = ['ativo' => 0];
 
     $this->model->update('aluno', $nvarr, $id);
@@ -76,24 +76,24 @@ class Rede extends CI_Controller
       exit;
     }
     $updater = [
-        'max_inativo' => $this->input->post('max_inativo', true),
-        'timer_residual' => $this->input->post('timer_residual', true),
-        'tipo_residual' => $this->input->post('tipo_residual', true),
-        'dia_residual' => $this->input->post('dia_residual', true),
-        'tipo_carreira' => $this->input->post('tipo_carreira', true),
-        'dia_carreira' => $this->input->post('dia_carreira', true),
-        'timer_carreira' => $this->input->post('timer_carreira', true),
-        'taxa_saque' => $this->input->post('taxa_saque', true),
+      'max_inativo' => $this->input->post('max_inativo', true),
+      'timer_residual' => $this->input->post('timer_residual', true),
+      'tipo_residual' => $this->input->post('tipo_residual', true),
+      'dia_residual' => $this->input->post('dia_residual', true),
+      'tipo_carreira' => $this->input->post('tipo_carreira', true),
+      'dia_carreira' => $this->input->post('dia_carreira', true),
+      'timer_carreira' => $this->input->post('timer_carreira', true),
+      'taxa_saque' => $this->input->post('taxa_saque', true),
     ];
     $checker =  $this->modelo->selecionaBusca('configuracoes', " ORDER BY ID LIMIT 1");
-    if (isset($checker[0]['id'])){
-        if ($this->modelo->update('configuracoes', $updater, $checker[0]['id'])){
-            gera_aviso('sucesso', 'Configurações da rede atualizadas com sucesso.', 'admin/rede/configuracoes');
-        }
+    if (isset($checker[0]['id'])) {
+      if ($this->modelo->update('configuracoes', $updater, $checker[0]['id'])) {
+        gera_aviso('sucesso', 'Configurações da rede atualizadas com sucesso.', 'admin/rede/configuracoes');
+      }
     } else {
-        if ($this->modelo->insere('configuracoes', $updater)){
-            gera_aviso('sucesso', 'Configurações da rede atualizadas com sucesso.', 'admin/rede/configuracoes');
-        }
+      if ($this->modelo->insere('configuracoes', $updater)) {
+        gera_aviso('sucesso', 'Configurações da rede atualizadas com sucesso.', 'admin/rede/configuracoes');
+      }
     }
     gera_aviso('erro', 'Falha ao atualizar as configurações da rede.', 'admin/rede/configuracoes');
   }
@@ -106,7 +106,7 @@ class Rede extends CI_Controller
     }
     $data['planos'] = $this->modelo->selecionaBusca('plano_rede', "");
     $data['servicos'] = $this->model->selecionaBusca('servico', "");
-    foreach($data['servicos'] as &$s){
+    foreach ($data['servicos'] as &$s) {
       $fornecedor = $this->model->selecionaBusca('fornecedor', "WHERE id='{$s['id_fornecedor']}' ");
       $s['fornecedor'] = $fornecedor[0] ?? [];
     }
@@ -137,9 +137,25 @@ class Rede extends CI_Controller
     $this->load->view('admin/rede/ativar_usuarios', $data);
   }
 
+  protected function addGanhoIndicacao($valor, $enviado)
+  {
+    $indicador = $enviado[0]['id_indicador'];
+    $configurer = $this->model->selecionaBusca('configuracoes', " LIMIT 1");
+    if ($configurer) {
+      $pctGanhoIndicacao = $configurer[0]['ganho_indicacao'];
+      $valorIndicacao = $valor * $pctGanhoIndicacao / 100;
+
+      $planoUser = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$indicador}' AND status='ativo' ");
+
+      if (!$planoUser) return false; #usuário não tem plano, não recebe indicação
+
+      return addSaldo($indicador, $valorIndicacao, $planoUser[0]['id'], 'indicacao');
+    }
+  }
 
   //TRANSFORMA O CADASTRO TEMPORÁRIO DE ALUNO EM PERMANENTE CASO O PAGAMENTO TENHA SIDO EFETUADO COM SUCESSO.
-  protected function cadastrarAluno($id){
+  protected function cadastrarAluno($id)
+  {
     $dados = $this->model->selecionaBusca('aluno_espera', "WHERE `id`='{$id}' ");
     if (!$dados) return false;
 
@@ -150,49 +166,50 @@ class Rede extends CI_Controller
     $plano = $this->model->selecionaBusca('plano_rede', "WHERE id='{$arr['id_plano']}' ");
     unset($arr['id_plano']);
     $arr['tipo'] = 'rede';
-    
+
     if (!$plano) return false;
     if (!$id_niveis) return false;
 
     $arr['id_niveis'] = $id_niveis;
     $idusuario = $this->model->insere_id('aluno', $arr);
-    if ($idusuario){
-        $this->model->insere('assinaturas_rede', [
-            'id_aluno' => $idusuario, 
-            'id_plano' => $plano[0]['id'], 
-            'valor' => $plano[0]['valor'],
-            'pago' => $plano[0]['valor'],
-            'recebido' => 0,
-            'status' => 'ativo',
-            'data_pagamento_inicial' => date('Y-m-d H:i:s')
-        ]);
-        $this->addGanhoIndicacao($plano[0]['valor'], $dados);
-        return $this->model->remove('aluno_espera', $dados[0]['id']);
+    if ($idusuario) {
+      $this->model->insere('assinaturas_rede', [
+        'id_aluno' => $idusuario,
+        'id_plano' => $plano[0]['id'],
+        'valor' => $plano[0]['valor'],
+        'pago' => $plano[0]['valor'],
+        'recebido' => 0,
+        'status' => 'ativo',
+        'data_pagamento_inicial' => date('Y-m-d H:i:s')
+      ]);
+      $this->addGanhoIndicacao($plano[0]['valor'], $dados);
+      return $this->model->remove('aluno_espera', $dados[0]['id']);
     }
     return false;
-}
+  }
 
-  public function ativar_rede($id){
+  public function ativar_rede($id)
+  {
     if (!buscaPermissao('rede', 'administrar')) {
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
       exit;
     }
-    if ($this->cadastrarAluno($id)){
+    if ($this->cadastrarAluno($id)) {
       gera_aviso('success', 'Usuário ativado na rede com sucesso', 'admin/rede/ativar_usuarios');
     }
-    
-    
+
+
     gera_aviso('erro', 'Usuário não encontrado', 'admin/rede/ativar_usuarios');
   }
 
-  public function unilevel($nivel=1, $user=1)
+  public function unilevel($nivel = 1, $user = 1)
   {
     if (!buscaPermissao('rede', 'visualizar')) {
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
       exit;
     }
     $data['tables'] = true;
-    if ($nivel != 1){
+    if ($nivel != 1) {
       $search = $nivel - 1;
       $data['unilevel'] = searchActivesByLevel($user, $search);
     } else {
@@ -202,7 +219,7 @@ class Rede extends CI_Controller
     $this->load->view('admin/rede/unilevel', $data);
   }
 
-  public function unilevel_usuario($nivel=1, $user=1)
+  public function unilevel_usuario($nivel = 1, $user = 1)
   {
     if (!buscaPermissao('rede', 'visualizar')) {
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
@@ -215,7 +232,8 @@ class Rede extends CI_Controller
     $this->load->view('admin/rede/unilevel', $data);
   }
 
-  public function visualizar($idNetwork='') {
+  public function visualizar($idNetwork = '')
+  {
     if (!buscaPermissao('rede', 'visualizar')) {
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
       exit;
@@ -235,7 +253,7 @@ class Rede extends CI_Controller
     }
 
     $data['user'] = $user[0];
-    
+
     $nivel1 = searchActivesByLevel($user[0]['id'], 1); //primeiro nível do usuário
     $nivel2 = searchActivesByLevel($user[0]['id'], 2); //segundo nível do usuário
     $nivel3 = searchActivesByLevel($user[0]['id'], 3); //terceiro nível do usuário
@@ -244,19 +262,4 @@ class Rede extends CI_Controller
 
     $this->load->view('admin/rede/visualizar', $data);
   }
-  protected function addGanhoIndicacao($valor, $enviado)
-    {
-        $indicador = $enviado[0]['id_indicador'];
-        $configurer = $this->model->selecionaBusca('configuracoes', " LIMIT 1");
-        if ($configurer) {
-            $pctGanhoIndicacao = $configurer[0]['ganho_indicacao'];
-            $valorIndicacao = $valor * $pctGanhoIndicacao / 100;
-
-            $planoUser = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$indicador}' AND status='ativo' ");
-
-            if (!$planoUser) return false; #usuário não tem plano, não recebe indicação
-
-            return addSaldo($indicador, $valorIndicacao, null, 'indicacao', "Ganho indicação, 4% do plano mensal do usuário ".$enviado[0]['nome']." - ".$enviado[0]['login']);
-        }
-    }
 }

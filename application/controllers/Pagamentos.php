@@ -23,7 +23,7 @@ class Pagamentos extends CI_Controller
 
             if (!$planoUser) return false; #usuário não tem plano, não recebe indicação
 
-            return addSaldo($indicador, $valorIndicacao, null, 'indicacao', "Ganho indicação, 4% do plano mensal do usuário ".$enviado[0]['nome']." - ".$enviado[0]['login']);
+            return addSaldo($indicador, $valorIndicacao, $planoUser[0]['id'], 'indicacao');
         }
     }
 

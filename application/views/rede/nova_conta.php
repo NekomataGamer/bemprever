@@ -262,6 +262,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <h5 class="card-title mb-4">Termos de uso *</h5>
+
+                                        <div class="form-row">
+                                            <div class="col-md-12">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                                                    <label class="form-check-label" for="exampleCheck1" style="font-size:14px;">Declaro que li e concordo com os <a class="text-primary" href="<?php echo site_url('') ?>">Termos e Condições de Uso</a> da plataforma!</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;Prosseguir para o pagamento!</button>
                         </div>

@@ -33,11 +33,11 @@
 
                 <span class="avatar avatar-xl sidebar-brand-icon h-auto">
 
-                    <span class="avatar-title rounded bg-primary"><img src="<?php echo site_url('assets/imagens/LOGO-ESCUDO-2.png'); ?>" class="img-fluid" alt="logo" /></span>
+                    <img src="<?php echo site_url('assets/assetsAlison/media/logos/logo-1.png'); ?>" alt="logo" class="img-fluid" />
 
                 </span>
 
-                <span>KEROSER</span>
+                
             </a>
 
             <?php echo getFooterNavbar(); ?>

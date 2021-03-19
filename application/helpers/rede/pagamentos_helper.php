@@ -35,19 +35,20 @@ function configJuno($tipo)
         //'env' => 'producao'
         'env' => 'sandbox' //ambiente (sandbox ou producao)
     ];
-    if ($tipo != 'cadastro'){
+    if ($tipo != 'cadastro') {
         $arr['referencia'] = 'faturas';
     }
     return $arr;
 }
 /* GERADOR DE ERROS DA CONEXÃO */
-function errorHandler($request = null, $msgPadrao = "Um erro ocorreu, tente novamente"){
+function errorHandler($request = null, $msgPadrao = "Um erro ocorreu, tente novamente")
+{
     $CI = &get_instance();
-    if (isset($request->details[0]->message)){
+    if (isset($request->details[0]->message)) {
         $CI->session->set_flashdata(array('aviso_tipo' => 1, 'aviso_mensagem' => $request->details[0]->message));
         return false;
     }
-    if (isset($request->details->message)){
+    if (isset($request->details->message)) {
         $CI->session->set_flashdata(array('aviso_tipo' => 1, 'aviso_mensagem' => $request->details->message));
         return false;
     }
@@ -55,11 +56,12 @@ function errorHandler($request = null, $msgPadrao = "Um erro ocorreu, tente nova
     return false;
 }
 /* VERIFICADOR DE ERROS NA REQUEST */
-function checkErrors($request){
-    if (isset($request->details[0]->message)){
+function checkErrors($request)
+{
+    if (isset($request->details[0]->message)) {
         return errorHandler($request);
     }
-    if (isset($request->details->message)){
+    if (isset($request->details->message)) {
         return errorHandler($request);
     }
     return true;
@@ -90,7 +92,7 @@ function storeToken($token)
             'expira' => expireTime($token->expires_in)
         ];
         $busca = $CI->model->selecionaBusca('token_juno', "");
-        if ($busca){
+        if ($busca) {
             $CI->model->update('token_juno', $ntoken, $busca[0]['id']);
         } else {
             $CI->model->insere('token_juno', $ntoken);
@@ -134,7 +136,7 @@ function conectaJuno($config)
 {
     $CI = &get_instance();
     $token = getDBtoken();
-    
+
     if ($token && $token['expira'] >= date('Y-m-d H:i:s')) {
         $CI->session->set_userdata(['token_juno' => $token['token']]);
         return true;
@@ -163,11 +165,40 @@ function conectaJuno($config)
 
 
 //CHECA SE EXISTE WEBHOOK DE PAGAMENTO NA RESPOSTA
-function checkIfPayment($result){
-    if (isset($result->_embedded->webhooks[0]->id)){
-        foreach($result->_embedded->webhooks as $hook){
-            foreach($hook->eventTypes as $event){
-                if ($event->name == "PAYMENT_NOTIFICATION"){
+function checkIfPayment($result)
+{
+    if (isset($result->_embedded->webhooks[0]->id)) {
+        foreach ($result->_embedded->webhooks as $hook) {
+            foreach ($hook->eventTypes as $event) {
+                if ($event->name == "PAYMENT_NOTIFICATION") {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
+//CHECA SE EXISTE WEBHOOK DE PAGAMENTO NA RESPOSTA E O REMOVE CASO EXISTA
+function checkIfPaymentRemove($result, $config)
+{
+    if (isset($result->_embedded->webhooks[0]->id)) {
+        foreach ($result->_embedded->webhooks as $hook) {
+            foreach ($hook->eventTypes as $event) {
+                if ($event->name == "PAYMENT_NOTIFICATION") {
+                    $authToken = getToken();
+                    $token = getResourceToken($config);
+                    $url = $config['url_' . $config['env']] . '/api-integration/notifications/webhooks/'.$hook->id;
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        "X-Api-Version: 2",
+                        "X-Resource-Token: " . $token,
+                        "Authorization: Bearer {$authToken}"
+                    ]);
                     return true;
                 }
             }
@@ -177,7 +208,7 @@ function checkIfPayment($result){
 }
 
 //CHECA SE O WEBHOOK EXISTE
-function checaWebHooks($config)
+function checaWebHooks($config, $remove = false)
 {
     $authToken = getToken();
     $token = getResourceToken($config);
@@ -193,7 +224,10 @@ function checaWebHooks($config)
         ]);
         $result = curl_exec($ch);
         $result = json_decode($result);
-        return checkIfPayment($result);
+
+        if (!$remove) return checkIfPayment($result);
+
+        return checkIfPaymentRemove($result, $config);
     }
     errorHandler(null, "Erro de conexão com a juno, tente novamente mais tarde!<br/>código do erro WHX0001");
     return false;
@@ -241,13 +275,14 @@ function insertWebHooks($config)
 }
 
 //VERIFICA SE A COBRANÇA FOI EFETUADA E RETORNA A URL DE CHECKOUT CASO TUDO TENHA OCORRIDO BEM
-function verifyCobranca($resposta){
-    if (!isset($resposta->_embedded->charges[0]->id)){
+function verifyCobranca($resposta)
+{
+    if (!isset($resposta->_embedded->charges[0]->id)) {
         errorHandler($resposta, "Erro de conexão com a juno, tente novamente mais tarde!<br/>código do erro VCX0001");
         return false;
     }
     $cobranca = $resposta->_embedded->charges[0];
-    if (isset($cobranca->checkoutUrl)){
+    if (isset($cobranca->checkoutUrl)) {
         return $cobranca->checkoutUrl;
     }
     return false;
@@ -262,10 +297,10 @@ function geraCobranca($config, $id, $value, $description, $vencimento, $comprado
         $charge = [
             'description' => $description,
             'amount' => floatval($value),
-            'references' => [ $config['referencia'].'-'.$id],
+            'references' => [$config['referencia'] . '-' . $id],
             'dueDate' => $vencimento,
             'maxOverdueDays' => 5,
-            'paymentTypes' => ["BOLETO","CREDIT_CARD"]
+            'paymentTypes' => ["BOLETO", "CREDIT_CARD"]
         ];
         $billing = [
             'name' => $comprador['nome'],
@@ -293,8 +328,8 @@ function geraCobranca($config, $id, $value, $description, $vencimento, $comprado
             "Authorization: Bearer {$authToken}"
         ]);
         $result = curl_exec($ch);
-        
-        
+
+
         $result = json_decode($result);
         return verifyCobranca($result);
     }
@@ -321,13 +356,25 @@ PARA PRODUÇÃO / DEV, BASTA MUDAR O ENV NA FUNÇÃO configJuno.
 function gerarPagamentoJuno($id, $valor, $nome_plano, $vencimento, $comprador, $tipo = 'cadastro')
 {
     $config = configJuno($tipo);
-    
+
     if (!conectaJuno($config)) {
         return false;
     }
-    if (!checaWebHooks($config)){
+    if (!checaWebHooks($config,)) {
         insertWebHooks($config);
     }
-    $descricao = str_replace('{val}', $nome_plano, $config['descricao_'.$tipo]);
+    $descricao = str_replace('{val}', $nome_plano, $config['descricao_' . $tipo]);
     return geraCobranca($config, $id, $valor, $descricao, $vencimento, $comprador);
+}
+
+
+function removeWebhook()
+{
+    $config = configJuno('cadastro');
+
+    if (!conectaJuno($config)) {
+        return false;
+    }
+
+    return checaWebHooks($config, true);
 }

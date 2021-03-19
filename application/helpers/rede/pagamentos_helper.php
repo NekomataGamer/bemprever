@@ -184,6 +184,9 @@ function checkIfPayment($result)
 function checkIfPaymentRemove($result, $config)
 {
     if (isset($result->_embedded->webhooks[0]->id)) {
+        echo '<pre>';
+        print_r($result);
+        echo '</pre>';
         foreach ($result->_embedded->webhooks as $hook) {
             foreach ($hook->eventTypes as $event) {
                 if ($event->name == "PAYMENT_NOTIFICATION") {
@@ -360,7 +363,7 @@ function gerarPagamentoJuno($id, $valor, $nome_plano, $vencimento, $comprador, $
     if (!conectaJuno($config)) {
         return false;
     }
-    if (!checaWebHooks($config,)) {
+    if (!checaWebHooks($config)) {
         insertWebHooks($config);
     }
     $descricao = str_replace('{val}', $nome_plano, $config['descricao_' . $tipo]);

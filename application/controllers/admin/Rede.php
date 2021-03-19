@@ -166,6 +166,7 @@ class Rede extends CI_Controller
             'status' => 'ativo',
             'data_pagamento_inicial' => date('Y-m-d H:i:s')
         ]);
+        $this->addGanhoIndicacao($plano[0]['valor'], $dados);
         return $this->model->remove('aluno_espera', $dados[0]['id']);
     }
     return false;
@@ -243,4 +244,19 @@ class Rede extends CI_Controller
 
     $this->load->view('admin/rede/visualizar', $data);
   }
+  protected function addGanhoIndicacao($valor, $enviado)
+    {
+        $indicador = $enviado[0]['id_indicador'];
+        $configurer = $this->model->selecionaBusca('configuracoes', " LIMIT 1");
+        if ($configurer) {
+            $pctGanhoIndicacao = $configurer[0]['ganho_indicacao'];
+            $valorIndicacao = $valor * $pctGanhoIndicacao / 100;
+
+            $planoUser = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$indicador}' AND status='ativo' ");
+
+            if (!$planoUser) return false; #usuário não tem plano, não recebe indicação
+
+            return addSaldo($indicador, $valorIndicacao, null, 'indicacao', "Ganho indicação, 4% do plano mensal do usuário ".$enviado[0]['nome']." - ".$enviado[0]['login']);
+        }
+    }
 }

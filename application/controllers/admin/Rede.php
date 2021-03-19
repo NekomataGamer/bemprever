@@ -82,7 +82,8 @@ class Rede extends CI_Controller
         'dia_residual' => $this->input->post('dia_residual', true),
         'tipo_carreira' => $this->input->post('tipo_carreira', true),
         'dia_carreira' => $this->input->post('dia_carreira', true),
-        'timer_carreira' => $this->input->post('timer_carreira', true)
+        'timer_carreira' => $this->input->post('timer_carreira', true),
+        'taxa_saque' => $this->input->post('taxa_saque', true),
     ];
     $checker =  $this->modelo->selecionaBusca('configuracoes', " ORDER BY ID LIMIT 1");
     if (isset($checker[0]['id'])){

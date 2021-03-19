@@ -76,7 +76,7 @@ function subGanhoAssinatura($id_aluno, $val){
 }
 
 //Adcionar saldo ao aluno
-function addSaldo($id_aluno, $valor, $id_plano=null, $tipo='', $descricao=null)
+function addSaldo($id_aluno, $valor, $id_plano=null, $tipo='')
 {
     $CI = &get_instance();
     $saldo = getSaldo($id_aluno);
@@ -89,7 +89,7 @@ function addSaldo($id_aluno, $valor, $id_plano=null, $tipo='', $descricao=null)
             if ($tipo == 'residual' || $tipo == 'indicacao'){
                 addGanhoAssinatura($id_aluno, $valor);
             }
-            return addBalanco($id_aluno, $valor, $id_plano, 'entrada', $tipo, $descricao);
+            return addBalanco($id_aluno, $valor, $id_plano, 'entrada', $tipo);
         }
         return true;
     }

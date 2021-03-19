@@ -162,6 +162,13 @@ class Pagamentos extends CI_Controller
         $array = json_decode($data['response_json'], true);
         $data['response_post'] = print_r($array, TRUE);
 
+        $idipn = $this->model->insere_id('ipn_juno', [
+            'response_post' => $data['reponse_post'],
+            'response_json' => $data['reponse_json'],
+            'status' => '',
+            'reference' => ''
+        ]);
+        $idipn = $this->model->insere_id('ipn_juno', $data);
         if (isset($array['data'][0]['attributes']['status'])) {
             $tipo = $array['eventType'];
             $data['status'] = $array['data'][0]['attributes']['status'];

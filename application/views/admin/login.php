@@ -19,40 +19,40 @@
 
         <!-- Preloader -->
         <link type="text/css"
-              href="<?php echo site_url('assets/assetsAlison'); ?>/vendor/spinkit.css"
+              href="<?php echo site_url('assets/assets_old'); ?>/vendor/spinkit.css"
               rel="stylesheet">
 
         <!-- Perfect Scrollbar -->
         <link type="text/css"
-              href="<?php echo site_url('assets/assetsAlison'); ?>/vendor/perfect-scrollbar.css"
+              href="<?php echo site_url('assets/assets_old'); ?>/vendor/perfect-scrollbar.css"
               rel="stylesheet">
 
         <!-- Material Design Icons -->
         <link type="text/css"
-              href="<?php echo site_url('assets/assetsAlison'); ?>/css/material-icons.css"
+              href="<?php echo site_url('assets/assets_old'); ?>/css/material-icons.css"
               rel="stylesheet">
 
         <!-- Font Awesome Icons -->
         <link type="text/css"
-              href="<?php echo site_url('assets/assetsAlison'); ?>/css/fontawesome.css"
+              href="<?php echo site_url('assets/assets_old'); ?>/css/fontawesome.css"
               rel="stylesheet">
 
         <!-- Preloader -->
         <link type="text/css"
-              href="<?php echo site_url('assets/assetsAlison'); ?>/css/preloader.css"
+              href="<?php echo site_url('assets/assets_old'); ?>/css/preloader.css"
               rel="stylesheet">
 
         <!-- App CSS -->
         <link type="text/css"
-              href="<?php echo site_url('assets/assetsAlison'); ?>/css/app.css"
+              href="<?php echo site_url('assets/assets_old'); ?>/css/app.css"
               rel="stylesheet">
               
         <!-- Toastr -->
         <link type="text/css"
-              href="<?php echo site_url('assets/assetsAlison'); ?>/vendor/toastr.min.css"
+              href="<?php echo site_url('assets/assets_old'); ?>/vendor/toastr.min.css"
               rel="stylesheet">
         <link type="text/css"
-              href="<?php echo site_url('assets/assetsAlison'); ?>/css/toastr.css"
+              href="<?php echo site_url('assets/assets_old'); ?>/css/toastr.css"
               rel="stylesheet">
 
         <!-- Verificador CSS -->
@@ -117,7 +117,7 @@
                         
                         <form method="post" action="<?php echo site_url('admin/login/login'); ?>"
                               class="col-md-5 p-0 mx-auto">
-                            <img src="<?php echo site_url('assets/imagens/LOGO-ESCUDO-2.png'); ?>" style="width:100%;">
+                            <img src="<?php echo site_url('assets/assetsAlison/media/logos/logo-2.jpg'); ?>" style="width:100%;">
                             <div class="form-group">
                                 <label class="form-label"
                                        for="email">Usuario:</label>
@@ -156,30 +156,30 @@
         <!-- // END Drawer Layout -->
 
         <!-- jQuery -->
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/jquery.min.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/vendor/jquery.min.js"></script>
 
         <!-- Bootstrap -->
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/popper.min.js"></script>
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/bootstrap.min.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/vendor/popper.min.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/vendor/bootstrap.min.js"></script>
 
         <!-- Perfect Scrollbar -->
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/perfect-scrollbar.min.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/vendor/perfect-scrollbar.min.js"></script>
 
         <!-- DOM Factory -->
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/dom-factory.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/vendor/dom-factory.js"></script>
 
         <!-- MDK -->
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/material-design-kit.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/vendor/material-design-kit.js"></script>
 
         <!-- App JS -->
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/js/app.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/js/app.js"></script>
 
         <!-- Preloader -->
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/js/preloader.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/js/preloader.js"></script>
 
         <!-- Toastr -->
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/vendor/toastr.min.js"></script>
-        <script src="<?php echo site_url('assets/assetsAlison'); ?>/js/toastr.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/vendor/toastr.min.js"></script>
+        <script src="<?php echo site_url('assets/assets_old'); ?>/js/toastr.js"></script>
         
         <!-- Validador de formulários -->
         <script src="<?php echo site_url('assets/js/verificador.js'); ?>"></script>

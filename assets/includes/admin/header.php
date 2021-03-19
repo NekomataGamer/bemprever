@@ -144,11 +144,11 @@
 
                               <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
 
-                                    <span class="avatar-title rounded bg-primary"><img src="<?php echo site_url('assets/imagens/LOGO-ESCUDO-2.png'); ?>" alt="logo" class="img-fluid" /></span>
+                                    <!-- <img src="<?php echo site_url('assets/assetsAlison/media/logos/logo-1.png'); ?>" alt="logo" class="img-fluid" /> -->
 
                               </span>
 
-                              <span class="d-none d-lg-block">KEROSER</span>
+                              <!-- <span class="d-none d-lg-block">KEROSER</span> -->
                         </a>
 
                         <!-- // END Navbar Brand -->

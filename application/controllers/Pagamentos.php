@@ -163,8 +163,8 @@ class Pagamentos extends CI_Controller
         $data['response_post'] = print_r($array, TRUE);
 
         $idipn = $this->model->insere_id('ipn_juno', [
-            'response_post' => $data['reponse_post'],
-            'response_json' => $data['reponse_json'],
+            'response_post' => $data['response_post'],
+            'response_json' => $data['response_json'],
             'status' => '',
             'reference' => ''
         ]);

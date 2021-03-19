@@ -311,6 +311,9 @@ class validador {
                         ref.showErro(ent, "Insira um email válido!");
                         retorno = false;
                     }
+                } else if (attr == "checkbox" && ent.prop('required') && !ent.prop('checked')) {
+                    ref.showErro(ent, "É necessário concordar com nossos termos e condições de uso para criar uma conta!");
+                    retorno = false;
                 }
             });
         }
@@ -364,6 +367,9 @@ class validador {
             obj.after('<small class="tem-erro erro-label">' + texto + '</small>');
         } else if (parente.hasClass('input-group')) {
             $(parente).next('.erro-label').remove();
+            parente.after('<small class="tem-erro erro-label">' + texto + '</small>');
+        } else if (parente.hasClass('form-check')) {
+            $(parente).find('.erro-label').remove();
             parente.after('<small class="tem-erro erro-label">' + texto + '</small>');
         } else {
             $(parente).find('.erro-label').remove();

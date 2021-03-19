@@ -221,7 +221,7 @@ class Rede extends CI_Controller
 
         for ($i = 0; $i < 7; $i++) {
             #busca apenas caso não seja a raiz!
-            if (strlen($atual['id_inveis'] . '') > 1) {
+            if (strlen($atual['id_niveis'] . '') > 1) {
 
                 $searcherID = substr($atual['id_indicador'], 0, -1); #tira o ultimo numero do codigo atual de rede, subindo 1 nível
                 $atual = $this->model->selecionaBusca('aluno', "WHERE id_niveis='{$searcherID}' "); #busca no banco de dados o usuário com o código correspondente

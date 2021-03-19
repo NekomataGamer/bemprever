@@ -45,13 +45,13 @@
             <li class="nav-item">
                 <a class="nav-link <?php if ($indice == 'fidelidade') {
                                         echo 'active';
-                                    } ?>" id="fidelidade-tab" data-toggle="tab" href="#fidelidade" role="fidelidade" aria-controls="fidelidade" aria-selected="false">Plano Fidelidade</a>
+                                    } ?>" id="fidelidade-tab" data-toggle="tab" href="#fidelidade" role="fidelidade" aria-controls="fidelidade" aria-selected="false">Porcentagens de ganho</a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link <?php if ($indice == 'carreira') {
                                         echo 'active';
                                     } ?>" id="carreira-tab" data-toggle="tab" href="#carreira" role="tab" aria-controls="carreira" aria-selected="false">Plano Carreira</a>
-            </li>
+            </li> -->
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade <?php if ($indice == 'geral') {
@@ -130,9 +130,24 @@
 
                         </div>
                     </div>
+                    <hr>
+                    <h4 class="mt-4">Saques</h4>
+                    <div class="form-group">
+                        <label class="form-label" for="name">Taxa de saque: *</label>
+                        <div class="input-group">
+                            <input name="taxa_saque" id="tx_saque" value="<?php echo $configuracoes[0]['taxa_saque']; ?>" type="number" step="0.01" min="1" max="100" class="form-control" 
+                            placeholder="1" aria-label="1" aria-describedby="tx_saque_d" required />
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="tx_saque_d">%</span>
+                            </div>
+                        </div>
+                        <div class="text-secondary">
+                            <small>Máximo de tempo que um usuário pode ficar inativo (fatura atrasada) em dias antes de ser removido.</small>
+                        </div>
+                    </div>
 
 
-
+                    <!-- ganho carreira não é utilizado
                     <hr>
                     <h4>Ganho Carreira</h4>
                     <div class="form-row">
@@ -188,7 +203,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <button class="btn btn-primary">Salvar alterações</button>
                 </form>
@@ -199,35 +214,43 @@
                 <form action="<?php echo base_url(); ?>admin/residual/update" enctype="multipart/form-data" method="POST">
                     <h4 class="mt-4">Residual por nível</h4>
                     <div class="form-row">
-                        <?php for ($i = 1; $i <= 10; $i++) {
+                        <?php for ($i = 1; $i <= 7; $i++) {
                             $value = isset($fidelidade[0]['n' . $i]) ? $fidelidade[0]['n' . $i] : 0;
                             echo '<div class="col col-xs-2">
                                     <div class="form-group">
                                         <label class="form-label" for="name">Nível ' . $i . ' *</label>
-                                        <input name="n' . $i . '" id="n' . $i . '" value="' . $value . '" type="number" step="0.01" min="0" class="form-control" placeholder="0.01" style="min-width:60px" required />
+                                        <div class="input-group mb-3">
+                                            <input name="n' . $i . '" id="n' . $i . '" value="' . $value . '" type="number" step="0.01" min="0" max="100" class="form-control" placeholder="1" style="min-width:60px" required />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">%</span>
+                                            </div>
+                                        </div>
+                                        
                                     </div>   
                                 </div>';
                         } ?>
                     </div>
-                    <button class="btn btn-primary">Salvar alterações</button>
                     <hr>
-                    <h4>Regras Fidelidade <button type="button" class="float-right btn btn-primary" data-toggle="modal" data-target="#addRegraFidelidade"><i class="fa fa-plus"></i></button></h4>
-                    <div id="regrasFidelidade" class="row">
-                        <?php foreach ($regras_fidelidade as $regra) {
-                            echo '<div class="col"><div class="card" style="min-width: 18rem;">
-                                        <div class="card-body">
-                                        <h5 class="card-title">#' . $regra['id'] . '</h5>
-                                        <p class="card-text"><b>Nº de ativos:</b> ' . $regra['n_ativos'] . '<br/><b>Ganho: </b> ' . $regra['ganho_pct'] . '%</p>
-                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#editar_regra' . $regra['id'] . '" class="btn btn-light"><i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;Editar</a>
-                                        <a href="' . site_url('admin/residual/delete_regra/' . $regra['id']) . '" class="btn btn-light float-right"><i class="fa fa-trash"></i>&nbsp;&nbsp;Remover</a>
-                                        </div>
-                                    </div></div>';
-                        } ?>
+                    <h4 class="mt-4">Indicação de usuários</h4>
+                    <div class="form-row">
+                        <div class="col col-xs-2">
+                            <div class="form-group">
+                                <label class="form-label" for="name">Ganho indicação *</label>
+                                <div class="input-group mb-3">
+                                    <input name="ganho_indicacao" type="number" step="0.01" min="0" max="100" class="form-control" placeholder="1" value="<?= $configuracoes[0]['ganho_indicacao']; ?>" required />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
+                    <button class="btn btn-primary">Salvar alterações</button>
+
                 </form>
 
             </div>
+            <!-- não utilizado
             <div class="tab-pane fade <?php if ($indice == 'carreira') {
                                             echo 'show active';
                                         } ?>" id="carreira" role="tabpanel" aria-labelledby="carreira-tab">
@@ -253,7 +276,8 @@
                                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#editar_carreira' . $plano['id'] . '" class="btn btn-light"><i class="fa fa-pencil-alt"></i></a>
                                                     <a href="' . site_url('admin/plano_carreira/remove/' . $plano['id']) . '" class="btn btn-light float-right"><i class="fa fa-trash"></i></a>
                                                 </div>
-                                            </div>'; } ?>
+                                            </div>';
+                                } ?>
                             </div>
                         </div>
                     </div>
@@ -272,7 +296,7 @@
                                     </div></div>';
                     } ?>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

@@ -24,6 +24,10 @@ class Residual extends CI_Controller
     for ($i=1; $i<=10; $i++) $updater['n'.$i] = $this->input->post('n'.$i, true);
 
     $checker =  $this->modelo->selecionaBusca('ganho_residual', " ORDER BY ID LIMIT 1");
+
+    $ndata['ganho_indicacao'] = $this->input->post('ganho_indicacao');
+    $this->model->update('configuracoes', $ndata, 1);
+    
     if (isset($checker[0]['id'])){
         if ($this->modelo->update('ganho_residual', $updater, $checker[0]['id'])){
             gera_aviso('sucesso', 'Configurações da rede atualizadas com sucesso.', 'admin/rede/configuracoes?&indice=fidelidade');

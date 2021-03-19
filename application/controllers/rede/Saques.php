@@ -61,8 +61,13 @@ class Saques extends CI_Controller
 
   public function insere()
   {
+    $indicados = $this->model->selecionaBusca('aluno', "WHERE id_indicador='{$this->session->userdata('id')}' LIMIT 2");
+    if (count($indicados) < 2){
+      gera_aviso('erro', 'Você precisa ter 2 indicados para pedir saque!', 'saques/abertos');
+      exit;
+    }
     $jatempedido = $this->model->selecionaBusca('pedido_saque', "WHERE id_aluno='".$this->session->userdata('id')."' AND (status='aberto' OR status='em_processo') ");
-
+    
     if ($jatempedido) {
         gera_aviso('erro', 'Você já tem um pedido de saque em aberto, aguarde a resposta deste pedido para pedir um novo.', 'saques/abertos');
     } else {

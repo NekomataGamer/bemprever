@@ -76,7 +76,7 @@ function subGanhoAssinatura($id_aluno, $val){
 }
 
 //Adcionar saldo ao aluno
-function addSaldo($id_aluno, $valor, $id_plano=null, $tipo='')
+function addSaldo($id_aluno, $valor, $id_plano=null, $tipo='', $descricao=null)
 {
     $CI = &get_instance();
     $saldo = getSaldo($id_aluno);
@@ -86,10 +86,10 @@ function addSaldo($id_aluno, $valor, $id_plano=null, $tipo='')
 
     if ($CI->model->update('saldo_usuario', $nvSaldo, $saldo['id'])){
         if (isset($id_plano) && $tipo != '') {
-            if ($tipo == 'residual' || $tipo == 'carreira'){
+            if ($tipo == 'residual' || $tipo == 'indicacao'){
                 addGanhoAssinatura($id_aluno, $valor);
             }
-            return addBalanco($id_aluno, $valor, $id_plano, 'entrada', $tipo);
+            return addBalanco($id_aluno, $valor, $id_plano, 'entrada', $tipo, $descricao);
         }
         return true;
     }
@@ -107,7 +107,7 @@ function subSaldo($id_aluno, $valor, $id_plano=null, $tipo='')
 
     if ($CI->model->update('saldo_usuario', $nvSaldo, $saldo['id'])){
         if (isset($id_plano) && $tipo != ''){
-            if ($tipo == 'residual' || $tipo == 'carreira'){
+            if ($tipo == 'residual' || $tipo == 'indicacao'){
                 subGanhoAssinatura($id_aluno, $valor);
             }
             return addBalanco($id_aluno, $valor, $id_plano, 'saida', $tipo);

@@ -11,8 +11,25 @@ class Pagamentos extends CI_Controller
         parent::__construct();
     }
 
+    protected function addGanhoIndicacao($valor, $enviado)
+    {
+        $indicador = $enviado[0]['id_indicador'];
+        $configurer = $this->model->selecionaBusca('configuracoes', " LIMIT 1");
+        if ($configurer) {
+            $pctGanhoIndicacao = $configurer[0]['ganho_indicacao'];
+            $valorIndicacao = $valor * $pctGanhoIndicacao / 100;
+
+            $planoUser = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$indicador}' AND status='ativo' ");
+
+            if (!$planoUser) return false; #usuário não tem plano, não recebe indicação
+
+            return addSaldo($indicador, $valorIndicacao, null, 'indicacao', "Ganho indicação, 4% do plano mensal do usuário ".$enviado[0]['nome']." - ".$enviado[0]['login']);
+        }
+    }
+
     //TRANSFORMA O CADASTRO TEMPORÁRIO DE ALUNO EM PERMANENTE CASO O PAGAMENTO TENHA SIDO EFETUADO COM SUCESSO.
-    protected function cadastrarAluno($id){
+    protected function cadastrarAluno($id)
+    {
         $dados = $this->model->selecionaBusca('aluno_espera', "WHERE `id`='{$id}' ");
         if (!$dados) return false;
 
@@ -23,32 +40,36 @@ class Pagamentos extends CI_Controller
         $plano = $this->model->selecionaBusca('plano_rede', "WHERE id='{$arr['id_plano']}' ");
         unset($arr['id_plano']);
         $arr['tipo'] = 'rede';
-        
+
         if (!$plano) return false;
         if (!$id_niveis) return false;
 
         $arr['id_niveis'] = $id_niveis;
         $idusuario = $this->model->insere_id('aluno', $arr);
-        if ($idusuario){
+        if ($idusuario) {
             $this->model->insere('assinaturas_rede', [
-                'id_aluno' => $idusuario, 
-                'id_plano' => $plano[0]['id'], 
+                'id_aluno' => $idusuario,
+                'id_plano' => $plano[0]['id'],
                 'valor' => $plano[0]['valor'],
                 'pago' => $plano[0]['valor'],
                 'recebido' => 0,
                 'status' => 'ativo',
                 'data_pagamento_inicial' => date('Y-m-d H:i:s')
             ]);
+
+            $this->addGanhoIndicacao($plano[0]['valor'], $dados);
+
             return $this->model->remove('aluno_espera', $dados[0]['id']);
         }
         return false;
     }
 
     //DEFINE A FATURA COMO PAGA CASO O PAGAMENTO SEJA EFETUADO COM SUCESSO.
-    protected function pagarFatura($id_ipn, $id){
-        
+    protected function pagarFatura($id_ipn, $id)
+    {
+
         $dados = $this->model->selecionaBusca('faturas', "WHERE `id`='{$id}' ");
-        
+
         if (!$dados) return false;
 
         $ass = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$dados[0]['id_aluno']}' ");
@@ -58,8 +79,8 @@ class Pagamentos extends CI_Controller
 
         $nvarr = ['pagamento' => date('Y-m-d H:i:s'), 'paga' => 1, 'custom' => $id_ipn];
         $valpaid = $ass[0]['pago'] + $dados[0]['valor'];
-        $nvarr2 = ['pago' => $valpaid ];
-        if ($this->model->update('faturas', $nvarr, $id)){
+        $nvarr2 = ['pago' => $valpaid];
+        if ($this->model->update('faturas', $nvarr, $id)) {
             $this->model->update("assinaturas_rede", $nvarr2, $ass[0]['id']);
 
             checarPendencias($dados[0]['id_aluno']); //financeiro_helper
@@ -72,7 +93,7 @@ class Pagamentos extends CI_Controller
         $rf = explode('-', $ref);
         if (!isset($rf[1])) return false;
 
-        if ($rf[0] == 'aluno_espera'){
+        if ($rf[0] == 'aluno_espera') {
             return $this->cadastrarAluno($rf[1]);
         } else {
             return $this->pagarFatura($id_ipn, $rf[1]);
@@ -80,7 +101,8 @@ class Pagamentos extends CI_Controller
     }
 
     //REMOVE O CADASTRO TEMPORÁRIO DE ALUNO CASO O PAGAMENTO SEJA CANCELADO.
-    protected function cancelarAluno($id){
+    protected function cancelarAluno($id)
+    {
         $dados = $this->model->selecionaBusca('aluno_espera', "WHERE `id`='{$id}' ");
         if (!$dados) return false;
 
@@ -91,10 +113,10 @@ class Pagamentos extends CI_Controller
     protected function canceledIpn($ref)
     {
         $rf = explode('-', $ref);
-        
+
         if (!isset($rf[1])) return false;
 
-        if ($rf[0] == 'aluno_espera'){
+        if ($rf[0] == 'aluno_espera') {
             return $this->cancelarAluno($rf[1]);
         }
     }
@@ -105,7 +127,7 @@ class Pagamentos extends CI_Controller
         $rf = explode('-', $ref);
         if (!isset($rf[1])) return false;
 
-        if ($rf[0] == 'aluno_espera'){
+        if ($rf[0] == 'aluno_espera') {
             return $this->cancelarAluno($rf[1]);
         }
     }

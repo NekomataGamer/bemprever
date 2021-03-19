@@ -25,27 +25,16 @@ class Index extends CI_Controller {
     return $this->model->selecionaBusca('aluno', "WHERE id_niveis LIKE '1%'  ORDER BY id DESC LIMIT 3 ");
   }
 
-  protected function getTotalUsers(){
-    return $this->db->query("SELECT id FROM aluno WHERE id_niveis LIKE '1%' ")->num_rows();
+  protected function getAssEspera(){
+    return $this->db->query("SELECT id FROM assinaturas_rede WHERE status='espera' ")->num_rows();
   }
 
-  protected function totalUsers(){
-    return $this->db->query("SELECT id FROM aluno WHERE ativo='1' ")->num_rows();
+  protected function getAssAtivas(){
+    return $this->db->query("SELECT id FROM assinaturas_rede WHERE status='ativo' ")->num_rows();
   }
 
-  protected function getDependentes(){
-    $dependentes = $this->model->setTable('dependente')->all();
-
-    $count = 0;;
-    foreach($dependentes as $dep){
-      $m = $this->model->setTable('aluno')
-      ->where('id', $dep['id_familia'])
-      ->where('status', 'ativo');
-      if (!$m) continue;
-
-      $count++;
-    }
-    return $count;
+  protected function getAssInativas(){
+    return $this->db->query("SELECT id FROM assinaturas_rede WHERE status='inativo' ")->num_rows();
   }
 
   public function getNv($n){
@@ -64,9 +53,9 @@ class Index extends CI_Controller {
 
   public function index() {
     $data['lastUsers'] = $this->last_users();
-    $data['totalUsers'] = $this->getTotalUsers();
-    $data['totalAln'] = $this->totalUsers();
-    $data['totalDependentes'] = $this->getDependentes();
+    $data['assEspera'] = $this->getAssEspera();
+    $data['assAtivas'] = $this->getAssAtivas();
+    $data['assInativas'] = $this->getAssInativas();
     $data['config'] = $this->model->selecionaBusca('ganho_residual', "");
 
     $this->load->view('admin/index', $data);

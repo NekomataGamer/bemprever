@@ -23,6 +23,8 @@ class Perfil extends CI_Controller
     if (!$data['aluno']) gera_aviso('erro', 'Aluno não encontrado', 'rede/index');
     $data['estados'] = $this->model->selecionaBusca('estados', "");
     $data['cidades'] = $this->model->selecionaBusca('cidades', "");
+    $data['title'] = 'Meu Perfil';
+    $data['subTitle'] = 'Atualizar Dados';
     $this->load->view('rede/perfil', $data);
   }
   

@@ -38,6 +38,9 @@ class Saques extends CI_Controller
 
     $data['contas'] = $conta_aluno;
 
+    $data['title'] = 'Sacar';
+    $data['subTitle'] = 'Solicitar Saque';
+
     $this->load->view('rede/saques/pedir', $data);
   }
 

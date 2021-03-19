@@ -6,7 +6,7 @@
         <div class="progression-bar progression-bar--active-accent">
 
             <span class="progression-bar__item-text h5 mb-0 text-uppercase">
-                Dados de Pagamento
+                <!-- Dados de Pagamento -->
             </span>
         </div>
     </div>

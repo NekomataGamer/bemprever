@@ -19,6 +19,8 @@ class Dados_pagamento extends CI_Controller
   {
     $id = $this->session->userdata('id');
     $data['contas'] = $this->model->selecionaBusca('conta_usuario', "WHERE id_usuario='{$id}' ");
+    $data['title'] = 'Atualizar Dados';
+    $data['subTitle'] = 'Pagamento';
 
     $this->load->view('rede/dados_pagamento', $data);
   }

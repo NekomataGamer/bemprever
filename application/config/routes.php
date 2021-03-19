@@ -126,6 +126,7 @@ $route['rede/unilevel/(:any)'] = 'rede/network/unilevel/$1';
 $route['rede/meus_diretos'] = 'rede/network/meus_diretos';
 
 $route['rede/dependentes/(:any)'] = 'rede/familiares/$1';
+$route['rede/pagamentos/ipn'] = 'pagamentos/ipn';
 
 /* ALUNOS */
 //rota alunos cursos

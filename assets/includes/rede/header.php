@@ -33,16 +33,75 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--begin::Layout Themes(used by all pages)-->
 		<!--end::Layout Themes-->
 		<link rel="shortcut icon" href="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/fav-icon.png" />
+
+		<style>
+			#kt_body{
+				background-size: auto 350px;
+				background-position: right top;
+			}
+			@media (min-width: 992px){
+				.header-menu .menu-nav > .menu-item:hover:not(.menu-item-here):not(.menu-item-active) > .menu-link .menu-text, .header-menu .menu-nav > .menu-item.menu-item-hover:not(.menu-item-here):not(.menu-item-active) > .menu-link .menu-text, .header-menu .menu-nav > .menu-item.menu-item-here > .menu-link .menu-text, .header-menu .menu-nav > .menu-item.menu-item-active > .menu-link .menu-text {
+					color: #08b6ce;
+				}
+				.header-menu .menu-nav > .menu-item > .menu-link .menu-text {
+					color: #367294;
+					font-weight: 500;
+				}
+				.text-dark {
+					color: #367294!important;
+				}
+				#kt_body{
+					background-size: 100% 350px;
+					background-position: right top;
+				}
+			}
+			.topbar-item .btn.btn-hover-transparent-dark.align-items-center.btn-lg{
+				background-color: rgba(255, 255, 255, 0.7);
+				border-color: transparent;
+				
+			}
+			.topbar-item .btn.btn-hover-transparent-dark:hover:not(.btn-text):not(:disabled):not(.disabled), 
+			.topbar-item .btn.btn-hover-transparent-dark:focus:not(.btn-text), 
+			.topbar-item .btn.btn-hover-transparent-dark.focus:not(.btn-text) {
+				background-color: rgba(8, 182, 206, 0.2);
+				border-color: transparent;
+			}
+
+			#kt_header_mobile .btn.btn-icon.btn-hover-transparent-dark {
+				color: #367294;
+				background-color: rgba(255, 255, 255, 0.7);
+				border-color: transparent;
+			}
+			#kt_header_mobile .btn.btn-icon.btn-hover-transparent-dark .svg-icon svg g [fill] {
+				-webkit-transition: fill 0.3s ease;
+				transition: fill 0.3s ease;
+				fill: #367294;
+			}
+			#kt_header_mobile .btn.btn-hover-transparent-dark:not(:disabled):not(.disabled):active:not(.btn-text), 
+			#kt_header_mobile .btn.btn-hover-transparent-dark:not(:disabled):not(.disabled).active, 
+			#kt_header_mobile .show > .btn.btn-hover-transparent-dark.dropdown-toggle, 
+			#kt_header_mobile .show .btn.btn-hover-transparent-dark.btn-dropdown {
+				color: #367294;
+				background-color: rgba(255, 255, 255, 0.7);
+				border-color: transparent;
+			}
+
+			@media only screen and (max-width:768px){
+				.subheader .text-dark{
+					color:black!important;
+				}
+			}
+		</style>
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" style="background-image: url(<?php echo site_url('assets/assetsAlison'); ?>/media/bg/bg-10.jpg)" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
+	<body id="kt_body" style="background-image: url(<?php echo site_url('assets/imagens/bg-home.png'); ?>)" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
 		<!--begin::Main-->
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile">
 			<!--begin::Logo-->
 			<a href="<?php echo site_url('rede/index');?>">
-				<img alt="Logo" src="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/logo-1.png" class="logo-default max-h-30px" />
+				<img alt="Logo" src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-default max-h-30px" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -50,13 +109,13 @@ License: You must have a valid license purchased only from themeforest(the above
 				<button class="btn p-0 burger-icon burger-icon-left ml-4" id="kt_header_mobile_toggle">
 					<span></span>
 				</button>
-				<button class="btn btn-icon btn-hover-transparent-white p-0 ml-3" id="kt_header_mobile_topbar_toggle">
+				<button class="btn btn-icon btn-hover-transparent-dark p-0 ml-3" id="kt_header_mobile_topbar_toggle">
 					<span class="svg-icon svg-icon-xl">
 						<!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
 						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
 							<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 								<polygon points="0 0 24 0 24 24 0 24" />
-								<path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+								<path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="1" />
 								<path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
 							</g>
 						</svg>
@@ -81,8 +140,8 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!--begin::Header Logo-->
 								<div class="header-logo">
 									<a href="<?php echo base_url('rede/index');?>">
-										<img alt="Logo" src="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/logo-1.png" class="logo-default max-h-40px" />
-										<img alt="Logo" src="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/logo-2.jpg" class="logo-sticky max-h-40px" />
+										<img alt="Logo" src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-default max-h-40px" />
+										<img alt="Logo" src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-sticky max-h-40px" />
 									</a>
 								</div>
 								
@@ -234,7 +293,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="dropdown">
 									<!--begin::Toggle-->
 									<div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
-										<div class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1">
+										<div class="btn btn-icon btn-hover-transparent-dark btn-dropdown btn-lg mr-1">
 											<img class="h-20px w-20px rounded-sm" src="<?php echo base_url('assets/assetsAlison'); ?>/media/svg/flags/011-brazil.svg" alt="" />
 										</div>
 									</div>
@@ -246,14 +305,14 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="dropdown">
 									<!--begin::Toggle-->
 									<div class="topbar-item">
-										<div class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto" id="kt_quick_user_toggle">
-											<span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1">Olá,</span>
+										<div class="btn btn-icon btn-hover-transparent-dark d-flex align-items-center btn-lg px-md-2 w-md-auto" id="kt_quick_user_toggle">
+											<span class="text-dark opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1">Olá,</span>
 											
 											<?php $nomeUUU = explode(' ', $this->session->userdata('nome'));?>
 
-											<span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $nomeUUU[0];?></span>
+											<span class="text-dark opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4"><?php echo $nomeUUU[0];?></span>
 											<span class="symbol symbol-35">
-												<span class="symbol-label text-white font-size-h5 font-weight-bold bg-white-o-30"><?php echo substr($this->session->userdata('nome'),0, 1);?></span>
+												<span class="symbol-label text-dark font-size-h5 font-weight-bold bg-dark-o-30"><?php echo substr($this->session->userdata('nome'),0, 1);?></span>
 											</span>
 										</div>
 									</div>
@@ -276,22 +335,22 @@ License: You must have a valid license purchased only from themeforest(the above
 									<!--begin::Heading-->
 									<div class="d-flex flex-column">
 										<!--begin::Title-->
-										<h2 class="text-white font-weight-bold my-2 mr-5"><?php echo $title;?></h2>
+										<h2 class="text-dark font-weight-bold my-2 mr-5"><?php echo $title;?></h2>
 										<!--end::Title-->
 										<!--begin::Breadcrumb-->
 										<div class="d-flex align-items-center font-weight-bold my-2">
 											<!--begin::Item-->
 											<a href="#" class="opacity-75 hover-opacity-100">
-												<i class="flaticon2-shelter text-white icon-1x"></i>
+												<i class="flaticon2-shelter text-dark icon-1x"></i>
 											</a>
 											<!--end::Item-->
 											<!--begin::Item-->
-											<span class="label label-dot label-sm bg-white opacity-75 mx-3">ghj</span>
-											<a href="" class="text-white text-hover-white opacity-75 hover-opacity-100"><?php echo (isset($title)?$title:'---');?></a>
+											<span class="label label-dot label-sm bg-dark opacity-75 mx-3">ghj</span>
+											<a href="" class="text-dark text-hover-dark opacity-75 hover-opacity-100"><?php echo (isset($title)?$title:'---');?></a>
 											<!--end::Item-->
 											<!--begin::Item-->
-											<span class="label label-dot label-sm bg-white opacity-75 mx-3">bbbbadfg</span>
-											<a href="" class="text-white text-hover-white opacity-75 hover-opacity-100"><?php echo (isset($subTitle)?$subTitle:'---');?></a>
+											<span class="label label-dot label-sm bg-dark opacity-75 mx-3">bbbbadfg</span>
+											<a href="" class="text-dark text-hover-dark opacity-75 hover-opacity-100"><?php echo (isset($subTitle)?$subTitle:'---');?></a>
 											<!--end::Item-->
 										</div>
 										<!--end::Breadcrumb-->
@@ -302,11 +361,11 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!--begin::Toolbar-->
 								<div class="d-flex align-items-center">
 									<!--begin::Button-->
-									<!-- <a href="#" class="btn btn-transparent-white font-weight-bold py-3 px-6 mr-2">Reports</a> -->
+									<!-- <a href="#" class="btn btn-transparent-dark font-weight-bold py-3 px-6 mr-2">Reports</a> -->
 									<!--end::Button-->
 									<!--begin::Dropdown--
 									<div class="dropdown dropdown-inline ml-2" data-toggle="tooltip" title="Quick actions" data-placement="top">
-										<a href="#" class="btn btn-white font-weight-bold py-3 px-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+										<a href="#" class="btn btn-dark font-weight-bold py-3 px-6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
 										<div class="dropdown-menu p-0 m-0 dropdown-menu-md dropdown-menu-right">
 											<!--begin::Navigation--
 											<ul class="navi navi-hover py-5">

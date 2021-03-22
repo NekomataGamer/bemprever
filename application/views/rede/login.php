@@ -35,54 +35,102 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--begin::Layout Themes(used by all pages)-->
 		<!--end::Layout Themes-->
 		<link rel="shortcut icon" href="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/fav-icon.png" />
+		<style>
+			.text-principal{
+				color: #367294!important;
+			}
+			.text-titulo{
+				color: #08b6ce;
+			}
+
+			.btn.btn-principal {
+				color: #ffffff;
+				background-color: #367294;
+				border-color: #367294;
+				font-weight:800!important;
+			}
+
+			.btn.btn-principal:hover:not(.btn-text):not(:disabled):not(.disabled), .btn.btn-principal:focus:not(.btn-text), .btn.btn-principal.focus:not(.btn-text) {
+				color: #367294;
+				background-color: transparent;
+				border-color: #367294;
+			}
+
+			.bg-principal{
+				background:#8dadbc;
+			}
+
+			.bg-principal:focus, .bg-principal:active, .bg-principal:hover{
+				background:#8dadbc!important;
+			}
+
+			.logo-login{
+				max-width:100%;
+			}
+
+			.bgi-login{
+				background-position:right bottom;
+				background-size:contain!important;
+			}
+
+			body{
+				background:#e2e8f4;
+			}
+
+			@media only screen and (max-width:768px){
+				.bgi-login{
+					background-image:none!important;
+				}
+			}
+		</style>
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" style="background-image: url(<?php echo site_url('assets/assetsAlison'); ?>/media/bg/bg-10.jpg)" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
+	<body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
 		<!--begin::Main-->
 		<div class="d-flex flex-column flex-root">
 			<!--begin::Login-->
 			<div class="login login-3 login-signin-on d-flex flex-row-fluid" id="kt_login">
-				<div class="d-flex flex-center bgi-size-cover bgi-no-repeat flex-row-fluid" style="background-image: url(<?php echo site_url('assets/assetsAlison'); ?>/media/bg/bg-1.jpg);">
-					<div class="login-form text-center text-white p-7 position-relative overflow-hidden">
+				<div class="d-flex flex-center bgi-login bgi-size-cover bgi-no-repeat flex-row-fluid" style="background-image: url(<?php echo site_url('assets/imagens/bg-cadastro.png'); ?>);">
+					<div class="login-form text-center text-principal p-7 position-relative overflow-hidden">
 						<!--begin::Login Header-->
 						<div class="d-flex flex-center mb-15">
 							<a href="#">
-								<img src="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/logo-1.png" class="max-h-100px" alt="" />
+								<img src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="max-h-100px logo-login" alt="">
 							</a>
 						</div>
 						<!--end::Login Header-->
 						<!--begin::Login Sign in form-->
 						<div class="login-signin">
 							<div class="mb-20">
-								<h3>Acessar BackOffice</h3>
-								<p class="opacity-60 font-weight-bold">Digite seus dados de acesso ao BackOffice:</p>
+								<h3 class="text-titulo">Acessar BackOffice</h3>
+								<p class="font-weight-bold" style="font-weight:600!important;">Digite seus dados de acesso ao BackOffice:</p>
 							</div>
 							<!-- id="kt_login_signin_form" -->
 							<form class="form" method="POST" action="<?php echo site_url('rede/login/login'); ?>">
 								<div class="form-group">
-									<input class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8 mb-5" type="text" placeholder="Login" name="usuario" autocomplete="off" />
+									<input class="form-control h-auto text-white font-weight-bold placeholder-white bg-principal rounded-pill border-0 py-4 px-8 mb-5" type="text" placeholder="Login" name="usuario" autocomplete="off" />
 								</div>
 								<div class="form-group">
-									<input id="password" class="form-control h-auto text-white placeholder-white opacity-70 bg-dark-o-70 rounded-pill border-0 py-4 px-8 mb-5" type="password" placeholder="Senha" name="senha" />
+									<input id="password" class="form-control h-auto text-white font-weight-bold placeholder-white bg-principal rounded-pill border-0 py-4 px-8 mb-5" type="password" placeholder="Senha" name="senha" />
 								</div>
 								<div class="form-group d-flex flex-wrap justify-content-between align-items-center px-8">
 									<div class="checkbox-inline">
-										<label class="checkbox checkbox-outline checkbox-white text-white m-0">
+										<label class="checkbox checkbox-outline checkbox-blue text-principal m-0" style="font-weight:800!important;">
 										<input type="checkbox" name="remember" />
 										<span></span>Lembrar</label>
 									</div>
-									<a href="javascript:;" id="kt_login_forgot" class="text-white font-weight-bold">Esqueceu sua senha?</a>
+									<a href="javascript:;" id="kt_login_forgot" class="text-principal" style="font-weight:800!important;">Esqueceu sua senha?</a>
 								</div>
 								<div class="form-group text-center mt-10">
-                                    <input type="submit" value="Entrar" id="kt_login_signin_submit" class="btn btn-pill btn-outline-white font-weight-bold opacity-90 px-15 py-3">
+                                    <input type="submit" value="Entrar" id="kt_login_signin_submit" class="btn btn-pill btn-principal font-weight-bold opacity-90 px-15 py-3">
 									<!-- <button id="kt_login_signin_submit" class="btn btn-pill btn-outline-white font-weight-bold opacity-90 px-15 py-3">Entrar</button> -->
 								</div>
 							</form>
-							<div class="mt-10">
+							<!-- <div class="mt-10">
 								<span class="opacity-70 mr-4">Ainda não possui uma conta?</span>
-								<a href="javascript:;" id="kt_login_signup" class="text-white font-weight-bold">Cadastre-se agora</a>
-							</div>
+								<a href="javascript:;" id="kt_login_signup" class="text-principal font-weight-bold" style="font-weight:800!important;">Cadastre-se agora</a>
+							</div> -->
 						</div>
 						<!--end::Login Sign in form-->
 						<!--begin::Login Sign up form-->

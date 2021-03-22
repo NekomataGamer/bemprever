@@ -53,10 +53,49 @@
         .posicao-toast .toast {
             margin: auto !important;
         }
+
+        body {
+            background-color: #e2e8f4 !important;
+        }
+
+        #background-passing {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index: 0;
+            background-image: url(<?php echo site_url('assets/imagens/bg-cadastro.png'); ?>);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right bottom;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .logo-login {
+            width: 300px;
+            max-width: 100%;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .btn.btn-principal {
+            color: #ffffff;
+            background-color: #367294;
+            border-color: #367294;
+            font-weight: 800 !important;
+        }
+
+        .btn.btn-principal:hover:not(.btn-text):not(:disabled):not(.disabled),
+        .btn.btn-principal:focus:not(.btn-text),
+        .btn.btn-principal.focus:not(.btn-text) {
+            color: #367294;
+            background-color: transparent;
+            border-color: #367294;
+        }
     </style>
 </head>
 
-<body class="layout-app ">
+<body class="layout-app bgi-login bgi-size-cover bgi-no-repeat">
 
     <div class="preloader">
         <div class="sk-chase">
@@ -67,7 +106,6 @@
             <div class="sk-chase-dot"></div>
             <div class="sk-chase-dot"></div>
         </div>
-
         <!-- <div class="sk-bounce">
     <div class="sk-bounce-dot"></div>
     <div class="sk-bounce-dot"></div>
@@ -77,7 +115,7 @@
     </div>
 
     <!-- Drawer Layout -->
-
+    <div id="background-passing"></div>
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page-content d-flex justify-content-center">
 
@@ -100,11 +138,12 @@
                         <input type="hidden" name="id_indicador" value="<?php echo $indicador['id']; ?>" />
                         <input type="hidden" name="link_indicador" value="<?php echo $link; ?>" />
                         <center>
-                            <img src="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/logo-2-invertido.png" style="max-width:300px;">
+                            <img src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-login" alt="">
                             <h4>Seja bem vindo à BEMPREVER!</h4>
                             <p>Escolha seu plano e preencha seus dados abaixo para começar a ter todas as vantagens de ser um <b>membro BEMPREVER</b>.</p>
                             <h5 style="text-transform:none;"><b>Indicado Por: </b><span class="text-accent"><?php echo $indicador['login']; ?></span><br />
-                                <span class="text-primary"><?php echo $indicador['email']; ?></span></h5>
+                                <span class="text-primary"><?php echo $indicador['email']; ?></span>
+                            </h5>
                         </center>
 
                         <div class="row">
@@ -282,7 +321,7 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;Prosseguir para o pagamento!</button>
+                            <button type="submit" class="btn btn-principal btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;Prosseguir para o pagamento!</button>
                         </div>
                     </form>
                 </div>
@@ -365,7 +404,7 @@
         function mascaraCPF(obj) {
             var or = obj.value;
             var v = or.replace(/\D/g, '');
-            if (v.length > 14){
+            if (v.length > 14) {
                 v = v.substring(0, 14);
             }
             if (v.length >= 10) {

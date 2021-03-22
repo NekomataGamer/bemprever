@@ -100,9 +100,9 @@
                         <input type="hidden" name="id_indicador" value="<?php echo $indicador['id']; ?>" />
                         <input type="hidden" name="link_indicador" value="<?php echo $link; ?>" />
                         <center>
-                            <img src="<?php echo site_url('assets/imagens/LOGO-ESCUDO-2.png'); ?>" style="max-width:300px;">
-                            <h4>Seja bem vindo à KEROSER!</h4>
-                            <p>Escolha seu plano e preencha seus dados abaixo para começar a ter todas as vantagens de ser um <b>membro KEROSER</b>.</p>
+                            <img src="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/logo-2-invertido.png" style="max-width:300px;">
+                            <h4>Seja bem vindo à BEMPREVER!</h4>
+                            <p>Escolha seu plano e preencha seus dados abaixo para começar a ter todas as vantagens de ser um <b>membro BEMPREVER</b>.</p>
                             <h5 style="text-transform:none;"><b>Indicado Por: </b><span class="text-accent"><?php echo $indicador['login']; ?></span><br />
                                 <span class="text-primary"><?php echo $indicador['email']; ?></span></h5>
                         </center>

@@ -206,17 +206,17 @@ class Rede extends CI_Controller
     //FUNÇÃO DE ENTRADA DE GANHO RESIDUAL DE 1 ALUNO ATÉ 10 NÍVEIS ACIMA.
     protected function entrarGanhoResidual($aluno)
     {
-        echo '<br/><hr>ENTRANDO GANHO PELO ALUNO: '.$aluno['login'].'<br/>';
+        #echo '<br/><hr>ENTRANDO GANHO PELO ALUNO: '.$aluno['login'].'<br/>';
 
         if (!isset($aluno['id_indicador'])) return true;
 
-        echo '<br>ALUNO TEM INDICADOR!';
+        #echo '<br>ALUNO TEM INDICADOR!';
 
         $valoresResidual = $this->getGanhoResidual();
         $atual = $aluno;
 
         if (!$valoresResidual) {
-            echo '<br>Valores de residual não encontrados';
+            #echo '<br>Valores de residual não encontrados';
             errorCallback('cron/Rede/rodarResidual', "Valores de residual não encontrados");
             return false;
         }
@@ -225,11 +225,11 @@ class Rede extends CI_Controller
 
         if (!$planoUsuarioInicio || $planoUsuarioInicio['estado'] != 'ativo') return false; #usuário não tem plano ativo e não gera residual.
         
-        echo '<br/>buscando usuarios';
+        #echo '<br/>buscando usuarios';
         $searcherID = $atual['id_niveis'];
         for ($i = 0; $i < 7; $i++) {
             #busca apenas caso não seja a raiz!
-            echo '<br/>nivel = '.$atual['id_niveis'];
+            #echo '<br/>nivel = '.$atual['id_niveis'];
             if (strlen($atual['id_niveis'] . '') > 1) {
 
                 $searcherID = substr($searcherID, 0, -1); #tira o ultimo numero do codigo atual de rede, subindo 1 nível
@@ -295,6 +295,38 @@ class Rede extends CI_Controller
         return true;
     }
 
+    function getDataAssAluno($id_aluno){
+        $assinatura = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$id_aluno}' ");
+        if (!$assinatura) return null;
+        
+        if (isset($assinatura[0]['data_ultimo_pagamento'])){
+            $exploder = explode(' ', $assinatura[0]['data_ultimo_pagamento'])[0].' 23:59:59';
+
+            if ($exploder < date('Y-m-d'). ' 00:00:00') return null;
+        }
+
+
+        $gResidual = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assinatura[0]['id']}' ");
+        if ($gResidual){
+            $prevResidual = $gResidual[0]['data_ganho'];
+            if (isset($assinatura[0]['data_ultimo_pagamento'])){
+
+                return $assinatura[0]['data_ultimo_pagamento'] > $prevResidual ? [
+                    'data' => $assinatura[0]['data_ultimo_pagamento'], 
+                    'id' => $assinatura[0]['id']
+                ] : null;
+            }
+            return null;
+        }
+
+        return isset($assinatura[0]['data_ultimo_pagamento']) ? [
+            'data' => $assinatura[0]['data_ultimo_pagamento'], 
+            'id' => $assinatura[0]['id']
+        ] : [
+            'data' => $assinatura[0]['data_pagamento_inicial'],
+            'id' => $assinatura[0]['id']
+        ];
+    }
 
 
 
@@ -307,7 +339,7 @@ class Rede extends CI_Controller
 
     //CASO SEJA HORA DE RODAR O GANHO
     //ENTRA NA FUNÇÃO DE ADCIONAR O MESMO AOS USUÁRIOS!
-    protected function rodarGanho($tipo, $efetivo = false)
+    protected function rodarGanho($tipo, $efetivo = false, $funcData = null, $t = null)
     {
         $alunos = $this->model->selecionaBusca('aluno', "WHERE bloqueado='0' "); //alunos bloqueados não recebem ganho
         foreach ($alunos as $aln) {
@@ -319,15 +351,34 @@ class Rede extends CI_Controller
                 } */
             } else {
                 $config = $this->getConfig();
-                $dataX = retornaDataArray(addDataDias($config['dia_' . $tipo], $aln['criado_em']));
+                $assAluno = $this->getDataAssAluno($aln['id'], $funcData, $t);
+
+                if (!isset($assAluno)) return false;
+
+                $dataAssAluno = $assAluno['data'];
+
+                $dataX = retornaDataArray($dataAssAluno);
+                if ($config['dia_' . $tipo] > 0){
+                    $dataX = retornaDataArray(addDataDias($config['dia_' . $tipo], $dataAssAluno));
+                }
                 $checkerData = $dataX['ano'] . '-' . $dataX['mes'] . '-' . $dataX['dia'];
                 //verifica se o dia atual é o numero definido nas configurações a mais que o cadastro do usuário, se for, gera o ganho.
                 if ($checkerData == date('Y-m-d')) {
                     if ($tipo == 'residual') {
                         $this->entrarGanhoResidual($aln); //entrada de ganho residual caso o tipo seja esse
-                    } /* else if ($tipo == 'carreira'){
-                        $this->entrarGanhoCarreira($aln); //NÃO EXISTE GANHO CARREIRA
-                    }  */
+
+                        $temGanho = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assAluno['id']}' ");
+
+                        if ($temGanho){
+                            $this->model->update('gResidual', [
+                                'id_ass'     => $assAluno['id']
+                            ], $temGanho[0]['id']);
+                        } else {
+                            $this->model->insere('gResidual', [
+                                'id_ass'     => $assAluno['id']
+                            ]);
+                        }
+                    }
                 }
             }
         }
@@ -337,25 +388,15 @@ class Rede extends CI_Controller
     //RODA BASEADO NA FUNÇÃO ENVIADA DE ADCIONAR DATAS EM $funcData
     protected function funcGanhos($tipo, $funcData, $t)
     {
-        $utm = $this->getCronGanho($tipo);
-
-        if (isset($utm['last_update'])) {
-            $verifier = $funcData($t, $utm['last_update']);
-            $verifier = retornaDataArray($verifier);
-            if ($verifier['ano'] . '-' . $verifier['mes'] . '-' . $verifier['dia'] == date('Y-m-d')) {
+        $config = $this->getConfig();
+        //o primeiro ganho é em 1 dia fixo do mês
+        if ($config['tipo_' . $tipo] == 'fixo') {
+            if ($config['dia_' . $tipo] == date('d')) {
                 $this->rodarGanho($tipo);
             }
         } else {
-            $config = $this->getConfig();
-            //o primeiro ganho é em 1 dia fixo do mês
-            if ($config['tipo_' . $tipo] == 'fixo') {
-                if ($config['dia_' . $tipo] == date('d')) {
-                    $this->rodarGanho($tipo);
-                }
-            } else {
-                //o primeiro ganho é após n dias do cadastro efetivo
-                $this->rodarGanho($tipo, true);
-            }
+            //o primeiro ganho é após n dias do cadastro efetivo
+            $this->rodarGanho($tipo, true, $funcData, $t);
         }
     }
 
@@ -373,12 +414,12 @@ class Rede extends CI_Controller
 
         $utm = $this->getCronGanho($tipo); //TIPO = residual ou carreira
         $jaVerificado = false;
-        if (isset($utm['last_verify'])) {
+        /*if (isset($utm['last_verify'])) {
             $dtchk = retornaDataArray($utm['last_verify']);
             if ($dtchk['ano'] . '-' . $dtchk['mes'] . '-' . $dtchk['dia'] == date('Y-m-d')) {
                 $jaVerificado = true;
             }
-        }
+        } SEMPRE GERA NOVA VERIFICAÇÃO */
 
         if (!$jaVerificado) {
             switch ($config['timer_residual']) {

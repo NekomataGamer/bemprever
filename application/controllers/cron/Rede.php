@@ -301,7 +301,6 @@ class Rede extends CI_Controller
         
         if (isset($assinatura[0]['data_ultimo_pagamento'])){
             $exploder = explode(' ', $assinatura[0]['data_ultimo_pagamento'])[0].' 23:59:59';
-
             if ($exploder < date('Y-m-d'). ' 00:00:00') return null;
         }
 
@@ -319,10 +318,13 @@ class Rede extends CI_Controller
             return null;
         }
 
-        return isset($assinatura[0]['data_ultimo_pagamento']) ? [
-            'data' => $assinatura[0]['data_ultimo_pagamento'], 
-            'id' => $assinatura[0]['id']
-        ] : [
+        if (isset($assinatura[0]['data_ultimo_pagamento'])){
+            return [
+                'data' => $assinatura[0]['data_ultimo_pagamento'], 
+                'id' => $assinatura[0]['id']
+            ];
+        }
+        return [
             'data' => $assinatura[0]['data_pagamento_inicial'],
             'id' => $assinatura[0]['id']
         ];
@@ -342,6 +344,7 @@ class Rede extends CI_Controller
     protected function rodarGanho($tipo, $efetivo = false, $funcData = null, $t = null)
     {
         $alunos = $this->model->selecionaBusca('aluno', "WHERE bloqueado='0' "); //alunos bloqueados não recebem ganho
+
         foreach ($alunos as $aln) {
             if (!$efetivo) {
                 if ($tipo == 'residual') {
@@ -352,31 +355,33 @@ class Rede extends CI_Controller
             } else {
                 $config = $this->getConfig();
                 $assAluno = $this->getDataAssAluno($aln['id'], $funcData, $t);
+                
+                
+                if (isset($assAluno)){
+                    $dataAssAluno = $assAluno['data'];
 
-                if (!isset($assAluno)) return false;
+                    $dataX = retornaDataArray($dataAssAluno);
+                    if ($config['dia_' . $tipo] > 0){
+                        $dataX = retornaDataArray(addDataDias($config['dia_' . $tipo], $dataAssAluno));
+                    }
+                    $checkerData = $dataX['ano'] . '-' . $dataX['mes'] . '-' . $dataX['dia'];
 
-                $dataAssAluno = $assAluno['data'];
+                    //verifica se o dia atual é o numero definido nas configurações a mais que o cadastro do usuário, se for, gera o ganho.
+                    if ($checkerData == date('Y-m-d')) {
+                        if ($tipo == 'residual') {
+                            $this->entrarGanhoResidual($aln); //entrada de ganho residual caso o tipo seja esse
 
-                $dataX = retornaDataArray($dataAssAluno);
-                if ($config['dia_' . $tipo] > 0){
-                    $dataX = retornaDataArray(addDataDias($config['dia_' . $tipo], $dataAssAluno));
-                }
-                $checkerData = $dataX['ano'] . '-' . $dataX['mes'] . '-' . $dataX['dia'];
-                //verifica se o dia atual é o numero definido nas configurações a mais que o cadastro do usuário, se for, gera o ganho.
-                if ($checkerData == date('Y-m-d')) {
-                    if ($tipo == 'residual') {
-                        $this->entrarGanhoResidual($aln); //entrada de ganho residual caso o tipo seja esse
+                            $temGanho = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assAluno['id']}' ");
 
-                        $temGanho = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assAluno['id']}' ");
-
-                        if ($temGanho){
-                            $this->model->update('gResidual', [
-                                'id_ass'     => $assAluno['id']
-                            ], $temGanho[0]['id']);
-                        } else {
-                            $this->model->insere('gResidual', [
-                                'id_ass'     => $assAluno['id']
-                            ]);
+                            if ($temGanho){
+                                $this->model->update('gResidual', [
+                                    'id_ass'     => $assAluno['id']
+                                ], $temGanho[0]['id']);
+                            } else {
+                                $this->model->insere('gResidual', [
+                                    'id_ass'     => $assAluno['id']
+                                ]);
+                            }
                         }
                     }
                 }

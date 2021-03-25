@@ -155,7 +155,7 @@
                                                 <label class="form-label" for="username">PLANO DE PAGAMENTO: *</label>
                                                 <select name="plano" id="planos" onchange="mudaPlano($(this).val())" class="form-control selectpicker" data-live-search="true" data-size="5" required>
                                                     <?php foreach ($planos as $pln) {
-                                                        echo '<option value="' . $pln['id'] . '">' . $pln['nome'] . ' - R$ ' . number_format($pln['valor'], 2, ',', '') . ' / MÊS</option>';
+                                                        echo '<option value="' . $pln['id'] . '">' . $pln['nome'] . ' - R$ ' . number_format($pln['adesao'], 2, ',', '') . ' / ADESÃO</option>';
                                                     } ?>
                                                 </select>
                                                 <div class="alert alert-warning mt-2" role="alert">
@@ -256,26 +256,28 @@
                                             <div class="col-md-4">
                                                 <label class="form-label" for="username">Cep: *</label>
                                                 <div class="input-group mb-3">
-                                                    <input type="cep" id="cep" name="cep" class="form-control cep" placeholder="XXXXX-XXX" aria-describedby="basic-addon2" required>
-                                                    <div class="input-group-append">
+                                                    <input type="cep" id="cep" name="cep" class="form-control cep" placeholder="XXXXX-XXX" aria-describedby="basic-addon2" onblur="pesquisacep(this.value)" required>
+                                                    <!-- <div class="input-group-append">
                                                         <button class="btn btn-light" type="button" onclick="getCep($('#cep').val(), '#estado', '#cidade');" style="height: 36px;">
                                                             <i class="fa fa-search"></i>
                                                         </button>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-label" for="username">Estado: *</label>
-                                                <select id="estado" onchange="getCidades($(this).val(), '#cidade')" class="form-control selectpicker" title="UF" name="estado" data-live-search="true" data-size="5" required>
+                                                <input type="text" id="estado" name="estado" class="form-control cep" placeholder="UF" aria-describedby="basic-addon2" required>
+                                                <!-- <select id="estado" onchange="getCidades($(this).val(), '#cidade')" class="form-control selectpicker" title="UF" name="estado" data-live-search="true" data-size="5" required>
                                                     <?php foreach ($estados as $estd) {
                                                         echo '<option value="' . $estd['nome'] . '">' . $estd['uf'] . '</option>';
                                                     } ?>
-                                                </select>
+                                                </select> -->
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="username">Cidade: *</label>
-                                                <select id="cidade" class="form-control selectpicker" name="cidade" data-live-search="true" title="Selecione uma cidade..." data-size="5" required>
-                                                </select>
+                                                <input type="text" id="cidade" name="cidade" class="form-control cep" placeholder="Selecione uma cidade..." aria-describedby="basic-addon2" onblur="pesquisacep(this.value)" required>
+                                                <!-- <select id="cidade" class="form-control selectpicker" name="cidade" data-live-search="true" title="Selecione uma cidade..." data-size="5" required>
+                                                </select> -->
                                             </div>
 
                                         </div>
@@ -490,43 +492,85 @@
         }
 
 
-        function getCep(id, selEstados, selCidades) {
-            var xmlhttp = new XMLHttpRequest();
-            dataFormAj = new FormData();
-            dataFormAj.append('cep', id);
-            console.log(id);
-            addLoaderLabel(selEstados);
-            addLoaderLabel(selCidades);
-            altera = false;
-            xmlhttp.open("POST", "<?php echo site_url('enderecos/buscar_cep') ?>", true);
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var retorno = JSON.parse(this.responseText);
-                    if (typeof retorno.estado !== 'undefined' && retorno.estado !== null) {
-                        $(selEstados).val(retorno.estado.nome);
-                        console.log($(selEstados).val());
-                    }
-                    var opt = '';
-                    if (typeof retorno.cidades !== 'undefined' && retorno.cidades !== null) {
-                        retorno.cidades.map((cid) => {
-                            opt += '<option value="' + cid.nome + '">' + cid.nome + '</option>';
-                        });
-                        document.querySelector(selCidades).innerHTML = opt;
-                        $(selCidades).addClass("selectpicker").selectpicker('refresh');
-                    }
-                    if (typeof retorno.cidade !== 'undefined' && retorno.cidade !== null) {
-                        $(selCidades).val(retorno.cidade.nome);
-                        $(selCidades).addClass("selectpicker").selectpicker('refresh');
-                    }
-                    $(selEstados).addClass("selectpicker").selectpicker('refresh');
-
-                }
-                removeLoaderLabel(selEstados);
-                removeLoaderLabel(selCidades);
-            };
-            xmlhttp.send(dataFormAj);
-        }
+        
+                
     </script>
+
+<script>
+  function limpa_formulário_cep() {
+    //Limpa valores do formulário de cep.
+    document.getElementById('endereco').value=("");
+    document.getElementById('bairro').value=("");
+    document.getElementById('cidade').value=("");
+    document.getElementById('estado').value=("");
+    // document.getElementById('ibge').value=("");
+}
+
+function meu_callback(conteudo) {
+if (!("erro" in conteudo)) {
+    //Atualiza os campos com os valores.
+    document.getElementById('endereco').value=(conteudo.logradouro);
+    document.getElementById('bairro').value=(conteudo.bairro);
+    document.getElementById('cidade').value=(conteudo.localidade);
+    document.getElementById('estado').value=(conteudo.uf);
+    // document.getElementById('ibge').value=(conteudo.ibge);
+    
+    $('#numero').focus();
+    
+} //end if.
+else {
+    //CEP não Encontrado.
+    limpa_formulário_cep();
+    alert("CEP não encontrado.");
+}
+}
+
+function pesquisacep(valor) {
+
+//Nova variável "cep" somente com dígitos.
+var cep = valor.replace(/\D/g, '');
+
+//Verifica se campo cep possui valor informado.
+if (cep != "") {
+
+    //Expressão regular para validar o CEP.
+    var validacep = /^[0-9]{8}$/;
+
+    //Valida o formato do CEP.
+    if(validacep.test(cep)) {
+
+        //Preenche os campos com "..." enquanto consulta webservice.
+        document.getElementById('endereco').value="...";
+        document.getElementById('bairro').value="...";
+        document.getElementById('cidade').value="...";
+        document.getElementById('estado').value="...";
+        // document.getElementById('ibge').value="...";
+
+        //Cria um elemento javascript.
+        var script = document.createElement('script');
+
+        //Sincroniza com o callback.
+        script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+        //Insere script no documento e carrega o conteúdo.
+        document.body.appendChild(script);
+
+    } //end if.
+    else {
+        //cep é inválido.
+        limpa_formulário_cep();
+        alert("Formato de CEP inválido.");
+    }
+} //end if.
+else {
+    //cep sem valor, limpa formulário.
+    limpa_formulário_cep();
+}
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 </body>
 
 </html>

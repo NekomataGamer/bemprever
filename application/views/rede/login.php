@@ -120,7 +120,8 @@ License: You must have a valid license purchased only from themeforest(the above
 										<input type="checkbox" name="remember" />
 										<span></span>Lembrar</label>
 									</div>
-									<a href="javascript:;" id="kt_login_forgot" class="text-principal" style="font-weight:800!important;">Esqueceu sua senha?</a>
+									
+									<a href="<?php echo site_url('ead/login/esqueci');?>" id="kt_login_forgot" class="text-principal" style="font-weight:800!important;">Esqueceu sua senha?</a>
 								</div>
 								<div class="form-group text-center mt-10">
                                     <input type="submit" value="Entrar" id="kt_login_signin_submit" class="btn btn-pill btn-principal font-weight-bold opacity-90 px-15 py-3">

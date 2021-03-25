@@ -112,7 +112,7 @@ class LinkCadastro extends CI_Controller
         return '';
       }
 
-      $valPagamento = $plano[0]['valor'];
+      $valPagamento = $plano[0]['adesao'];
 
       $dateNow = new DateTime();
       $dateNow->setTimezone(new DateTimeZone('America/Sao_Paulo'));

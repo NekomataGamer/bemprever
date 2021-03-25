@@ -298,12 +298,6 @@ class Rede extends CI_Controller
     function getDataAssAluno($id_aluno){
         $assinatura = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$id_aluno}' ");
         if (!$assinatura) return null;
-        
-        if (isset($assinatura[0]['data_ultimo_pagamento'])){
-            $exploder = explode(' ', $assinatura[0]['data_ultimo_pagamento'])[0].' 23:59:59';
-            if ($exploder < date('Y-m-d'). ' 00:00:00') return null;
-        }
-
 
         $gResidual = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assinatura[0]['id']}' ");
         if ($gResidual){

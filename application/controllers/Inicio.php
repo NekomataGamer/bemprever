@@ -6,15 +6,17 @@ class Inicio extends CI_Controller
     
 	public function index()
 	{
-	    $data['ref'] = "";
-	    if (isset($_GET['ref']) && !empty($_GET['ref'])){
-	        $busca = $this->model->selecionaBusca('cadastro', "WHERE `minha_url`='".$_GET['ref']."' ");
-	        if (isset($busca[0]['id'])){
-	            $data['ref'] = $busca[0]['id'];
-	            $data['indicador'] = $busca[0]['nome'];
-	        }
-	    }
-		$this->load->view('index_landing', $data);
+// 	    $data['ref'] = "";
+// 	    if (isset($_GET['ref']) && !empty($_GET['ref'])){
+// 	        $busca = $this->model->selecionaBusca('cadastro', "WHERE `minha_url`='".$_GET['ref']."' ");
+// 	        if (isset($busca[0]['id'])){
+// 	            $data['ref'] = $busca[0]['id'];
+// 	            $data['indicador'] = $busca[0]['nome'];
+// 	        }
+// 	    }
+// 		$this->load->view('index_landing', $data);
+
+        redirect('rede/index');
 	}
 
 	public function sair()

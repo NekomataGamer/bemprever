@@ -75,8 +75,9 @@ class LinkCadastro extends CI_Controller
     $data = [];
     $data = returnArray('aluno_espera');
     if (!loginValidator($data['login'])){
+      addFunctions($data, ['login']);
       gera_aviso('erro', 'O login não pode ter espaços em branco nem caracteres especiais.', 'rede/nova_conta?&link='.$linkIndicador);
-      return '';
+      exit;
     }
 
     $args = [
@@ -93,14 +94,16 @@ class LinkCadastro extends CI_Controller
     ];
 
     if (!checa_ja_cadastrado($args)) {
+      addFunctions($data, ['login', 'cpf']);
       gera_aviso('erro', 'Já existe um usuário com esse login ou CPF / CNPJ, tente novamente.', 'rede/nova_conta?&link='.$linkIndicador);
-      return '';
+      exit;
     }
 
     $plano = $this->model->selecionaBusca('plano_rede', "WHERE id='" . $this->input->post('plano', TRUE) . "' ");
     if (!$plano) {
+      addFunctions($data);
       gera_aviso('erro', 'Falha ao cadastrar sua conta, tente novamente.', 'rede/login');
-      return '';
+      exit;
     }
     $data['id_plano'] = $plano[0]['id'];
     $idnew = $this->model->insere_id('aluno_espera', $data);
@@ -108,8 +111,9 @@ class LinkCadastro extends CI_Controller
       $aluno = $this->model->selecionaBusca('aluno_espera', "WHERE id='{$idnew}' ");
 
       if (!$aluno) {
+        addFunctions($data);
         gera_aviso('erro', 'Falha ao cadastrar sua conta, tente novamente.', 'rede/login');
-        return '';
+        exit;
       }
 
       $valPagamento = $plano[0]['adesao'];
@@ -126,9 +130,11 @@ class LinkCadastro extends CI_Controller
         redirect($linkpay, 'refresh');
       } else {
         $this->model->remove('aluno_espera', $idnew);
-        gera_aviso('erro', 'Falha ao gerar pagamento, possivelmente os dados de email e/ou CPF informados estão incorretos.', 'rede/nova_conta?&link=' . $linkIndicador);
+        addFunctions($data, ['email']);
+        gera_aviso('erro', 'Falha ao gerar pagamento, possivelmente os dados de email informados estão incorretos.', 'rede/nova_conta?&link=' . $linkIndicador);
       }
     } else {
+      addFunctions($data, ['login']);
       gera_aviso('erro', 'Login já cadastrado em outro usuário!', 'rede/login');
     }
   }

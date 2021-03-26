@@ -42,6 +42,38 @@ function getLinkCadastro($id)
 }
 
 
+//PEGAR O LINK DE CADASTRO DO USUÁRIO DA REDE, CASO NÃO TENHA, CRIA UM NOVO
+function addFunctions(array $data,array $keysRemover = []):void
+{
+    $CI = &get_instance();
+    $functions = [];
+
+    $keysRemover[] = 'foto';
+    $keysRemover[] = 'senha';
+
+    foreach($keysRemover as $k){
+        unset($data[$k]);
+    }
+    
+
+    foreach($data as $k => $v){
+        if ($k == 'senha'){
+            $v = $CI->input->post('senha', TRUE);
+        }
+        $functions[] = 'document.querySelector("input[name=\''.$k.'\']").value = "'.$v.'";';
+        if ($k == 'cep'){
+            $functions[] = 'mascaraCep(document.querySelector("input[name=\''.$k.'\']"));';
+        } else if ($k == 'cpf'){
+            $functions[] = 'mascaraCPF(document.querySelector("input[name=\''.$k.'\']"));';
+        } else if ($k == 'telefone'){
+            $functions[] = 'mascara(document.querySelector("input[name=\''.$k.'\']"), mtel);';
+        }
+    }
+
+    $CI->session->set_userdata('dataFields', $functions);
+}
+
+
 
 function newLinkCadastro($id)
 {

@@ -199,16 +199,16 @@
                                         <h5 class="card-title mb-4">Dados de login</h5>
                                         <div class="form-group">
                                             <label class="form-label" for="username">Usuario: *</label>
-                                            <input name="login" id="username" type="text" class="form-control" placeholder="Seu usuario..." required>
+                                            <input name="login" id="username" autocomplete="nope" type="text" class="form-control" placeholder="Seu usuario..." required>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="password">Senha: *</label>
-                                            <input name="senha" id="password" type="password" class="form-control" placeholder="*********************" required>
+                                            <input name="senha" id="password" autocomplete="new-password" type="password" class="form-control" placeholder="*********************" required>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="form-label" for="confirm_password">Confirmar Senha: *</label>
-                                            <input name="confirmar_senha" igual="senha" id="confirm_password" type="password" class="form-control" placeholder="*********************" required>
+                                            <input name="confirmar_senha" autocomplete="confirmpassword" igual="senha" id="confirm_password" type="password" class="form-control" placeholder="*********************" required>
                                         </div>
 
                                         <div class="form-group">
@@ -275,7 +275,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label" for="username">Cidade: *</label>
-                                                <input type="text" id="cidade" name="cidade" class="form-control cep" placeholder="Selecione uma cidade..." aria-describedby="basic-addon2" onblur="pesquisacep(this.value)" required>
+                                                <input type="text" id="cidade" name="cidade" class="form-control cidade" placeholder="Digite sua cidade..." aria-describedby="basic-addon2" required>
                                                 <!-- <select id="cidade" class="form-control selectpicker" name="cidade" data-live-search="true" title="Selecione uma cidade..." data-size="5" required>
                                                 </select> -->
                                             </div>
@@ -313,7 +313,7 @@
                                         <div class="form-row">
                                             <div class="col-md-12">
                                                 <div class="form-check">
-                                                    <input type="checkbox"  class="form-check-input" id="exampleCheck1" required>
+                                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
                                                     <label class="form-check-label" for="exampleCheck1" style="font-size:14px;">Declaro que li e concordo com os <a class="text-primary" href="<?php echo site_url('') ?>">Termos e Condições de Uso</a> da plataforma!</label>
                                                 </div>
                                             </div>
@@ -394,6 +394,7 @@
         </script>
     <?php } ?>
     <script>
+        
         function mascaraCep(obj) {
             var i = 0;
             var v = obj.value;
@@ -430,6 +431,16 @@
 
 
         $(document).ready(function() {
+            <?php
+            $dataFields = $this->session->userdata('dataFields');
+            if (isset($dataFields[0])){
+                foreach ($dataFields as $d) {
+                    echo $d;
+                }
+                $this->session->unset_userdata('dataFields');
+            }
+            
+            ?>
             $('.cep').on('keyup', function() {
                 mascaraCep(this);
             });
@@ -490,86 +501,82 @@
                 $(elemento).parent().parent().find('.fa-spinner').remove();
             }
         }
-
-
-        
-                
     </script>
 
-<script>
-  function limpa_formulário_cep() {
-    //Limpa valores do formulário de cep.
-    document.getElementById('endereco').value=("");
-    document.getElementById('bairro').value=("");
-    document.getElementById('cidade').value=("");
-    document.getElementById('estado').value=("");
-    // document.getElementById('ibge').value=("");
-}
+    <script>
+        function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('endereco').value = ("");
+            document.getElementById('bairro').value = ("");
+            document.getElementById('cidade').value = ("");
+            document.getElementById('estado').value = ("");
+            // document.getElementById('ibge').value=("");
+        }
 
-function meu_callback(conteudo) {
-if (!("erro" in conteudo)) {
-    //Atualiza os campos com os valores.
-    document.getElementById('endereco').value=(conteudo.logradouro);
-    document.getElementById('bairro').value=(conteudo.bairro);
-    document.getElementById('cidade').value=(conteudo.localidade);
-    document.getElementById('estado').value=(conteudo.uf);
-    // document.getElementById('ibge').value=(conteudo.ibge);
-    
-    $('#numero').focus();
-    
-} //end if.
-else {
-    //CEP não Encontrado.
-    limpa_formulário_cep();
-    alert("CEP não encontrado.");
-}
-}
+        function meu_callback(conteudo) {
+            if (!("erro" in conteudo)) {
+                //Atualiza os campos com os valores.
+                document.getElementById('endereco').value = (conteudo.logradouro);
+                document.getElementById('bairro').value = (conteudo.bairro);
+                document.getElementById('cidade').value = (conteudo.localidade);
+                document.getElementById('estado').value = (conteudo.uf);
+                // document.getElementById('ibge').value=(conteudo.ibge);
 
-function pesquisacep(valor) {
+                $('#numero').focus();
 
-//Nova variável "cep" somente com dígitos.
-var cep = valor.replace(/\D/g, '');
+            } //end if.
+            else {
+                //CEP não Encontrado.
+                limpa_formulário_cep();
+                alert("CEP não encontrado.");
+            }
+        }
 
-//Verifica se campo cep possui valor informado.
-if (cep != "") {
+        function pesquisacep(valor) {
 
-    //Expressão regular para validar o CEP.
-    var validacep = /^[0-9]{8}$/;
+            //Nova variável "cep" somente com dígitos.
+            var cep = valor.replace(/\D/g, '');
 
-    //Valida o formato do CEP.
-    if(validacep.test(cep)) {
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
 
-        //Preenche os campos com "..." enquanto consulta webservice.
-        document.getElementById('endereco').value="...";
-        document.getElementById('bairro').value="...";
-        document.getElementById('cidade').value="...";
-        document.getElementById('estado').value="...";
-        // document.getElementById('ibge').value="...";
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
 
-        //Cria um elemento javascript.
-        var script = document.createElement('script');
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
 
-        //Sincroniza com o callback.
-        script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    document.getElementById('endereco').value = "...";
+                    document.getElementById('bairro').value = "...";
+                    document.getElementById('cidade').value = "...";
+                    document.getElementById('estado').value = "...";
+                    // document.getElementById('ibge').value="...";
 
-        //Insere script no documento e carrega o conteúdo.
-        document.body.appendChild(script);
+                    //Cria um elemento javascript.
+                    var script = document.createElement('script');
 
-    } //end if.
-    else {
-        //cep é inválido.
-        limpa_formulário_cep();
-        alert("Formato de CEP inválido.");
-    }
-} //end if.
-else {
-    //cep sem valor, limpa formulário.
-    limpa_formulário_cep();
-}
-};
-</script>
+                    //Sincroniza com o callback.
+                    script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+                    //Insere script no documento e carrega o conteúdo.
+                    document.body.appendChild(script);
+
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
+            }
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 </body>
 

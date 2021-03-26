@@ -126,7 +126,7 @@ class LinkCadastro extends CI_Controller
         redirect($linkpay, 'refresh');
       } else {
         $this->model->remove('aluno_espera', $idnew);
-        redirect('rede/nova_conta?&link=' . $linkIndicador);
+        gera_aviso('erro', 'Falha ao gerar pagamento, possivelmente os dados de email e/ou CPF informados estão incorretos.', 'rede/nova_conta?&link=' . $linkIndicador);
       }
     } else {
       gera_aviso('erro', 'Login já cadastrado em outro usuário!', 'rede/login');

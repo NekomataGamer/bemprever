@@ -36,7 +36,7 @@ class Pagamentos extends CI_Controller
         $arr = $dados[0];
         unset($arr['gerou_pagamento']);
         unset($arr['id']);
-        $id_niveis = buscarNivel(1);
+        $id_niveis = buscarNivelNovo($arr['id_indicador']);
         $plano = $this->model->selecionaBusca('plano_rede', "WHERE id='{$arr['id_plano']}' ");
         unset($arr['id_plano']);
         $arr['tipo'] = 'rede';
@@ -181,5 +181,9 @@ class Pagamentos extends CI_Controller
         if (removeWebhook()){
             echo 'WebHook removido com sucesso!';
         }
+    }
+
+    public function testaNiveis(){
+        echo get_valid_last_root();
     }
 }

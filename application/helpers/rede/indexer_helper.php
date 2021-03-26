@@ -1,4 +1,6 @@
 <?php
+const MAX_REDE = 4;
+
 //RECEBER ULTIMO ALUNO CADASTRADO
 function get_last_user(){
     $CI = &get_instance();
@@ -66,13 +68,13 @@ function get_valid_last($id_niveis, $lengthat=null){
 
     $length = strlen($substr);
     $lC = $substr[$length - 1];
-    if ($length == 1 && $lC == 4){
+    if ($length == 1 && $lC == MAX_REDE){
         return get_valid_last($id_niveis, $lengthat);
     } else {
         for ($i=$length -1; $i>=0; $i--){
             
             $v = intval($substr[$i]);
-            if ($v < 4){
+            if ($v < MAX_REDE){
                 $v++;
                 $string = $substr;
                 $string[$i] = $v;
@@ -87,13 +89,153 @@ function get_valid_last($id_niveis, $lengthat=null){
     return false;
 }
 
+
+function getNewNivel($id_niveis){
+    return $id_niveis . '1';
+}
+
+function getLastChar($string){
+    return $string[strlen($string) - 1];
+}
+
+
+/* RETORNA O NÍVEL A BUSCAR USUÁRIO */
+function checarNivelBusca(){
+    $CI = &get_instance();
+    $nivelAtual = 2;
+
+    $maxI = 3000;
+    $i=0;
+    while(true){
+        $nElementos = MAX_REDE ** ($nivelAtual - 2);
+        $elementos = $CI->db->query("SELECT id_niveis FROM aluno WHERE id_niveis LIKE '%".MAX_REDE."' AND LENGTH(id_niveis) = $nivelAtual ")->num_rows();
+        if ($elementos != $nElementos){
+            return $nivelAtual;
+        }
+        $i++;
+        $nivelAtual++;
+        if ($i>$maxI) break;
+    }
+}
+
+/* PERMUTA OS NÚMEROS PARA RETORNAR OS NÍVEIS COM FINAL 4 */
+function permute(&$arrayNumbers, $indice, $j, $nivelBuscar, $str){
+    if ($indice < $nivelBuscar){
+        $i = $indice - 1;
+        $str[$i] = $j;
+        $arrayNumbers[$str] = $str;
+        $nextIndex = ($indice + 1);
+
+        if ($nextIndex < $nivelBuscar){
+            for ($k=1; $k<=MAX_REDE; $k++){
+                permute($arrayNumbers, $nextIndex, $k, $nivelBuscar, $str);
+            }
+        } else {
+            for ($k=MAX_REDE; $k<=MAX_REDE; $k++){
+                permute($arrayNumbers, $nextIndex, $k, $nivelBuscar, $str);
+            }
+        }
+    } else {
+        $indice -= 1;
+        $str[$indice] = $j;
+        $arrayNumbers[$str] = $str;
+    }
+}
+
+//Busca o próximo cadastro válido partindo da raiz
+function get_valid_last_root(){
+    $CI = &get_instance();
+    $nivelBuscar = checarNivelBusca();
+
+    $str = '';
+    for($i=1; $i<=$nivelBuscar; $i++){
+        $str .= $i == $nivelBuscar ? ''.MAX_REDE : '1';
+    }
+
+    $numeros = [];
+    for ($i=0; $i<$nivelBuscar-1; $i++){
+        if ($i == 0 ){
+            for ($j=MAX_REDE; $j<=MAX_REDE; $j++){
+                $indice = $nivelBuscar - $i;
+                permute($numeros, $indice, $j, $nivelBuscar, $str);
+            }
+        } else {
+            for ($j=1; $j<=MAX_REDE; $j++){
+                $indice = $nivelBuscar - $i;
+                permute($numeros, $indice, $j, $nivelBuscar, $str);
+            }
+        }
+    }
+
+    $stringC = '';
+    foreach($numeros as $n){
+        $user = $CI->db->query("SELECT id_niveis FROM aluno WHERE id_niveis = '{$n}' ")->num_rows();
+        if ($user == 0){
+            $stringC = $n;
+            $found = false;
+            for ($i=1; $i<=MAX_REDE; $i++){
+                $stringC[$nivelBuscar - 1] = $i;
+                $counter = $CI->db->query("SELECT id_niveis FROM aluno WHERE id_niveis = '{$stringC}' ")->num_rows();
+                if ($counter == 0){
+                    $found = true;
+                    break;
+                }
+            }
+            if ($found) break;
+        }
+    }
+    return $stringC;
+}
+
+//Busca o próximo cadastro válido do id_niveis de rede atual, caso todos os 4 primeiros ja estejam preenchidos, retorna false
+function get_valid_last_rel($id_niveis){
+    $lengthat = strlen($id_niveis);
+    $lC = $id_niveis[$lengthat - 1];
+    $lC = intval($lC);
+
+    if ($lC >= MAX_REDE) return false;
+
+    $c = $lC + 1;
+    $substr = substr($id_niveis, 0, -1);
+    return $substr . $c;
+}
+
 //Busca o próximo nível do usuário a ser cadastrado baseado no ID de usuário
-function buscarNivel($id_usuario){
+function buscarNivel($id_usuario, $maxLength){
     $CI = &get_instance();
     $user = $CI->model->selecionaBusca('aluno', "WHERE id='{$id_usuario}' ");
     if (!$user) return false;
 
     return get_valid_last($user[0]['id_niveis']);
+}
+
+# ==================================================================================================================
+#
+#
+//busca o próximo lugar disponível abaixo do usuário e, caso ele não exista, busca o lugar em relação à raiz forçado
+function buscarNivelNovo($id_usuario){
+    $CI = &get_instance();
+    $user = $CI->model->selecionaBusca('aluno', "WHERE id='{$id_usuario}' ");
+    if (!$user) return false;
+
+    $ultimoUserCadastrado = get_last_user_rel($user[0]['id_niveis']);
+
+    //caso o usuário não tenha nada no seu primeiro nível
+    if ($ultimoUserCadastrado[0]['id'] == $user[0]['id']) return $user[0]['id_niveis'].'1';
+
+    
+    $requiredLength = strlen($user[0]['id_niveis']) + 1; //o length de id_niveis deve ser a length inicial + 1; apenas 1 nível abaixo!
+    if (    $ultimoUserCadastrado 
+            && strlen($ultimoUserCadastrado[0]['id_niveis']) == $requiredLength    ){
+
+        $lastValid = get_valid_last_rel($ultimoUserCadastrado[0]['id_niveis']); //busca o próximo id disponível no nível 1, caso ache o user
+        #é retornado false caso este ja seja o último user do nível 1
+        
+        if ($lastValid) return $lastValid;
+    } 
+
+    #caso todo o primeiro nível esteja preenchido, busca pela raiz o próximo disponível na rede
+    return get_valid_last_root();
 }
 
 

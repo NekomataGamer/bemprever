@@ -125,6 +125,7 @@ class LinkCadastro extends CI_Controller
 
       $linkpay = gerarPagamentoJuno($idnew, $valPagamento, $plano[0]['nome'], $dateNow->format('Y-m-d'), $aluno[0], 'cadastro');
       if ($linkpay) {
+        $this->session->unset_userdata('dataFields');
         $gerado = ['gerou_pagamento' => 1];
         $this->model->update('aluno_espera', $gerado, $idnew);
         redirect($linkpay, 'refresh');

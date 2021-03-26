@@ -50,11 +50,13 @@ function doUpload($field, $args=[]){
   } else {
     $error = array('error' => $CI->upload->display_errors());
 
-    $mensagem = "Erro no envio de arquivos";
-    if (isset($error['error']) && !empty($error['error'])){
-      $mensagem .= "<br/>campo: ".$field.'<br/>'.$error['error'];
+    if (strpos($error['error'], "You did not select a file to upload") === false){
+      $mensagem = "Erro no envio de arquivos";
+      if (isset($error['error']) && !empty($error['error'])){
+        $mensagem .= "<br/>campo: ".$field.'<br/>'.$error['error'];
+      }
+      throwError($mensagem);
     }
-    throwError($mensagem);
     return 1;
   }
 }

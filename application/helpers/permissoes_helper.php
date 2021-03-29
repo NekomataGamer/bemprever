@@ -319,8 +319,6 @@ function getMenuAdminFields()
             'f' => 10,
             'a' => 'listar',
             'c' => [
-                'listar',
-                'listar',
                 'listar'
             ]
         ]
@@ -642,20 +640,6 @@ function geraMenu($modMenu, $id_field, $permissoes_requeridas, $permissoes_subme
                     $submenu .= '<li class="sidebar-menu-item">
                             <a class="sidebar-menu-button" href="' . site_url('admin/faq/rede') . '">
                                 <span class="sidebar-menu-text">Rede</span>
-                            </a>
-                        </li>';
-                }
-                if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[1]])) {
-                    $submenu .= '<li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="' . site_url('admin/faq/professor') . '">
-                                <span class="sidebar-menu-text">Professores</span>
-                            </a>
-                        </li>';
-                }
-                if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[2]])) {
-                    $submenu .= '<li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="' . site_url('admin/faq/ead') . '">
-                                <span class="sidebar-menu-text">EAD</span>
                             </a>
                         </li>';
                 }

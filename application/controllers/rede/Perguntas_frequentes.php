@@ -17,8 +17,9 @@ class Perguntas_frequentes extends CI_Controller {
         ->fetch('array');
 
         $this->load->view('comuns/faq', [
-            'tipo' => "rede",
-            'faq' => $faq
+            'title' => "Perguntas Frequentes",
+            'tipo'  => "rede",
+            'faq'   => $faq
         ]);
     }
 }

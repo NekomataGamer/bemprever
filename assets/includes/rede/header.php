@@ -172,22 +172,6 @@ License: You must have a valid license purchased only from themeforest(the above
 												<span class="menu-text">Home</span>
 												<i class="menu-arrow"></i>
 											</a>
-											<!-- <div class="menu-submenu menu-submenu-classic menu-submenu-left">
-													<ul class="menu-subnav">
-														<li class="menu-item menu-item-active" aria-haspopup="true">
-															<a href="index.html" class="menu-link">
-																<span class="menu-text">Latest Updated</span>
-																<span class="menu-desc"></span>
-															</a>
-														</li>
-														<li class="menu-item" aria-haspopup="true">
-															<a target="_slef" href="https://preview.keenthemes.com/metronic/demo2/builder.html" class="menu-link">
-																<span class="menu-text">Layout Builder</span>
-																<span class="menu-desc"></span>
-															</a>
-														</li>
-													</ul>
-												</div> -->
 										</li>
 										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
@@ -378,6 +362,12 @@ License: You must have a valid license purchased only from themeforest(the above
 											</div>
 										</li>
 
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
+											<a href="<?php echo site_url('rede/perguntas_frequentes'); ?>" class="menu-link">
+												<span class="menu-text">FAQ</span>
+												<i class="menu-arrow"></i>
+											</a>
+										</li>
 									</ul>
 									<!--end::Header Nav-->
 								</div>
@@ -455,8 +445,10 @@ License: You must have a valid license purchased only from themeforest(the above
 										<a href="" class="text-dark text-hover-dark opacity-75 hover-opacity-100"><?php echo (isset($title) ? $title : '---'); ?></a>
 										<!--end::Item-->
 										<!--begin::Item-->
+										<?php if (isset($subTitle)) : ?>
 										<span class="label label-dot label-sm bg-dark opacity-75 mx-3">bbbbadfg</span>
-										<a href="" class="text-dark text-hover-dark opacity-75 hover-opacity-100"><?php echo (isset($subTitle) ? $subTitle : '---'); ?></a>
+										<a href="" class="text-dark text-hover-dark opacity-75 hover-opacity-100"><?php echo $subTitle; ?></a>
+										<?php endif; ?>
 										<!--end::Item-->
 									</div>
 									<!--end::Breadcrumb-->

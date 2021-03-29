@@ -13,6 +13,8 @@ class Assinatura extends CI_Controller {
   }
 
   public function detalhes() {
+    $data['title'] = 'Assinatura';
+    $data['subTitle'] = 'Detalhes';
     $data['assinatura'] = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='".$this->session->userdata('id')."' ");
     if (!$data['assinatura']) gera_aviso('erro', 'Assinatura não encontrada.', 'rede/index');
 

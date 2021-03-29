@@ -16,6 +16,16 @@ function getAssinatura($id_aluno){
     return null;
 }
 
+function getById($id_aluno){
+    $CI = &get_instance();
+    $aluno = $CI->model->selecionaBusca('aluno', "WHERE `id`='{$id_aluno}' ");
+    if ($aluno){
+        return $aluno[0];
+    }
+
+    return null;
+}
+
 //PEGA FATURAS DO USUÁRIO
 function getFaturas($id_aluno, $tipo='', $vencidas=true){
     $CI = &get_instance();

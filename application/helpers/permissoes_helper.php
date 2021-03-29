@@ -299,15 +299,13 @@ function getMenuAdminFields()
                 'listar'
             ]
         ],
-        [ #MENU 10 - SERVIÇOS
-            'f' => 8,
-            'a' => 'listar',
+        [ #MENU 10 - FATURAS
+            'f' => 6, #FUNÇÃO => REDE
+            'a' => 'visualizar', #PERMISSÃO BASE => VISUALIZAR
             'c' => [
-                'cadastro',
-                'cadastro',
-                'listar',
-                'listar',
-                'cadastro'
+                'administrar', #dar baixa em faturas
+                'visualizar', #faturas em aberto
+                'visualizar' #faturas pagas
             ]
         ],
         [ #MENU 11 - SENHA MESTRE
@@ -593,42 +591,28 @@ function geraMenu($modMenu, $id_field, $permissoes_requeridas, $permissoes_subme
             ||  isset($permissoes_submenus[$id_field][$permissoes_requeridas[2]])
             ||  isset($permissoes_submenus[$id_field][$permissoes_requeridas[3]])
             ||  isset($permissoes_submenus[$id_field][$permissoes_requeridas[4]])
-            ) :
+            ||  isset($permissoes_submenus[$id_field][$permissoes_requeridas[5]])):
                 $title = '<span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment_ind</span>
-                    Serviços
+                    Faturas
                     <span class="ml-auto sidebar-menu-toggle-icon"></span>';
+                if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[2]])) {
+                    $submenu .= '<li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="' . site_url('admin/faturas/dar_baixa') . '">
+                                <span class="sidebar-menu-text">Dar baixa</span>
+                            </a>
+                        </li>';
+                }
                 if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[0]])) {
                     $submenu .= '<li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="' . site_url('admin/fornecedores/cadastrar') . '">
-                                <span class="sidebar-menu-text">Cadastrar Fornecedor</span>
+                            <a class="sidebar-menu-button" href="' . site_url('admin/faturas/abertas') . '">
+                                <span class="sidebar-menu-text">Abertas</span>
                             </a>
                         </li>';
                 }
                 if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[1]])) {
                     $submenu .= '<li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="' . site_url('admin/servicos/cadastrar') . '">
-                                <span class="sidebar-menu-text">Cadastrar Serviço</span>
-                            </a>
-                        </li>';
-                }
-                if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[2]])) {
-                    $submenu .= '<li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="' . site_url('admin/fornecedores') . '">
-                                <span class="sidebar-menu-text">Listar Fornecedores</span>
-                            </a>
-                        </li>';
-                }
-                if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[3]])) {
-                    $submenu .= '<li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="' . site_url('admin/servicos') . '">
-                                <span class="sidebar-menu-text">Listar Serviços</span>
-                            </a>
-                        </li>';
-                }
-                if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[4]])) {
-                    $submenu .= '<li class="sidebar-menu-item">
-                            <a class="sidebar-menu-button" href="' . site_url('admin/fornecedores/cadastrarContrato') . '">
-                                <span class="sidebar-menu-text">Contratos</span>
+                            <a class="sidebar-menu-button" href="' . site_url('admin/faturas/pagas') . '">
+                                <span class="sidebar-menu-text">Pagas</span>
                             </a>
                         </li>';
                 }

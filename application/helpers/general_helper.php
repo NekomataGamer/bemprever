@@ -188,6 +188,17 @@ function formataDataBL($dt){
     return $news[2].'/'.$news[1].'/'.$news[0];
 }
 
+function formataDataBrSemTime($dt){
+    if (strpos($dt, ' ') !== false){
+        $obj = explode(' ', $dt);
+        $news = explode('-', $obj[0]);
+        return $news[2].'/'.$news[1].'/'.$news[0];
+    }
+
+    $news = explode('-', $dt);
+    return $news[2].'/'.$news[1].'/'.$news[0];
+}
+
 function formataDataInsert($dt){
     if (strpos($dt, ' ') !== false){
         $obj = explode(' ', $dt);
@@ -481,9 +492,20 @@ function checkRemoteFile($url)
     }
 }
 
+function truncateText($text, $maxlength){
+    $nlength = strlen($text);
+    
+    if ($nlength > $maxlength) return substr($text, 0, $maxlength - 3).'...';
+
+    return $text;
+}
+
+
 function getImgPerf($imagem)
 {
+    if (!isset($imagem) || empty($imagem)) return site_url('assets/imagens/padrao.jpg');
     $img = returnPath($imagem);
+
     if (!checkRemoteFile($img)){
         $img = site_url('uploads/'.$imagem);
         if (!checkRemoteFile($img)){

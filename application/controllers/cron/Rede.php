@@ -131,7 +131,8 @@ class Rede extends CI_Controller
     protected function verifyVencida($fatura)
     {
         $fatura = isset($fatura[0]['id']) ? $fatura[0] : $fatura;
-        if (!$fatura) return true;
+        if (!$fatura || $fatura['paga'] == 1) return true;
+
         $config = $this->getConfig();
         $dateVenc = addDataDias($config['tempo_desativar_usuario'], $fatura['vencimento']);
         if ($dateVenc < date('Y-m-d H:i:s')) {
@@ -146,14 +147,26 @@ class Rede extends CI_Controller
     {
         $fatura = isset($fatura[0]['id']) ? $fatura[0] : $fatura;
         $aluno = isset($aluno[0]['id']) ? $aluno[0] : $aluno;
+
+        
         if ($fatura) {
             if ($this->verifyVencida($fatura)) {
-                return addDataMeses(1, $fatura['vencimento']);
+                return addDataMeses(1, $fatura['pagamento']);
             } else {
                 return false;
             }
         }
         return addDataMeses(1, $aluno['criado_em']);
+    }
+
+
+    private function alteraDataAssinaturas($inicio){
+        $assinaturas = $this->model->selecionaBusca('assinaturas_rede', "WHERE data_pagamento_inicial != '{$inicio}' ");
+        foreach($assinaturas as $ass){
+            $this->model->update('assinaturas_rede', [
+                'data_pagamento_inicial' => $inicio
+            ], $ass['id']);
+        }
     }
 
     //Gera faturas mensais pros usuários
@@ -163,24 +176,69 @@ class Rede extends CI_Controller
     public function cronFaturas()
     {
         $config = $this->getConfig();
-        $alunos = $this->model->selecionaBusca('aluno', "");
+
+        $data = date('Y-m-d');
+        if ($data != '2021-04-01'){
+            $newInicio = '2021-04-01 00:01:00';
+            $this->alteraDataAssinaturas($newInicio);
+        }
+
+        $alunos = $this->model->selecionaBusca('aluno', "WHERE ativo = 1");
 
         $descricao = '';
         foreach ($alunos as $aln) {
             $lastFatura = $this->getLastFatura($aln['id']);
-            $nextVencimento = $this->checkerFatura($lastFatura, $aln);
-            if ($nextVencimento) {
-                $minVencimento = addDataDias($config['dias_gerar_fatura'], date('Y-m-d 23:59:59'));
-                if ($nextVencimento <= $minVencimento) {
-                    $plano = $this->buscarPlanoAluno($aln['id']);
-                    $refer = retornaDataArray($nextVencimento, false, true);
+            
+            if ($lastFatura) {
+                
+                //caso exista a última fatura -> (não é o primeiro pagameno)
+                //caso exista a última fatura não é gerada 1 nova até q ela seja paga
+                $nextVencimento = $this->checkerFatura($lastFatura, $aln);
+                
+                if ($nextVencimento) {
+                    $minVencimento = addDataDias($config['dias_gerar_fatura'], date('Y-m-d 23:59:59'));
+                    
+                    if ($nextVencimento <= $minVencimento) {
+                        $plano = $this->buscarPlanoAluno($aln['id']);
+                        $refer = retornaDataArray($nextVencimento, false, true);
 
+                        $novaFatura = [
+                            'id_aluno' => $aln['id'],
+                            'id_plano' => $plano['id'],
+                            'id_assinatura' => $plano['id_assinatura'],
+                            'valor' => $plano['valor'],
+                            'vencimento' => $nextVencimento,
+                            'custom' => "Fatura mensal do plano " . $plano['nome'],
+                            'nome_plano' => $plano['nome'],
+                            'referencia' => $refer['mes'] . ' / ' . $refer['ano']
+                        ];
+                        $descricao .= $descricao == '' ? '' : '\r\n\r\n';
+                        $descricao .= 'Fatura gerada para o aluno ' . $aln['login'] . ' - valor: ' . $plano['valor'] . ', plano: ' . $plano['nome'];
+                        $this->model->insere('faturas', $novaFatura);
+                    }
+                }
+            } else {
+                //caso não exista a última fatura ainda do aluno (GERAR COM VENCIMENTO PARA 3 MESES, 1 SEMANA ANTES)
+                //A FATURA É GERADA N DIAS ANTES DO SEU VENCIMENTO, SENDO N = CONFIG => DIAS_GERAR_FATURA
+                $assinatura = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$aln['id']}' ");
+
+                if (!$assinatura || !isset($assinatura[0]['data_pagamento_inicial']) || isset($assinatura[0]['data_ultimo_pagamento'])) continue;
+
+                $assAluno = $assinatura[0]['data_pagamento_inicial'];
+
+                $dataAssAluno = $assAluno;
+                $dataAssAlunoMaisTresMeses = addDataMeses(3, $dataAssAluno);
+                $hoje = date('Y-m-d H:i:s');
+                $hojePlusGeracao = addDataDias($config['dias_gerar_fatura'], $hoje);
+                if ($hojePlusGeracao >= $dataAssAlunoMaisTresMeses) {
+                    $plano = $this->buscarPlanoAluno($aln['id']);
+                    $refer = retornaDataArray($dataAssAlunoMaisTresMeses, false, true);
                     $novaFatura = [
                         'id_aluno' => $aln['id'],
                         'id_plano' => $plano['id'],
                         'id_assinatura' => $plano['id_assinatura'],
                         'valor' => $plano['valor'],
-                        'vencimento' => $nextVencimento,
+                        'vencimento' => $dataAssAlunoMaisTresMeses,
                         'custom' => "Fatura mensal do plano " . $plano['nome'],
                         'nome_plano' => $plano['nome'],
                         'referencia' => $refer['mes'] . ' / ' . $refer['ano']
@@ -224,7 +282,7 @@ class Rede extends CI_Controller
         $planoUsuarioInicio = $this->buscarPlanoAluno($atual['id']);
 
         if (!$planoUsuarioInicio || $planoUsuarioInicio['estado'] != 'ativo') return false; #usuário não tem plano ativo e não gera residual.
-        
+
         #echo '<br/>buscando usuarios';
         $searcherID = $atual['id_niveis'];
         for ($i = 0; $i < 7; $i++) {
@@ -239,7 +297,7 @@ class Rede extends CI_Controller
 
                 if (!$atual) return true; #caso o usuário não exista, retorna da função
 
-                
+
 
                 $atual = $atual[0]; #formatação da array
 
@@ -295,26 +353,27 @@ class Rede extends CI_Controller
         return true;
     }
 
-    function getDataAssAluno($id_aluno){
+    function getDataAssAluno($id_aluno)
+    {
         $assinatura = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$id_aluno}' ");
         if (!$assinatura) return null;
 
         $gResidual = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assinatura[0]['id']}' ");
-        if ($gResidual){
+        if ($gResidual) {
             $prevResidual = $gResidual[0]['data_ganho'];
-            if (isset($assinatura[0]['data_ultimo_pagamento'])){
+            if (isset($assinatura[0]['data_ultimo_pagamento'])) {
 
                 return $assinatura[0]['data_ultimo_pagamento'] > $prevResidual ? [
-                    'data' => $assinatura[0]['data_ultimo_pagamento'], 
+                    'data' => $assinatura[0]['data_ultimo_pagamento'],
                     'id' => $assinatura[0]['id']
                 ] : null;
             }
             return null;
         }
 
-        if (isset($assinatura[0]['data_ultimo_pagamento'])){
+        if (isset($assinatura[0]['data_ultimo_pagamento'])) {
             return [
-                'data' => $assinatura[0]['data_ultimo_pagamento'], 
+                'data' => $assinatura[0]['data_ultimo_pagamento'],
                 'id' => $assinatura[0]['id']
             ];
         }
@@ -343,19 +402,17 @@ class Rede extends CI_Controller
             if (!$efetivo) {
                 if ($tipo == 'residual') {
                     $this->entrarGanhoResidual($aln); //entrada de ganho residual caso o tipo seja esse
-                } /* else if ($tipo == 'carreira'){
-                    $this->entrarGanhoCarreira($aln); //NÃO EXISTE GANHO CARREIRA
-                } */
+                }
             } else {
                 $config = $this->getConfig();
-                $assAluno = $this->getDataAssAluno($aln['id'], $funcData, $t);
-                
-                
-                if (isset($assAluno)){
+                $assAluno = $this->getDataAssAluno($aln['id']);
+
+
+                if (isset($assAluno)) {
                     $dataAssAluno = $assAluno['data'];
 
                     $dataX = retornaDataArray($dataAssAluno);
-                    if ($config['dia_' . $tipo] > 0){
+                    if ($config['dia_' . $tipo] > 0) {
                         $dataX = retornaDataArray(addDataDias($config['dia_' . $tipo], $dataAssAluno));
                     }
                     $checkerData = $dataX['ano'] . '-' . $dataX['mes'] . '-' . $dataX['dia'];
@@ -367,7 +424,7 @@ class Rede extends CI_Controller
 
                             $temGanho = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assAluno['id']}' ");
 
-                            if ($temGanho){
+                            if ($temGanho) {
                                 $this->model->update('gResidual', [
                                     'id_ass'     => $assAluno['id']
                                 ], $temGanho[0]['id']);

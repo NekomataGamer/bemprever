@@ -184,9 +184,6 @@ function checkIfPayment($result)
 function checkIfPaymentRemove($result, $config)
 {
     if (isset($result->_embedded->webhooks[0]->id)) {
-        echo '<pre>';
-        print_r($result);
-        echo '</pre>';
         foreach ($result->_embedded->webhooks as $hook) {
             foreach ($hook->eventTypes as $event) {
                 if ($event->name == "PAYMENT_NOTIFICATION") {
@@ -296,7 +293,9 @@ function geraCobranca($config, $id, $value, $description, $vencimento, $comprado
 {
     $authToken = getToken();
     $token = getResourceToken($config);
+    
     if ($token) {
+        $vencimento = $vencimento <= date('Y-m-d H:i:s') ? date('Y-m-d').' 23:59:59' : $vencimento;
         $charge = [
             'description' => $description,
             'amount' => floatval($value),
@@ -331,7 +330,6 @@ function geraCobranca($config, $id, $value, $description, $vencimento, $comprado
             "Authorization: Bearer {$authToken}"
         ]);
         $result = curl_exec($ch);
-
 
         $result = json_decode($result);
         return verifyCobranca($result);

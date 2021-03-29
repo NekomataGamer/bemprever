@@ -13,12 +13,16 @@ class Faturas extends CI_Controller {
   }
 
   public function abertas() {
+    $data['title'] = 'Faturas';
+    $data['subTitle'] = 'Abertas';
     $data['faturas'] = getFaturas($this->session->userdata('id'), 0);
 
     $this->load->view('rede/faturas/abertas', $data);
   }
 
   public function pagas() {
+    $data['title'] = 'Faturas';
+    $data['subTitle'] = 'Pagas';
     $data['faturas'] = getFaturas($this->session->userdata('id'), 1);
 
     $this->load->view('rede/faturas/pagas', $data);
@@ -55,6 +59,6 @@ class Faturas extends CI_Controller {
         die();
     }
 
-    redirect('rede/faturas/abertas');
+    gera_aviso('erro', 'Falha ao gerar pagamento, contate a administração.', 'rede/faturas/abertas');
   }
 }

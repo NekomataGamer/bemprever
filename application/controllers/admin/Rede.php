@@ -147,7 +147,9 @@ class Rede extends CI_Controller
 
       $planoUser = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$indicador}' AND status='ativo' ");
 
-      if (!$planoUser) return false; #usuário não tem plano, não recebe indicação
+      $aluno = $this->model->selecionaBusca('aluno', "WHERE id='{$indicador}' AND bloqueado='0' ");
+
+      if (!$planoUser || !$aluno) return false; #usuário não tem plano ou está bloqueado! Não recebe indicação
 
       return addSaldo($indicador, $valorIndicacao, $planoUser[0]['id'], 'indicacao');
     }

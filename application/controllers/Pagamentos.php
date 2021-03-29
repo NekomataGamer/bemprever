@@ -21,7 +21,9 @@ class Pagamentos extends CI_Controller
 
             $planoUser = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$indicador}' AND status='ativo' ");
 
-            if (!$planoUser) return false; #usuário não tem plano, não recebe indicação
+            $aluno = $this->model->selecionaBusca('aluno', "WHERE id='{$indicador}' AND bloqueado='0' ");
+
+            if (!$planoUser || !$aluno) return false; #usuário não tem plano ou está bloqueado! Não recebe indicação
 
             return addSaldo($indicador, $valorIndicacao, $planoUser[0]['id'], 'indicacao');
         }
@@ -76,10 +78,17 @@ class Pagamentos extends CI_Controller
 
         if (!$ass) return false;
 
-
-        $nvarr = ['pagamento' => date('Y-m-d H:i:s'), 'paga' => 1, 'custom' => $id_ipn];
+        $data_pagamento = date('Y-m-d H:i:s');
+        $nvarr = [
+            'pagamento' => $data_pagamento, 
+            'paga' => 1, 
+            'custom' => $id_ipn
+        ];
         $valpaid = $ass[0]['pago'] + $dados[0]['valor'];
-        $nvarr2 = ['pago' => $valpaid];
+        $nvarr2 = [
+            'pago' => $valpaid,
+            'data_ultimo_pagamento' => $data_pagamento
+        ];
         if ($this->model->update('faturas', $nvarr, $id)) {
             $this->model->update("assinaturas_rede", $nvarr2, $ass[0]['id']);
 
@@ -185,5 +194,20 @@ class Pagamentos extends CI_Controller
 
     public function testaNiveis(){
         echo get_valid_last_root();
+    }
+
+    public function pagarContaAluno($id){
+        if ($this->session->userdata('nivel_adm') == 1){
+            if (!buscaPermissao('rede', 'administrar')) {
+                gera_aviso('erro', 'Ação não permitida!', 'admin/index');
+                exit;
+            }
+
+            $this->pagarFatura(99999999, $id);
+            gera_aviso('sucesso', 'Fatura paga com sucesso!', 'admin/faturas/dar_baixa');
+            
+        } else {
+            gera_aviso('erro', 'Ação não permitida.', 'rede/index');
+        }
     }
 }

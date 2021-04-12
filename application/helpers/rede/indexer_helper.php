@@ -23,6 +23,18 @@ function get_last_user_relative($id){
     return array();
 }
 
+
+//RECEBER ULTIMO ALUNO CADASTRADO EM RELAÇÃO A UM ID DE ALUNO UM NÍVEL ABAIXO
+function get_last_user_relative_one_level($id){
+    $CI = &get_instance();
+    $aluno = $CI->model->selecionaBusca('aluno', "WHERE id='{$id}' ");
+    if ($aluno) {
+        $lengthat = strlen($aluno[0]['id_niveis']) + 1;
+        return $CI->model->selecionaBusca('aluno', "WHERE id_niveis LIKE '{$aluno[0]['id_niveis']}%' AND LENGTH(id_niveis) = {$lengthat} ORDER BY id_niveis DESC LIMIT 1");
+    }
+    return array();
+}
+
 //RECEBER ULTIMO ID DE REDE CADASTRADO EM RELAÇÃO A UM ID DE ALUNO
 function get_last_user_id_relative($id){
     $CI = &get_instance();
@@ -218,15 +230,14 @@ function buscarNivelNovo($id_usuario){
     $user = $CI->model->selecionaBusca('aluno', "WHERE id='{$id_usuario}' ");
     if (!$user) return false;
 
-    $ultimoUserCadastrado = get_last_user_rel($user[0]['id_niveis']);
+    $ultimoUserCadastrado = get_last_user_relative_one_level($user[0]['id']);
 
     //caso o usuário não tenha nada no seu primeiro nível
-    if ($ultimoUserCadastrado[0]['id'] == $user[0]['id']) return $user[0]['id_niveis'].'1';
+    if (!$ultimoUserCadastrado) return $user[0]['id_niveis'].'1';
 
     
-    $requiredLength = strlen($user[0]['id_niveis']) + 1; //o length de id_niveis deve ser a length inicial + 1; apenas 1 nível abaixo!
-    if (    $ultimoUserCadastrado 
-            && strlen($ultimoUserCadastrado[0]['id_niveis']) == $requiredLength    ){
+    $lastIndex = strlen($ultimoUserCadastrado[0]['id_niveis']) - 1; //último índice da string idniveis do usuário
+    if (    $ultimoUserCadastrado[0]['id_niveis'][$lastIndex] !== 4    ){
 
         $lastValid = get_valid_last_rel($ultimoUserCadastrado[0]['id_niveis']); //busca o próximo id disponível no nível 1, caso ache o user
         #é retornado false caso este ja seja o último user do nível 1

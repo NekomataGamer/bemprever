@@ -314,7 +314,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
-                                                    <label class="form-check-label" for="exampleCheck1" style="font-size:14px;">Declaro que li e concordo com os <a class="text-primary" href="<?php echo site_url('') ?>">Termos e Condições de Uso</a> da plataforma!</label>
+                                                    <label class="form-check-label" for="exampleCheck1" style="font-size:14px;">Declaro que li e concordo com os <a class="text-primary" href="<?php echo site_url('termos_e_condicoes_de_uso'); ?>" target="_blank">Termos e Condições de Uso</a> da plataforma!</label>
                                                 </div>
                                             </div>
                                         </div>

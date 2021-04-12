@@ -237,7 +237,7 @@ function buscarNivelNovo($id_usuario){
 
     
     $lastIndex = strlen($ultimoUserCadastrado[0]['id_niveis']) - 1; //último índice da string idniveis do usuário
-    if (    $ultimoUserCadastrado[0]['id_niveis'][$lastIndex] !== 4    ){
+    if (    $ultimoUserCadastrado[0]['id_niveis'][$lastIndex] != 4    ){
 
         $lastValid = get_valid_last_rel($ultimoUserCadastrado[0]['id_niveis']); //busca o próximo id disponível no nível 1, caso ache o user
         #é retornado false caso este ja seja o último user do nível 1

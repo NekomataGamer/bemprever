@@ -25,13 +25,12 @@ function get_last_user_relative($id){
 
 
 //RECEBER ULTIMO ALUNO CADASTRADO EM RELAÇÃO A UM ID DE ALUNO UM NÍVEL ABAIXO
-function get_last_user_relative_one_level($id){
+function get_last_user_relative_one_level($id_niveis){
     $CI = &get_instance();
-    $aluno = $CI->model->selecionaBusca('aluno', "WHERE id='{$id}' ");
-    if ($aluno) {
-        $lengthat = strlen($aluno[0]['id_niveis']) + 1;
-        return $CI->model->selecionaBusca('aluno', "WHERE id_niveis LIKE '{$aluno[0]['id_niveis']}%' AND LENGTH(id_niveis) = {$lengthat} ORDER BY id_niveis DESC LIMIT 1");
-    }
+
+    $lengthat = strlen($id_niveis) + 1;
+    return $CI->model->selecionaBusca('aluno', "WHERE id_niveis LIKE '{$id_niveis}%' AND LENGTH(id_niveis) = {$lengthat} ORDER BY id_niveis DESC LIMIT 1");
+
     return array();
 }
 
@@ -230,7 +229,7 @@ function buscarNivelNovo($id_usuario){
     $user = $CI->model->selecionaBusca('aluno', "WHERE id='{$id_usuario}' ");
     if (!$user) return false;
 
-    $ultimoUserCadastrado = get_last_user_relative_one_level($user[0]['id']);
+    $ultimoUserCadastrado = get_last_user_relative_one_level($user[0]['id_niveis']);
 
     //caso o usuário não tenha nada no seu primeiro nível
     if (!$ultimoUserCadastrado) return $user[0]['id_niveis'].'1';
@@ -239,11 +238,12 @@ function buscarNivelNovo($id_usuario){
     $lastIndex = strlen($ultimoUserCadastrado[0]['id_niveis']) - 1; //último índice da string idniveis do usuário
     if (    $ultimoUserCadastrado[0]['id_niveis'][$lastIndex] != 4    ){
 
-        $lastValid = get_valid_last_rel($ultimoUserCadastrado[0]['id_niveis']); //busca o próximo id disponível no nível 1, caso ache o user
-        #é retornado false caso este ja seja o último user do nível 1
+        $lastValid = get_valid_last_rel($ultimoUserCadastrado[0]['id_niveis']); //busca o próximo id disponível no nível 1
         
-        if ($lastValid) return $lastValid;
-    } 
+        if (!$lastValid) throw new Exception('Falha ao encontrar níveis de usuário!'); #se retornar false, algo de errado ocorreu
+        
+        return $lastValid; 
+    }
 
     #caso todo o primeiro nível esteja preenchido, busca pela raiz o próximo disponível na rede
     return get_valid_last_root();

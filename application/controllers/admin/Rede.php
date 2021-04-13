@@ -189,6 +189,29 @@ class Rede extends CI_Controller
     }
     return false;
   }
+  
+  //REMOVE ALUNO DA LISTA DE ESPERA
+  
+  protected function removeAlunoEspera($id)
+  {
+      
+      return $this->model->remove('aluno_espera', $id);
+      
+  }
+  
+  public function desativar_rede($id)
+  {
+    if (!buscaPermissao('rede', 'administrar')) {
+      gera_aviso('erro', 'Ação não permitida!', 'admin/index');
+      exit;
+    }
+    if ($this->removeAlunoEspera($id)) {
+      gera_aviso('success', 'Usuário removido na rede com sucesso', 'admin/rede/ativar_usuarios');
+    }
+
+
+    gera_aviso('erro', 'Usuário não encontrado', 'admin/rede/ativar_usuarios');  
+  }
 
   public function ativar_rede($id)
   {

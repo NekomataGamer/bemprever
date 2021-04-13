@@ -42,6 +42,17 @@
                                                     data-toggle="aviso-modal"
                                                     title="Inserir usuário na rede"
                                                 href="javascript:void(0);"><i class="fa fa-check"></i>&nbsp;Inserir na rede</a>';
+                                                
+                                                $btns2 = '<a class="dropdown-item" 
+                                                href="javascript:void(0);"
+                                                    data-href="' . site_url('admin/rede/desativar_rede/' . $fat['id']) . '"
+                                                    data-titulo="<i class=' . "'fas fa-uncheck'" . '></i> Remover na Rede"
+                                                    data-texto="Deseja realmente remover o usuário <b>' . $fat['login'] . '</b> na rede? <small>O usuário será inserido na rede no próximo lugar disponível!</small>"
+                                                    data-btn="Cancelar"
+                                                    data-btn-acao="Remover usuário"
+                                                    data-toggle="aviso-modal"
+                                                    title="Remover usuário na rede"
+                                                href="javascript:void(0);"><i class="fa fa-check"></i>&nbsp;Remover na rede</a>';
                                             echo '<tr>
                                             <td>
                                                 #' . $fat['id'] . '
@@ -58,7 +69,7 @@
                                             <td>
                                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opções</button>
                                                 <div class="dropdown-menu">
-                                                    ' . $btns . '
+                                                    ' . $btns . $btns2 . ' 
                                                 </div>
                                             </td>
                                         </tr>';

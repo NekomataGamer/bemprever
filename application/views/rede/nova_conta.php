@@ -602,12 +602,16 @@
                 $('.extrang').css('display', 'none');
                 $('.ccpf').css('display', 'block');
                 $('#idid654').removeAttr('required');
+                $('#cpf').attr('name', 'cpf');
+                $('#cxcpf').removeAttr('name');
             }else if(type == 'ex'){
                 // extrang
                 $('.ccpf').css('display', 'none');
                 $('.extrang').css('display', 'block');
                 $('#idid654').attr('required');
                 $('#cpf').removeAttr('required');
+                $('#cpf').removeAttr('name');
+                $('#cxcpf').attr('name', 'cpf');
             }
             
         });

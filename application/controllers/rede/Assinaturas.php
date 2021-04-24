@@ -14,6 +14,7 @@ class Assinaturas extends CI_Controller {
 
   public function detalhes() {
     $data['assinatura'] = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='".$this->session->userdata('id')."' ");
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
     if (!$data['assinatura']) gera_aviso('erro', 'Assinatura não encontrada.', 'rede/index');
 
     $data['plano'] = $this->model->selecionaBusca('plano_rede', "WHERE id='".$data['assinatura'][0]['id']."' ");

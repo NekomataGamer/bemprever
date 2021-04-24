@@ -25,6 +25,7 @@ class Perfil extends CI_Controller
     $data['cidades'] = $this->model->selecionaBusca('cidades', "");
     $data['title'] = 'Meu Perfil';
     $data['subTitle'] = 'Atualizar Dados';
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
     $this->load->view('rede/perfil', $data);
   }
   
@@ -78,5 +79,13 @@ class Perfil extends CI_Controller
     }
 
     gera_aviso('erro', 'Falha ao atualizar o perfil, tente novamente!', 'rede/perfil');
+  }
+  
+  public function minhas_credenciais(){
+        $data['title'] = 'Minhas Credenciais';
+        $data['subTitle'] = 'Credenciais bemprever';
+        $data['cat'] = $this->db->get('servicos_categoria')->result_array();
+        
+        $this->load->view('rede/minhas_credenciais', $data);
   }
 }

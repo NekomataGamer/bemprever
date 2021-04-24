@@ -41,6 +41,37 @@
             </a>
 
             <?php echo getFooterNavbar(); ?>
+            
+            <div class="sidebar-heading">Serviços</div>
+            <ul class="sidebar-menu"><li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#menu201">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">https</span>
+                    Categorias
+                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+                    <ul class="sidebar-submenu collapse sm-indent" id="menu201">
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="<?php echo site_url('admin/categorias/index');?>">
+                                <span class="sidebar-menu-text">Listar</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li><li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#menu200">
+                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">help_outline</span>
+                        P. Credenciados
+                    <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+                    <ul class="sidebar-submenu collapse sm-indent" id="menu200">
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="<?php echo site_url('admin/profissionais/index');?>">
+                                <span class="sidebar-menu-text">Listar</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            
 
         </div>
     </div>

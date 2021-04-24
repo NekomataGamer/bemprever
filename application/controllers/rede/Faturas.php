@@ -16,7 +16,8 @@ class Faturas extends CI_Controller {
     $data['title'] = 'Faturas';
     $data['subTitle'] = 'Abertas';
     $data['faturas'] = getFaturas($this->session->userdata('id'), 0);
-
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
+    
     $this->load->view('rede/faturas/abertas', $data);
   }
 
@@ -24,6 +25,7 @@ class Faturas extends CI_Controller {
     $data['title'] = 'Faturas';
     $data['subTitle'] = 'Pagas';
     $data['faturas'] = getFaturas($this->session->userdata('id'), 1);
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
 
     $this->load->view('rede/faturas/pagas', $data);
   }

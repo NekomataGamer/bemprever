@@ -28,7 +28,8 @@ class LinkCadastro extends CI_Controller
     $planos = $this->model->selecionaBusca('plano_rede', "");
     $estados = $this->model->selecionaBusca('estados', "");
     $config = $this->model->selecionaBusca('configuracoes', "");
-    $this->load->view('rede/nova_conta', ['indicador' => $indicador[0], 'planos' => $planos, 'estados' => $estados, 'config' => $config, 'link' => $link]);
+    
+    $this->load->view('rede/nova_conta', ['indicador' => $indicador[0], 'planos' => $planos, 'estados' => $estados, 'config' => $config, 'link' => $link, 'cat'=>$this->db->get('servicos_categoria')->result_array()]);
   }
 
   public function testeJuno()

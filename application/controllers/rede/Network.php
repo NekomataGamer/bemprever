@@ -31,6 +31,7 @@ class Network extends CI_Controller {
 
     $data['title'] = 'Sua Matriz';
     $data['subTitle'] = 'Rede';
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
 
     $this->load->view('rede/visualizar', $data);
   }
@@ -42,6 +43,7 @@ class Network extends CI_Controller {
 
     $data['title'] = 'Unilevel';
     $data['subTitle'] = 'Rede';
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
 
     $this->load->view('rede/unilevel', $data);
   }
@@ -50,6 +52,7 @@ class Network extends CI_Controller {
   public function meus_diretos() {
     $data['diretos'] = $this->model->selecionaBusca('aluno', "WHERE id_indicador='".$this->session->userdata('id')."' ");
     $data['tables'] = true;
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
     $this->load->view('rede/meus_diretos', $data);
   }
 }

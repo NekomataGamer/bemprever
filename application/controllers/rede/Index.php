@@ -57,6 +57,8 @@ class Index extends CI_Controller {
     $data['faturas'] = getFaturas($this->session->userdata('id'), 0); //rede/user_helper
     $data['title'] = "Backoffice";
     $data['subTitle'] = "Inicial";
+    
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
 
     $data['config'] = $this->model->selecionaBusca('ganho_residual', "");
 

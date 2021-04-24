@@ -40,6 +40,7 @@ class Saques extends CI_Controller
 
     $data['title'] = 'Sacar';
     $data['subTitle'] = 'Solicitar Saque';
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
 
     $this->load->view('rede/saques/pedir', $data);
   }
@@ -141,6 +142,7 @@ class Saques extends CI_Controller
     $data['pedidos'] = $this->model->selecionaBusca('pedido_saque', "WHERE id_aluno='".$this->session->userdata('id')."' 
     AND pago_em >= '".$data_inicial."' 
     AND pago_em <= '".$data_final."' ");
+    $data['cat'] = $this->db->get('servicos_categoria')->result_array();
 
     $this->load->view('rede/saques/relatorio', $data);
   }

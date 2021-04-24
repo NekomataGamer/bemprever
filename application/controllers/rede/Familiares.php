@@ -24,7 +24,7 @@ class Familiares extends CI_Controller
                 $data['dependentes'][$k]['aluno'] = $aluno[0];
             }
         }
-
+        $data['cat'] = $this->db->get('servicos_categoria')->result_array();
         $this->load->view('rede/dependentes/listar', $data);
     }
 

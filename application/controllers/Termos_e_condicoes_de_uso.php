@@ -14,7 +14,7 @@ class Termos_e_condicoes_de_uso extends CI_Controller
     public function index()
     {
         $file = getcwd(). '/assets/termos-de-adesao/termosbemprevervida12042021.pdf';
-        $filename = 'TERMOS DE ADESÃO _ DECLARACAO DE SAÚDE E ANEXOS.pdf'; /* Note: Always use .pdf at the end. */
+        $filename = 'TERMOS DE ADESÃO _ DECLARACAO DE SAÚDE E ANEXOS.pdf';
 
         header('Content-type: application/pdf');
         header('Content-Disposition: inline; filename="' . $filename . '"');

@@ -413,6 +413,13 @@ License: You must have a valid license purchased only from themeforest(the above
 												<i class="menu-arrow"></i>
 											</a>
 										</li>
+
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
+											<a href="<?php echo site_url('apn'); ?>" target="_blank" class="menu-link">
+												<span class="menu-text">APN</span>
+												<i class="menu-arrow"></i>
+											</a>
+										</li>
 									</ul>
 									<!--end::Header Nav-->
 								</div>

@@ -23,6 +23,12 @@
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Email</a>
                                         </th>
                                         <th>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-estado">Estado</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-cidade">Cidade</a>
+                                        </th>
+                                        <th>
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Cadastro</a>
                                         </th>
                                         <th>
@@ -88,6 +94,12 @@
                                             </td>
                                             <td class="js-lists-values-email">
                                                 ' . $fat['email'] . '
+                                            </td>
+                                            <td class="js-lists-values-estado">
+                                                ' . $fat['estado'] . '
+                                            </td>
+                                            <td class="js-lists-values-cidade">
+                                                ' . $fat['cidade'] . '
                                             </td>
                                             <td class="js-lists-values-email">
                                                 ' . formataDataBL($fat['criado_em']) . '

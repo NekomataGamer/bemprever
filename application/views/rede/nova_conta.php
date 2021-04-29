@@ -593,6 +593,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
+    $('#cxcpf').removeAttr('name', 'cpf');
         $('.extrang').css('display', 'none');
         $('#nac').on('change', function(){
             let type = $('#nac').val();

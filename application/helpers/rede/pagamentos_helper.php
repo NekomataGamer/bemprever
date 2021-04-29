@@ -29,7 +29,7 @@ function configJuno($tipo)
         'clientId_sandbox' => '21Gopv6Xbd2DdtyF', //clientID juno SANDBOX
         'clientSecret_sandbox' => 'Q>g@3FGUn#3g+N6IR4FM@i?!Cx9~gk(e', //Secret juno SANDBOX
         'resource_token_sandbox' => 'F7BC4AADD17D656F70A79B41C46ACEF41A66431C0960A9DF97B92EBF07917B43', //token de recursos sandbox
-        'resource_token_producao' => '8897B3DF7700FDCD6E60CC55B8DBB64E0B6D934ABD6144C99F59CBEF0DCC3BB8', //token de recursos produção
+        'resource_token_producao' => '8897B3DF7700FDCD6E60CC55B8DBB64EAE98DC59FB32A9517D94E1410A6AD80A', //token de recursos produção
         'url_sandbox' => "https://sandbox.boletobancario.com", //urlSandbox
         'url_producao' => "https://api.juno.com.br", //urlProducao
         'env' => 'producao'

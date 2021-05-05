@@ -29,7 +29,7 @@
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-cidade">Cidade</a>
                                         </th>
                                         <th>
-                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Cadastro</a>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Telefone</a>
                                         </th>
                                         <th>
                                         </th>
@@ -102,7 +102,7 @@
                                                 ' . $fat['cidade'] . '
                                             </td>
                                             <td class="js-lists-values-email">
-                                                ' . formataDataBL($fat['criado_em']) . '
+                                                ' . formataTel($fat['telefone']) . '
                                             </td>
                                             <td>
                                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opções</button>

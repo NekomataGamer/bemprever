@@ -148,7 +148,7 @@ class Rede extends CI_Controller
         $fatura = isset($fatura[0]['id']) ? $fatura[0] : $fatura;
         $aluno = isset($aluno[0]['id']) ? $aluno[0] : $aluno;
 
-        
+
         if ($fatura) {
             if ($this->verifyVencida($fatura)) {
                 return addDataMeses(1, $fatura['pagamento']);
@@ -160,9 +160,10 @@ class Rede extends CI_Controller
     }
 
 
-    private function alteraDataAssinaturas($inicio){
+    private function alteraDataAssinaturas($inicio)
+    {
         $assinaturas = $this->model->selecionaBusca('assinaturas_rede', "WHERE data_pagamento_inicial != '{$inicio}' ");
-        foreach($assinaturas as $ass){
+        foreach ($assinaturas as $ass) {
             $this->model->update('assinaturas_rede', [
                 'data_pagamento_inicial' => $inicio
             ], $ass['id']);
@@ -178,7 +179,7 @@ class Rede extends CI_Controller
         $config = $this->getConfig();
 
         $data = date('Y-m-d');
-        if ($data != '2021-04-01'){
+        if ($data != '2021-04-01') {
             $newInicio = '2021-04-01 00:01:00';
             $this->alteraDataAssinaturas($newInicio);
         }
@@ -188,16 +189,16 @@ class Rede extends CI_Controller
         $descricao = '';
         foreach ($alunos as $aln) {
             $lastFatura = $this->getLastFatura($aln['id']);
-            
+
             if ($lastFatura) {
-                
+
                 //caso exista a última fatura -> (não é o primeiro pagameno)
                 //caso exista a última fatura não é gerada 1 nova até q ela seja paga
                 $nextVencimento = $this->checkerFatura($lastFatura, $aln);
-                
+
                 if ($nextVencimento) {
                     $minVencimento = addDataDias($config['dias_gerar_fatura'], date('Y-m-d 23:59:59'));
-                    
+
                     if ($nextVencimento <= $minVencimento) {
                         $plano = $this->buscarPlanoAluno($aln['id']);
                         $refer = retornaDataArray($nextVencimento, false, true);
@@ -262,7 +263,7 @@ class Rede extends CI_Controller
 
     ===================================================================================================================================================== */
     //FUNÇÃO DE ENTRADA DE GANHO RESIDUAL DE 1 ALUNO ATÉ 10 NÍVEIS ACIMA.
-    protected function entrarGanhoResidual($aluno)
+    protected function entrarGanhoResidual($aluno, $primeiroMes = false)
     {
         #echo '<br/><hr>ENTRANDO GANHO PELO ALUNO: '.$aluno['login'].'<br/>';
 
@@ -305,7 +306,8 @@ class Rede extends CI_Controller
                 if ($planoUsuario && $planoUsuario['estado'] == 'ativo') {
                     $j = $i + 1;
                     $pctNew = $valoresResidual['n' . $j];
-                    $sum = ($pctNew / 100) * $planoUsuarioInicio['valor'];
+                    $valorPlanoSoma = $primeiroMes ? $planoUsuarioInicio['valor'] * 3 : $planoUsuarioInicio['valor'];
+                    $sum = ($pctNew / 100) * $valorPlanoSoma;
                     if ($sum > 0) {
                         //Caso a soma do residual seja maior que 0, adciona o valor ao usuário
                         addSaldo($atual['id'], $sum, $planoUsuario['id'], 'residual');
@@ -358,12 +360,13 @@ class Rede extends CI_Controller
         $assinatura = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$id_aluno}' ");
         if (!$assinatura) return null;
 
-        $gResidual = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assinatura[0]['id']}' ");
+        $gResidual = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assinatura[0]['id']}' ORDER BY id DESC LIMIT 1");
         if ($gResidual) {
             $prevResidual = $gResidual[0]['data_ganho'];
             if (isset($assinatura[0]['data_ultimo_pagamento'])) {
 
                 return $assinatura[0]['data_ultimo_pagamento'] > $prevResidual ? [
+                    'pgt_inicial' => false,
                     'data' => $assinatura[0]['data_ultimo_pagamento'],
                     'id' => $assinatura[0]['id']
                 ] : null;
@@ -373,11 +376,13 @@ class Rede extends CI_Controller
 
         if (isset($assinatura[0]['data_ultimo_pagamento'])) {
             return [
+                'pgt_inicial' => false,
                 'data' => $assinatura[0]['data_ultimo_pagamento'],
                 'id' => $assinatura[0]['id']
             ];
         }
         return [
+            'pgt_inicial' => true,
             'data' => $assinatura[0]['data_pagamento_inicial'],
             'id' => $assinatura[0]['id']
         ];
@@ -416,11 +421,11 @@ class Rede extends CI_Controller
                         $dataX = retornaDataArray(addDataDias($config['dia_' . $tipo], $dataAssAluno));
                     }
                     $checkerData = $dataX['ano'] . '-' . $dataX['mes'] . '-' . $dataX['dia'];
-
+                    echo '<br>' . $checkerData;
                     //verifica se o dia atual é o numero definido nas configurações a mais que o cadastro do usuário, se for, gera o ganho.
                     if ($checkerData == date('Y-m-d')) {
                         if ($tipo == 'residual') {
-                            $this->entrarGanhoResidual($aln); //entrada de ganho residual caso o tipo seja esse
+                            $this->entrarGanhoResidual($aln, $assAluno['pgt_inicial']); //entrada de ganho residual caso o tipo seja esse
 
                             $temGanho = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assAluno['id']}' ");
 

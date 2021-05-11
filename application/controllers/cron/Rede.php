@@ -162,10 +162,17 @@ class Rede extends CI_Controller
 
     private function alteraDataAssinaturas($inicio)
     {
-        $assinaturas = $this->model->selecionaBusca('assinaturas_rede', "WHERE data_pagamento_inicial != '{$inicio}' ");
+        $assinaturas = $this->model->selecionaBusca('assinaturas_rede', "WHERE criado_em < '{$inicio}' ");
         foreach ($assinaturas as $ass) {
             $this->model->update('assinaturas_rede', [
                 'data_pagamento_inicial' => $inicio
+            ], $ass['id']);
+        }
+
+        $assinaturas2 = $this->model->selecionaBusca('assinaturas_rede', "WHERE criado_em > '{$inicio}' ");
+        foreach ($assinaturas2 as $ass) {
+            $this->model->update('assinaturas_rede', [
+                'data_pagamento_inicial' => $ass['criado_em']
             ], $ass['id']);
         }
     }
@@ -177,7 +184,6 @@ class Rede extends CI_Controller
     public function cronFaturas()
     {
         $config = $this->getConfig();
-
 
         $alunos = $this->model->selecionaBusca('aluno', "WHERE ativo = 1");
 
@@ -498,6 +504,9 @@ class Rede extends CI_Controller
                 $jaVerificado = true;
             }
         } SEMPRE GERA NOVA VERIFICAÇÃO */
+
+        $newInicio = '2021-04-01 00:01:00';
+        $this->alteraDataAssinaturas($newInicio);
 
         if (!$jaVerificado) {
             switch ($config['timer_residual']) {

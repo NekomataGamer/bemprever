@@ -178,11 +178,6 @@ class Rede extends CI_Controller
     {
         $config = $this->getConfig();
 
-        $data = date('Y-m-d');
-        if ($data != '2021-04-01') {
-            $newInicio = '2021-04-01 00:01:00';
-            $this->alteraDataAssinaturas($newInicio);
-        }
 
         $alunos = $this->model->selecionaBusca('aluno', "WHERE ativo = 1");
 

@@ -357,6 +357,7 @@ class Rede extends CI_Controller
 
     function getDataAssAluno($id_aluno)
     {
+        date_default_timezone_set('America/Sao_Paulo');
         $assinatura = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$id_aluno}' ");
         if (!$assinatura) return null;
 
@@ -370,8 +371,25 @@ class Rede extends CI_Controller
                     'data' => $assinatura[0]['data_ultimo_pagamento'],
                     'id' => $assinatura[0]['id']
                 ] : null;
+            } else {
+                
+                $date1 = date('Y-m-d H:i:s');
+                $date2 = $assinatura[0]['data_pagamento_inicial'];
+                $d1 = new DateTime($date2);
+                $d2 = new DateTime($date1);
+                $Months = $d2->diff($d1);
+                $mesesCorridos = (($Months->y) * 12) + ($Months->m);
+                $counter = $gResidual[0]['counter'];
+
+                if ($counter < $mesesCorridos){
+                    return [
+                        'pgt_inicial' => false,
+                        'data' => date('Y-m-d H:i:s'),
+                        'id' => $assinatura[0]['id']
+                    ];
+                }
+                return null;
             }
-            return null;
         }
 
         if (isset($assinatura[0]['data_ultimo_pagamento'])) {
@@ -382,7 +400,7 @@ class Rede extends CI_Controller
             ];
         }
         return [
-            'pgt_inicial' => true,
+            'pgt_inicial' => false,
             'data' => $assinatura[0]['data_pagamento_inicial'],
             'id' => $assinatura[0]['id']
         ];
@@ -412,8 +430,8 @@ class Rede extends CI_Controller
                 $config = $this->getConfig();
                 $assAluno = $this->getDataAssAluno($aln['id']);
 
-
                 if (isset($assAluno)) {
+                    date_default_timezone_set('America/Sao_Paulo');
                     $dataAssAluno = $assAluno['data'];
 
                     $dataX = retornaDataArray($dataAssAluno);
@@ -421,8 +439,8 @@ class Rede extends CI_Controller
                         $dataX = retornaDataArray(addDataDias($config['dia_' . $tipo], $dataAssAluno));
                     }
                     $checkerData = $dataX['ano'] . '-' . $dataX['mes'] . '-' . $dataX['dia'];
-                    echo '<br>' . $checkerData;
                     //verifica se o dia atual é o numero definido nas configurações a mais que o cadastro do usuário, se for, gera o ganho.
+
                     if ($checkerData == date('Y-m-d')) {
                         if ($tipo == 'residual') {
                             $this->entrarGanhoResidual($aln, $assAluno['pgt_inicial']); //entrada de ganho residual caso o tipo seja esse
@@ -431,7 +449,8 @@ class Rede extends CI_Controller
 
                             if ($temGanho) {
                                 $this->model->update('gResidual', [
-                                    'id_ass'     => $assAluno['id']
+                                    'id_ass'     => $assAluno['id'],
+                                    'counter'    => $temGanho[0]['counter'] + 1
                                 ], $temGanho[0]['id']);
                             } else {
                                 $this->model->insere('gResidual', [

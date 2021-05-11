@@ -505,8 +505,8 @@ class Rede extends CI_Controller
             }
         } SEMPRE GERA NOVA VERIFICAÇÃO */
 
-        $newInicio = '2021-04-01 00:01:00';
-        $this->alteraDataAssinaturas($newInicio);
+        #$newInicio = '2021-04-01 00:01:00';
+        #$this->alteraDataAssinaturas($newInicio);
 
         if (!$jaVerificado) {
             switch ($config['timer_residual']) {

@@ -535,3 +535,10 @@ function addRegistro($acao)
     );
     $CI->model->insere('registro_admin', $reg);
 }
+
+function print_array($array)
+{
+    echo "<pre>";
+    print_r($array);
+    echo "</pre>";
+}

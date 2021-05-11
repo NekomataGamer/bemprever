@@ -372,7 +372,7 @@ class Rede extends CI_Controller
                     'id' => $assinatura[0]['id']
                 ] : null;
             } else {
-                
+
                 $date1 = date('Y-m-d H:i:s');
                 $date2 = $assinatura[0]['data_pagamento_inicial'];
                 $d1 = new DateTime($date2);
@@ -381,7 +381,10 @@ class Rede extends CI_Controller
                 $mesesCorridos = (($Months->y) * 12) + ($Months->m);
                 $counter = $gResidual[0]['counter'];
 
-                if ($counter < $mesesCorridos){
+                echo "<br><hr><br>Counter: " . $counter . "<br>Meses corridos: " . $mesesCorridos . "<br>";
+                print_array($assinatura);
+                if ($counter < $mesesCorridos) {
+                    echo "<br>É MENOR!";
                     return [
                         'pgt_inicial' => false,
                         'data' => date('Y-m-d H:i:s'),

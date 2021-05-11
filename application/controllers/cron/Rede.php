@@ -381,10 +381,10 @@ class Rede extends CI_Controller
                 $mesesCorridos = (($Months->y) * 12) + ($Months->m);
                 $counter = $gResidual[0]['counter'];
 
-                echo "<br><hr><br>Counter: " . $counter . "<br>Meses corridos: " . $mesesCorridos . "<br>";
-                print_array($assinatura);
+                #echo "<br><hr><br>Counter: " . $counter . "<br>Meses corridos: " . $mesesCorridos . "<br>";
+                #print_array($assinatura);
                 if ($counter < $mesesCorridos) {
-                    echo "<br>É MENOR!";
+                    #echo "<br>É MENOR!";
                     return [
                         'pgt_inicial' => false,
                         'data' => date('Y-m-d H:i:s'),

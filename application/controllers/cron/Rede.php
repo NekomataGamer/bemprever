@@ -364,36 +364,25 @@ class Rede extends CI_Controller
 
         $gResidual = $this->model->selecionaBusca('gResidual', "WHERE id_ass='{$assinatura[0]['id']}' ORDER BY id DESC LIMIT 1");
         if ($gResidual) {
-            $prevResidual = $gResidual[0]['data_ganho'];
-            if (isset($assinatura[0]['data_ultimo_pagamento'])) {
+            $date1 = date('Y-m-d H:i:s');
+            $date2 = $assinatura[0]['data_pagamento_inicial'];
+            $d1 = new DateTime($date2);
+            $d2 = new DateTime($date1);
+            $Months = $d2->diff($d1);
+            $mesesCorridos = (($Months->y) * 12) + ($Months->m);
+            $counter = $gResidual[0]['counter'];
 
-                return $assinatura[0]['data_ultimo_pagamento'] > $prevResidual ? [
+            #echo "<br><hr><br>Counter: " . $counter . "<br>Meses corridos: " . $mesesCorridos . "<br>";
+            #print_array($assinatura);
+            if ($counter < $mesesCorridos) {
+                #echo "<br>É MENOR!";
+                return [
                     'pgt_inicial' => false,
-                    'data' => $assinatura[0]['data_ultimo_pagamento'],
+                    'data' => date('Y-m-d H:i:s'),
                     'id' => $assinatura[0]['id']
-                ] : null;
-            } else {
-
-                $date1 = date('Y-m-d H:i:s');
-                $date2 = $assinatura[0]['data_pagamento_inicial'];
-                $d1 = new DateTime($date2);
-                $d2 = new DateTime($date1);
-                $Months = $d2->diff($d1);
-                $mesesCorridos = (($Months->y) * 12) + ($Months->m);
-                $counter = $gResidual[0]['counter'];
-
-                #echo "<br><hr><br>Counter: " . $counter . "<br>Meses corridos: " . $mesesCorridos . "<br>";
-                #print_array($assinatura);
-                if ($counter < $mesesCorridos) {
-                    #echo "<br>É MENOR!";
-                    return [
-                        'pgt_inicial' => false,
-                        'data' => date('Y-m-d H:i:s'),
-                        'id' => $assinatura[0]['id']
-                    ];
-                }
-                return null;
+                ];
             }
+            return null;
         }
 
         if (isset($assinatura[0]['data_ultimo_pagamento'])) {

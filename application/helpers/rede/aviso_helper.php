@@ -83,7 +83,7 @@ function getAvisos($table, $id_aluno){
     return '';
 }
 
-function checaAvisos($tipo='', $idref){
+function checaAvisos($tipo='', $idref=''){
     switch($tipo){
         case 'rede':
             return getAvisos('aviso_aluno', $idref);

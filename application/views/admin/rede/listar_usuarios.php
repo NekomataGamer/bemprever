@@ -95,6 +95,15 @@
                                                     title="Bloquear usuário"
                                                 href="javascript:void(0);"><i class="fa fa-unban"></i>&nbsp;Desbloquear</a>';
                                             }
+                                            $btns .= '<a class="dropdown-item" 
+                                                href="javascript:void(0);"
+                                                    data-href="javascript:void(0)"
+                                                    data-titulo="<i class=' . "'fas fa-info-circle'" . '></i> IP cadastrado"
+                                                    data-texto="IP do usuário no momento do cadastro: ' . $fat['ip_assinado'] . ' "
+                                                    data-btn="Fechar"
+                                                    data-toggle="aviso-modal"
+                                                    title="IP do usuário"
+                                                href="javascript:void(0);"><i class="fa fa-info-circle"></i>&nbsp;IP cadastrado</a>';
                                             echo '<tr>
                                             <td>
                                                 ' . $fat['id'] . '

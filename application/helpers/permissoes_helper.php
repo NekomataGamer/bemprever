@@ -540,6 +540,13 @@ function geraMenu($modMenu, $id_field, $permissoes_requeridas, $permissoes_subme
                 }
                 if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[3]])) {
                     $submenu .= '<li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="' . site_url('admin/rede/confirmar_cadastros') . '">
+                                <span class="sidebar-menu-text">Confirmar Cadastros</span>
+                            </a>
+                        </li>';
+                }
+                if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[3]])) {
+                    $submenu .= '<li class="sidebar-menu-item">
                             <a class="sidebar-menu-button" href="' . site_url('admin/rede/ativar_usuarios') . '">
                                 <span class="sidebar-menu-text">Ativar usuários</span>
                             </a>

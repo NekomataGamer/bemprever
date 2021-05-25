@@ -120,9 +120,21 @@ class Rede extends CI_Controller
       exit;
     }
     $data['tables'] = true;
-    $data['usuarios'] = $this->modelo->selecionaBusca('aluno', "WHERE tipo='rede' ");
+    $data['usuarios'] = $this->modelo->getUsuarios();
 
     $this->load->view('admin/rede/listar_usuarios', $data);
+  }
+
+  public function confirmar_cadastros()
+  {
+    if (!buscaPermissao('rede', 'administrar')) {
+      gera_aviso('erro', 'Ação não permitida!', 'admin/index');
+      exit;
+    }
+    $data['tables'] = true;
+    $data['usuarios'] = $this->modelo->getCadastrosPendentes();
+
+    $this->load->view('admin/rede/confirmar_usuarios', $data);
   }
 
   public function ativar_usuarios()
@@ -161,6 +173,8 @@ class Rede extends CI_Controller
     $dados = $this->model->selecionaBusca('aluno_espera', "WHERE `id`='{$id}' ");
     if (!$dados) return false;
 
+    $documento = $this->model->selecionaBusca('documento_termos', "WHERE `id_aluno_pre`='{$id}' ");
+
     $arr = $dados[0];
     unset($arr['gerou_pagamento']);
     unset($arr['id']);
@@ -173,8 +187,18 @@ class Rede extends CI_Controller
     if (!$id_niveis) return false;
 
     $arr['id_niveis'] = $id_niveis;
+    $arr['cadastro_confirmado'] = 0;
+
     $idusuario = $this->model->insere_id('aluno', $arr);
     if ($idusuario) {
+      if (isset($documento[0]['id'])) {
+        $updateDocumento = [
+          'id_aluno_pre'  => null,
+          'id_aluno'      => $idusuario
+        ];
+        $this->model->update('documento_termos', $updateDocumento, $documento[0]['id']);
+      }
+
       $this->model->insere('assinaturas_rede', [
         'id_aluno' => $idusuario,
         'id_plano' => $plano[0]['id'],
@@ -189,16 +213,15 @@ class Rede extends CI_Controller
     }
     return false;
   }
-  
+
   //REMOVE ALUNO DA LISTA DE ESPERA
-  
+
   protected function removeAlunoEspera($id)
   {
-      
-      return $this->model->remove('aluno_espera', $id);
-      
+
+    return $this->model->remove('aluno_espera', $id);
   }
-  
+
   public function desativar_rede($id)
   {
     if (!buscaPermissao('rede', 'administrar')) {
@@ -210,7 +233,7 @@ class Rede extends CI_Controller
     }
 
 
-    gera_aviso('erro', 'Usuário não encontrado', 'admin/rede/ativar_usuarios');  
+    gera_aviso('erro', 'Usuário não encontrado', 'admin/rede/ativar_usuarios');
   }
 
   public function ativar_rede($id)
@@ -226,6 +249,53 @@ class Rede extends CI_Controller
 
     gera_aviso('erro', 'Usuário não encontrado', 'admin/rede/ativar_usuarios');
   }
+
+  public function confirmar_cadastro($id)
+  {
+    if (!buscaPermissao('rede', 'administrar')) {
+      gera_aviso('erro', 'Ação não permitida!', 'admin/index');
+      exit;
+    }
+
+    $dados = $this->model->selecionaBusca('aluno', "WHERE `id`='{$id}' ");
+    if (!$dados) {
+      gera_aviso('erro', 'Usuário não encontrado!', 'admin/index');
+      redirect('admin/rede/confirmar_cadastros');
+      exit;
+    }
+
+    $updater = [
+      'cadastro_confirmado' => 1
+    ];
+
+    $this->model->update('aluno', $updater, $id);
+
+    gera_aviso('success', 'Cadastro do usuário confirmado com sucesso', 'admin/rede/confirmar_cadastros');
+  }
+
+  public function nao_confirmar_cadastro($id)
+  {
+    if (!buscaPermissao('rede', 'administrar')) {
+      gera_aviso('erro', 'Ação não permitida!', 'admin/index');
+      exit;
+    }
+
+    $dados = $this->model->selecionaBusca('aluno', "WHERE `id`='{$id}' ");
+    if (!$dados) {
+      gera_aviso('erro', 'Usuário não encontrado!', 'admin/index');
+      redirect('admin/rede/confirmar_cadastros');
+      exit;
+    }
+
+    $documento = $this->model->selecionaBusca('documento_termos', "WHERE `id_aluno`='{$id}' ");
+
+    if (isset($documento[0]['id'])) {
+      removeDocumento($documento[0]['id']);
+    }
+
+    gera_aviso('success', 'Remoção dos documentos do usuário efetuada com sucesso, novos documentos serão solicitados.', 'admin/rede/confirmar_cadastros');
+  }
+
 
   public function unilevel($nivel = 1, $user = 1)
   {

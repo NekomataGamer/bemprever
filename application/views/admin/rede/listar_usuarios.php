@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title mb-4">Listar Usuários</h5>
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="min-height:400px;">
                             <table class="table mb-0 thead-border-top-0 table-nowrap data-tables">
                                 <thead>
                                     <tr>
@@ -39,6 +39,16 @@
                                     <?php if (count($usuarios) > 0) {
                                         foreach ($usuarios as $fat) {
                                             $btns = '';
+                                            $documento = '<a class="dropdown-item text-danger" href="javascript:void(0)">
+                                                            <i class="fas fa-file-alt"></i>&nbsp;Sem Documento
+                                                        </a>';
+                                            if (isset($fat['root']) 
+                                                && !empty($fat['root']) 
+                                                && trim($fat['root']) != ""){
+                                                $documento = '<a class="dropdown-item" href="' . site_url(getDocumentoByRoot($fat['root'])) . '" target="_blank">
+                                                <i class="fas fa-file-alt"></i>&nbsp;Visualizar Documento
+                                            </a>';
+                                            }
                                             if ($fat['ativo'] == 0){
                                                 $btns .= '<a class="dropdown-item" 
                                                 href="javascript:void(0);"
@@ -118,6 +128,7 @@
                                                     <a class="dropdown-item" href="' . site_url('admin/rede/visualizar/' . $fat['id_niveis']) . '">
                                                         <i class="fas fa-network-wired"></i>&nbsp;Visualizar Rede
                                                     </a>
+                                                    ' . $documento . '
                                                 </div>
                                             </td>
                                         </tr>';

@@ -35,6 +35,8 @@ class Pagamentos extends CI_Controller
         $dados = $this->model->selecionaBusca('aluno_espera', "WHERE `id`='{$id}' ");
         if (!$dados) return false;
 
+        $documento = $this->model->selecionaBusca('documento_termos', "WHERE `id_aluno_pre`='{$id}' ");
+
         $arr = $dados[0];
         unset($arr['gerou_pagamento']);
         unset($arr['id']);
@@ -47,8 +49,18 @@ class Pagamentos extends CI_Controller
         if (!$id_niveis) return false;
 
         $arr['id_niveis'] = $id_niveis;
+        $arr['cadastro_confirmado'] = 0;
+
         $idusuario = $this->model->insere_id('aluno', $arr);
         if ($idusuario) {
+            if (isset($documento[0]['id'])) {
+                $updateDocumento = [
+                    'id_aluno_pre'  => null,
+                    'id_aluno'      => $idusuario
+                ];
+                $this->model->update('documento_termos', $updateDocumento, $documento[0]['id']);
+            }
+
             $this->model->insere('assinaturas_rede', [
                 'id_aluno' => $idusuario,
                 'id_plano' => $plano[0]['id'],
@@ -80,8 +92,8 @@ class Pagamentos extends CI_Controller
 
         $data_pagamento = date('Y-m-d H:i:s');
         $nvarr = [
-            'pagamento' => $data_pagamento, 
-            'paga' => 1, 
+            'pagamento' => $data_pagamento,
+            'paga' => 1,
             'custom' => $id_ipn
         ];
         $valpaid = $ass[0]['pago'] + $dados[0]['valor'];
@@ -170,7 +182,7 @@ class Pagamentos extends CI_Controller
         $data['response_json'] = $this->input->raw_input_stream;
         $array = json_decode($data['response_json'], true);
         $data['response_post'] = print_r($array, TRUE);
-        
+
         if (isset($array['data'][0]['attributes']['status'])) {
             $tipo = $array['eventType'];
             $data['status'] = $array['data'][0]['attributes']['status'];
@@ -187,17 +199,19 @@ class Pagamentos extends CI_Controller
 
     public function removeWebhook()
     {
-        if (removeWebhook()){
+        if (removeWebhook()) {
             echo 'WebHook removido com sucesso!';
         }
     }
 
-    public function testaNiveis(){
+    public function testaNiveis()
+    {
         echo get_valid_last_root();
     }
 
-    public function pagarContaAluno($id){
-        if ($this->session->userdata('nivel_adm') == 1){
+    public function pagarContaAluno($id)
+    {
+        if ($this->session->userdata('nivel_adm') == 1) {
             if (!buscaPermissao('rede', 'administrar')) {
                 gera_aviso('erro', 'Ação não permitida!', 'admin/index');
                 exit;
@@ -205,7 +219,6 @@ class Pagamentos extends CI_Controller
 
             $this->pagarFatura(99999999, $id);
             gera_aviso('sucesso', 'Fatura paga com sucesso!', 'admin/faturas/dar_baixa');
-            
         } else {
             gera_aviso('erro', 'Ação não permitida.', 'rede/index');
         }

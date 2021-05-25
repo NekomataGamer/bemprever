@@ -196,7 +196,7 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <h5 class="card-title mb-4">Dados de login</h5>
+                                        <h5 class="card-title mb-4">Dados Iniciais</h5>
                                         <div class="form-group">
                                             <label class="form-label" for="username">Usuario: *</label>
                                             <input name="login" id="username" autocomplete="nope" type="text" class="form-control" placeholder="Seu usuario..." required>
@@ -215,6 +215,14 @@
                                             <label class="form-label" for="email">Email: *</label>
                                             <input name="email" id="email" type="email" class="form-control" placeholder="Seu email..." required>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="username">Nacionalidade: *</label>
+                                            <select id="nac" class="form-control" required>
+                                                <option value="br">Brasileira</option>
+                                                <option value="ex">Estrangeira</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -227,11 +235,8 @@
                                             <input name="nome" id="nome" type="text" class="form-control" placeholder="Seu nome completo..." required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="username">Nacionalidade: *</label>
-                                            <select id="nac" class="form-control" required>
-                                                <option value="br">Brasileira</option>
-                                                <option value="ex">Estrangeira</option>
-                                            </select>
+                                            <label class="form-label" for="nascimento">Nascimento: *</label>
+                                            <input name="nascimento" id="nascimento" type="text" class="form-control" placeholder="XX/XX/XXXX" required>
                                         </div>
                                         <div class="form-group">
                                             <div class="ccpf">
@@ -240,10 +245,10 @@
                                             </div>
                                             <div class="extrang">
                                                 <label class="form-label" for="username">ID: *</label>
-                                                <input class="form-control" id="idid654" type="text" >
+                                                <input class="form-control" id="idid654" type="text">
                                                 <input name="cpf" id="cxcpf" type="hidden" value="389.005.420-01">
                                             </div>
-                                            
+
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="password">Telefone: *</label>
@@ -323,10 +328,30 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <h5 class="card-title mb-4">Termos de uso *</h5>
+                                        <h5 class="card-title mb-4">Passos finais *</h5>
 
                                         <div class="form-row">
                                             <div class="col-md-12">
+                                                <div class="form-check">
+                                                    <label class="form-check-label" for="exampleCheck1" style="font-size:14px;">
+                                                        <span class="text-danger">É necessário fazer alguns passos para prosseguir com seu cadastro:</span>
+                                                        <br><br>
+                                                        <li>
+                                                            Baixe e imprima nossa 
+                                                            <a class="text-primary fbold" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">CARTA DE ORIENTAÇÃO AO ASSOCIADO</a>: 
+                                                            <br><a class="btn btn-secondary" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">Baixar Documento</a>
+                                                        </li>
+                                                        <br>
+                                                        <li>Preencha os campos com seus dados à caneta preta ou azul.</li>
+                                                        <br>
+                                                        <li>Anexe abaixo o documento escaneado (ou uma foto de celular totalmente visível).</li>
+                                                        <input type="file" name="documento" accept="image/png, image/jpeg, image/jpg" required>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                                <hr>
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
                                                     <label class="form-check-label" for="exampleCheck1" style="font-size:14px;">Declaro que li e concordo com os <a class="text-primary" href="<?php echo site_url('termos_e_condicoes_de_uso'); ?>" target="_blank">Termos e Condições de Uso</a> da plataforma!</label>
@@ -384,6 +409,7 @@
 
     <!-- Validador de formulários -->
     <script src="<?php echo site_url('assets/js/verificador.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/js/verificador_datas5.js'); ?>"></script>
 
     <!-- bootstrap selectpicker -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
@@ -409,7 +435,6 @@
         </script>
     <?php } ?>
     <script>
-        
         function mascaraCep(obj) {
             var i = 0;
             var v = obj.value;
@@ -448,13 +473,13 @@
         $(document).ready(function() {
             <?php
             $dataFields = $this->session->userdata('dataFields');
-            if (isset($dataFields[0])){
+            if (isset($dataFields[0])) {
                 foreach ($dataFields as $d) {
                     echo $d;
                 }
                 $this->session->unset_userdata('dataFields');
             }
-            
+
             ?>
             $('.cep').on('keyup', function() {
                 mascaraCep(this);
@@ -462,6 +487,10 @@
 
             $('.cpf').on('keyup', function() {
                 mascaraCPF(this);
+            });
+
+            $('#nascimento').on('keyup blur change', function() {
+                MascaraData(this);
             });
         });
 
@@ -593,19 +622,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
-    $('#cxcpf').removeAttr('name', 'cpf');
+        $('#cxcpf').removeAttr('name', 'cpf');
         $('.extrang').css('display', 'none');
-        $('#nac').on('change', function(){
+        $('#nac').on('change', function() {
             let type = $('#nac').val();
-            
-            if(type == 'br'){
+
+            if (type == 'br') {
                 // ccpf
                 $('.extrang').css('display', 'none');
                 $('.ccpf').css('display', 'block');
                 $('#idid654').removeAttr('required');
                 $('#cpf').attr('name', 'cpf');
                 $('#cxcpf').removeAttr('name');
-            }else if(type == 'ex'){
+            } else if (type == 'ex') {
                 // extrang
                 $('.ccpf').css('display', 'none');
                 $('.extrang').css('display', 'block');
@@ -614,59 +643,57 @@
                 $('#cpf').removeAttr('name');
                 $('#cxcpf').attr('name', 'cpf');
             }
-            
+
         });
-        
-        
-        
-        
+
+
+
+
         //obtem o elemento apenas uma vez no inicio em vez de todas as vezes que gera o cpf
-        const cpf = document.getElementById("cxcpf"); 
-        
+        const cpf = document.getElementById("cxcpf");
+
         function gerarCpf() {
-          const num1 = aleatorio(); //aleatorio já devolve string, logo não precisa de toString
-          const num2 = aleatorio();
-          const num3 = aleatorio();
-        
-          const dig1 = dig(num1, num2, num3); //agora só uma função dig
-          const dig2 = dig(num1, num2, num3, dig1); //mesma função dig aqui
-        
-          //aqui com interpolação de strings fica bem mais legivel
-          return `${num1}.${num2}.${num3}-${dig1}${dig2}`;
+            const num1 = aleatorio(); //aleatorio já devolve string, logo não precisa de toString
+            const num2 = aleatorio();
+            const num3 = aleatorio();
+
+            const dig1 = dig(num1, num2, num3); //agora só uma função dig
+            const dig2 = dig(num1, num2, num3, dig1); //mesma função dig aqui
+
+            //aqui com interpolação de strings fica bem mais legivel
+            return `${num1}.${num2}.${num3}-${dig1}${dig2}`;
         }
-        
+
         //o quarto parametro(n4) só será recebido para o segundo digito
-        function dig(n1, n2, n3, n4) { 
-          
-          //as concatenações todas juntas uma vez que são curtas e legíveis
-          let nums = n1.split("").concat(n2.split(""), n3.split(""));
-          
-          if (n4 !== undefined){ //se for o segundo digito coloca o n4 no sitio certo
-            nums[9] = n4;
-          }
-          
-          let x = 0;
-           
-          //o j é também iniciado e incrementado no for para aproveitar a própria sintaxe dele
-          //o i tem inicios diferentes consoante é 1º ou 2º digito verificador
-          for (let i = (n4 !== undefined ? 11:10), j = 0; i >= 2; i--, j++) {
-            x += parseInt(nums[j]) * i;
-          }
-          
-          const y = x % 11;
-          //ternário aqui pois ambos os retornos são simples e continua legivel
-          return y < 2 ? 0 : 11 - y; 
+        function dig(n1, n2, n3, n4) {
+
+            //as concatenações todas juntas uma vez que são curtas e legíveis
+            let nums = n1.split("").concat(n2.split(""), n3.split(""));
+
+            if (n4 !== undefined) { //se for o segundo digito coloca o n4 no sitio certo
+                nums[9] = n4;
+            }
+
+            let x = 0;
+
+            //o j é também iniciado e incrementado no for para aproveitar a própria sintaxe dele
+            //o i tem inicios diferentes consoante é 1º ou 2º digito verificador
+            for (let i = (n4 !== undefined ? 11 : 10), j = 0; i >= 2; i--, j++) {
+                x += parseInt(nums[j]) * i;
+            }
+
+            const y = x % 11;
+            //ternário aqui pois ambos os retornos são simples e continua legivel
+            return y < 2 ? 0 : 11 - y;
         }
-        
+
         function aleatorio() {
-          const aleat = Math.floor(Math.random() * 999);
-         //o preenchimento dos zeros à esquerda é mais facil com a função padStart da string
-          return ("" + aleat).padStart(3, '0'); 
+            const aleat = Math.floor(Math.random() * 999);
+            //o preenchimento dos zeros à esquerda é mais facil com a função padStart da string
+            return ("" + aleat).padStart(3, '0');
         }
-        
+
         cpf.value = gerarCpf();
-        
-        
     </script>
 
 </body>

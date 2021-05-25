@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Apn extends CI_Controller
+class Carta_de_orientacao_ao_associado extends CI_Controller
 {
 
     public function __construct()
@@ -13,10 +13,10 @@ class Apn extends CI_Controller
 
     public function index()
     {
-        $file = getcwd(). '/assets/apn/BPV-APN-2604021.pdf';
-        $filename = 'Bemprever Vida - APN.pdf';
+        $file = getcwd(). '/assets/documentos/carta-orientacao.docx';
+        $filename = 'CARTA DE ORIENTAÇÃO AO ASSOCIADO DECLARAÇÃO DE SAUDE.docx';
 
-        header('Content-type: application/pdf');
+        header('Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         header('Content-Disposition: inline; filename="' . $filename . '"');
         header('Content-Transfer-Encoding: binary');
         header('Content-Length: ' . filesize($file));

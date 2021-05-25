@@ -21,4 +21,5 @@ function MascaraData(obj) {
     v = v.replace(/(\d{2})(\d)/, "$1/$2");
     v = v.replace(/(\d{2})(\d)/, "$1/$2");
     obj.value = v;
+    console.log('called');
 }

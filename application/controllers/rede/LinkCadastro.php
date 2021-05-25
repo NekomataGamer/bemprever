@@ -63,6 +63,13 @@ class LinkCadastro extends CI_Controller
     ';
   }
 
+  //INSERE O DOCUMENTO DO ALUNO
+  private function insereDocumento($cpf_aluno)
+  {
+    $path = getPathDocumentos($cpf_aluno);
+    $rootPath = getRootDocumentos($cpf_aluno);
+    return upload_file($path, $rootPath, 'documento');
+  }
 
   //CADASTRO DO ALUNO
   public function cadastrar()
@@ -106,7 +113,9 @@ class LinkCadastro extends CI_Controller
       gera_aviso('erro', 'Falha ao cadastrar sua conta, tente novamente.', 'rede/login');
       exit;
     }
-    $data['id_plano'] = $plano[0]['id'];
+    $data['id_plano']     = $plano[0]['id'];
+    $data['ip_assinado']  = $_SERVER['REMOTE_ADDR'];
+    
     $idnew = $this->model->insere_id('aluno_espera', $data);
     if ($idnew) {
       $aluno = $this->model->selecionaBusca('aluno_espera', "WHERE id='{$idnew}' ");
@@ -114,6 +123,21 @@ class LinkCadastro extends CI_Controller
       if (!$aluno) {
         addFunctions($data);
         gera_aviso('erro', 'Falha ao cadastrar sua conta, tente novamente.', 'rede/login');
+        exit;
+      }
+
+      $docPass = $this->insereDocumento($data['cpf']);
+      $id_documento = null;
+      if ($docPass) {
+        $id_documento = $this->model->insere_id('documento_termos', [
+          'id_aluno_pre'  => $idnew,
+          'root'          => $docPass['full_path'],
+          'arquivo'       => $docPass['file_name']
+        ]);
+      } else {
+        $this->model->remove('aluno_espera', $idnew);
+        addFunctions($data);
+        gera_aviso('erro', 'Falha ao enviar seu documento assinado, tente novamente.', 'rede/login');
         exit;
       }
 
@@ -132,6 +156,7 @@ class LinkCadastro extends CI_Controller
         redirect($linkpay, 'refresh');
       } else {
         $this->model->remove('aluno_espera', $idnew);
+        removeDocumento($id_documento);
         addFunctions($data, ['email']);
         gera_aviso('erro', 'Falha ao gerar pagamento, possivelmente os dados de email informados estão incorretos.', 'rede/nova_conta?&link=' . $linkIndicador);
       }

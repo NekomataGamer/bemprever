@@ -26,7 +26,7 @@
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Documento</a>
                                         </th>
                                         <th>
-                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Dt. Cadastro</a>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">IP cadastrado</a>
                                         </th>
                                         <th>
                                         </th>

@@ -250,43 +250,45 @@ License: You must have a valid license purchased only from themeforest(the above
 												</ul>
 											</div>
 										</li>
-										
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
-											<a href="javascript:;" class="menu-link menu-toggle">
-												<span class="menu-text">Credenciados</span>
-												<span class="menu-desc"></span>
-												<i class="menu-arrow"></i>
-											</a>
-											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-												<ul class="menu-subnav">
 
-                                                    <?php foreach($cat as $item):?>
-                                                        <li class="menu-item" aria-haspopup="true">
-    														<a target="_self" href="<?php echo site_url('rede/credenciados/categoria/'.$item['id']); ?>" class="menu-link">
-    															<span class="svg-icon menu-icon">
-    																<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
-    																<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    																	 <!--Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
-    																	<title>Stockholm-icons / Home / Clock</title>
-    																	<desc>Created with Sketch.</desc>
-    																	<defs></defs>
-    																	<g id="Stockholm-icons-/-Home-/-Clock" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    																		<rect id="bound" x="0" y="0" width="24" height="24"></rect>
-    																		<path d="M12,22 C7.02943725,22 3,17.9705627 3,13 C3,8.02943725 7.02943725,4 12,4 C16.9705627,4 21,8.02943725 21,13 C21,17.9705627 16.9705627,22 12,22 Z" id="Mask" fill="#000000" opacity="0.3"></path>
-    																		<path d="M11.9630156,7.5 L12.0475062,7.5 C12.3043819,7.5 12.5194647,7.69464724 12.5450248,7.95024814 L13,12.5 L16.2480695,14.3560397 C16.403857,14.4450611 16.5,14.6107328 16.5,14.7901613 L16.5,15 C16.5,15.2109164 16.3290185,15.3818979 16.1181021,15.3818979 C16.0841582,15.3818979 16.0503659,15.3773725 16.0176181,15.3684413 L11.3986612,14.1087258 C11.1672824,14.0456225 11.0132986,13.8271186 11.0316926,13.5879956 L11.4644883,7.96165175 C11.4845267,7.70115317 11.7017474,7.5 11.9630156,7.5 Z" id="Path-107" fill="#000000"></path>
-    																	</g>
-    																</svg>
-    																<!--end::Svg Icon-->
-    															</span>
-    															<span class="menu-text"><?php echo $item['titulo'];?></span>
-    														</a>
-    													</li>
-                                                    <?php endforeach;?>
+										<?php if (isset($cat[0]['id'])) : ?>
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+												<a href="javascript:;" class="menu-link menu-toggle">
+													<span class="menu-text">Credenciados</span>
+													<span class="menu-desc"></span>
+													<i class="menu-arrow"></i>
+												</a>
+												<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+													<ul class="menu-subnav">
 
-												</ul>
-											</div>
-										</li>
-										
+														<?php foreach ($cat as $item) : ?>
+															<li class="menu-item" aria-haspopup="true">
+																<a target="_self" href="<?php echo site_url('rede/credenciados/categoria/' . $item['id']); ?>" class="menu-link">
+																	<span class="svg-icon menu-icon">
+																		<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+																		<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+																			<!--Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+																			<title>Stockholm-icons / Home / Clock</title>
+																			<desc>Created with Sketch.</desc>
+																			<defs></defs>
+																			<g id="Stockholm-icons-/-Home-/-Clock" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																				<rect id="bound" x="0" y="0" width="24" height="24"></rect>
+																				<path d="M12,22 C7.02943725,22 3,17.9705627 3,13 C3,8.02943725 7.02943725,4 12,4 C16.9705627,4 21,8.02943725 21,13 C21,17.9705627 16.9705627,22 12,22 Z" id="Mask" fill="#000000" opacity="0.3"></path>
+																				<path d="M11.9630156,7.5 L12.0475062,7.5 C12.3043819,7.5 12.5194647,7.69464724 12.5450248,7.95024814 L13,12.5 L16.2480695,14.3560397 C16.403857,14.4450611 16.5,14.6107328 16.5,14.7901613 L16.5,15 C16.5,15.2109164 16.3290185,15.3818979 16.1181021,15.3818979 C16.0841582,15.3818979 16.0503659,15.3773725 16.0176181,15.3684413 L11.3986612,14.1087258 C11.1672824,14.0456225 11.0132986,13.8271186 11.0316926,13.5879956 L11.4644883,7.96165175 C11.4845267,7.70115317 11.7017474,7.5 11.9630156,7.5 Z" id="Path-107" fill="#000000"></path>
+																			</g>
+																		</svg>
+																		<!--end::Svg Icon-->
+																	</span>
+																	<span class="menu-text"><?php echo $item['titulo']; ?></span>
+																</a>
+															</li>
+														<?php endforeach; ?>
+
+													</ul>
+												</div>
+											</li>
+										<?php endif; ?>
+
 										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Financeiro</span>
@@ -406,19 +408,106 @@ License: You must have a valid license purchased only from themeforest(the above
 											</a>
 										</li>
 
-
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
-											<a href="<?php echo site_url('termos_e_condicoes_de_uso'); ?>" target="_blank" class="menu-link">
-												<span class="menu-text">Termos e Condições</span>
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text">Documentos</span>
+												<span class="menu-desc"></span>
 												<i class="menu-arrow"></i>
 											</a>
-										</li>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
 
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
-											<a href="<?php echo site_url('apn'); ?>" target="_blank" class="menu-link">
-												<span class="menu-text">APN</span>
-												<i class="menu-arrow"></i>
-											</a>
+
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo site_url('apn'); ?>" target="_blank" class="menu-link">
+															<span class="svg-icon menu-icon">
+																<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+																<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+																	<!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+																	<title>Stockholm-icons / Files / File</title>
+																	<desc>Created with Sketch.</desc>
+																	<defs></defs>
+																	<g id="Stockholm-icons-/-Files-/-File" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																		<polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+																		<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+																		<rect id="Rectangle" fill="#000000" x="6" y="11" width="9" height="2" rx="1"></rect>
+																		<rect id="Rectangle-Copy" fill="#000000" x="6" y="15" width="5" height="2" rx="1"></rect>
+																	</g>
+																</svg>
+																<!--end::Svg Icon-->
+															</span>
+															<span class="menu-text">APN Bemprever</span>
+														</a>
+													</li>
+
+													<li class="menu-item" aria-haspopup="true">
+														<a target="_blank" href="<?php echo site_url('termos_e_condicoes_de_uso'); ?>" class="menu-link">
+															<span class="svg-icon menu-icon">
+																<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+																<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+																	<!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+																	<title>Stockholm-icons / Files / File</title>
+																	<desc>Created with Sketch.</desc>
+																	<defs></defs>
+																	<g id="Stockholm-icons-/-Files-/-File" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																		<polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+																		<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+																		<rect id="Rectangle" fill="#000000" x="6" y="11" width="9" height="2" rx="1"></rect>
+																		<rect id="Rectangle-Copy" fill="#000000" x="6" y="15" width="5" height="2" rx="1"></rect>
+																	</g>
+																</svg>
+																<!--end::Svg Icon-->
+															</span>
+															<span class="menu-text">Termo De Adesão</span>
+														</a>
+													</li>
+
+													<li class="menu-item" aria-haspopup="true">
+														<a target="_self" href="<?php echo site_url('carta_de_orientacao_ao_associado'); ?>" class="menu-link">
+															<span class="svg-icon menu-icon">
+																<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+																<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+																	<!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+																	<title>Stockholm-icons / Files / File</title>
+																	<desc>Created with Sketch.</desc>
+																	<defs></defs>
+																	<g id="Stockholm-icons-/-Files-/-File" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																		<polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+																		<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+																		<rect id="Rectangle" fill="#000000" x="6" y="11" width="9" height="2" rx="1"></rect>
+																		<rect id="Rectangle-Copy" fill="#000000" x="6" y="15" width="5" height="2" rx="1"></rect>
+																	</g>
+																</svg>
+																<!--end::Svg Icon-->
+															</span>
+															<span class="menu-text">Carta De Orientação Ao Associado</span>
+														</a>
+													</li>
+
+													<li class="menu-item" aria-haspopup="true">
+														<a target="_self" href="<?php echo site_url('requerimento_de_abertura_de_evento'); ?>" class="menu-link">
+															<span class="svg-icon menu-icon">
+																<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+																<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+																	<!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+																	<title>Stockholm-icons / Files / File</title>
+																	<desc>Created with Sketch.</desc>
+																	<defs></defs>
+																	<g id="Stockholm-icons-/-Files-/-File" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																		<polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+																		<path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+																		<rect id="Rectangle" fill="#000000" x="6" y="11" width="9" height="2" rx="1"></rect>
+																		<rect id="Rectangle-Copy" fill="#000000" x="6" y="15" width="5" height="2" rx="1"></rect>
+																	</g>
+																</svg>
+																<!--end::Svg Icon-->
+															</span>
+															<span class="menu-text">Requerimento De Abertura De Evento</span>
+														</a>
+													</li>
+
+												</ul>
+											</div>
 										</li>
 									</ul>
 									<!--end::Header Nav-->
@@ -498,8 +587,8 @@ License: You must have a valid license purchased only from themeforest(the above
 										<!--end::Item-->
 										<!--begin::Item-->
 										<?php if (isset($subTitle)) : ?>
-										<span class="label label-dot label-sm bg-dark opacity-75 mx-3">bbbbadfg</span>
-										<a href="" class="text-dark text-hover-dark opacity-75 hover-opacity-100"><?php echo $subTitle; ?></a>
+											<span class="label label-dot label-sm bg-dark opacity-75 mx-3">bbbbadfg</span>
+											<a href="" class="text-dark text-hover-dark opacity-75 hover-opacity-100"><?php echo $subTitle; ?></a>
 										<?php endif; ?>
 										<!--end::Item-->
 									</div>

@@ -15,7 +15,7 @@ class Perfil extends CI_Controller
     }
   }
 
-  public function index($erros=0)
+  public function index($erros = 0)
   {
     $id = $this->session->userdata('id');
     $data['aluno'] = $this->model->selecionaBusca('aluno', "WHERE id='{$id}' ");
@@ -83,13 +83,16 @@ class Perfil extends CI_Controller
 
     if ($this->model->update('aluno', $data, $id)) {
 
-      $docPass = $this->insereDocumento($data['cpf']);
-      if ($docPass) {
-        $this->model->insere('documento_termos', [
-          'id_aluno'  => $id,
-          'root'          => $docPass['full_path'],
-          'arquivo'       => $docPass['file_name']
-        ]);
+      $documento = $this->model->selecionaBusca('documento_termos', "WHERE id_aluno = '{$id}' ");
+      if (!$documento) {
+        $docPass = $this->insereDocumento($data['cpf']);
+        if ($docPass) {
+          $this->model->insere('documento_termos', [
+            'id_aluno'      => $id,
+            'root'          => $docPass['full_path'],
+            'arquivo'       => $docPass['file_name']
+          ]);
+        }
       }
 
       $alunoNv = $this->model->setTable('aluno')->get($id);

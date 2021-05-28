@@ -2,24 +2,85 @@
 /* FUNÇÕES DIVERSAS DO USUÁRIO ENTRAM NESSE HELPER */
 
 /* PEGAR ASSINATURA DO USUÁRIO */
-function getAssinatura($id_aluno){
+function getAssinatura($id_aluno)
+{
     $CI = &get_instance();
     $assinatura = $CI->model->selecionaBusca('assinaturas_rede', "WHERE `id_aluno`='{$id_aluno}' ");
-    if (isset($assinatura[0]['id'])){
+    if (isset($assinatura[0]['id'])) {
         $retorno = $assinatura[0];
         $plano = $CI->model->selecionaBusca('plano_rede', "WHERE id='{$assinatura[0]['id_plano']}' ");
         $retorno['plano'] = isset($plano[0]['id']) ? $plano[0] : null;
         return $retorno;
-    } else if ($id_aluno == 1){
+    } else if ($id_aluno == 1) {
         return [];
     }
     return null;
 }
 
-function getById($id_aluno){
+function getDocumentoBySession(): ?string
+{
+    $CI = &get_instance();
+    $id_aluno = $CI->session->userdata('id');
+
+    $doc = $CI->model->selecionaBusca('documento_termos', "WHERE id_aluno = '{$id_aluno}' ");
+    return getDocumentoByData($doc[0]);
+}
+
+function getDocumentoByData($doc): ?string
+{
+    return (isset($doc['root']) && !empty($doc['root']) && trim($doc['root']) != "") ? site_url(getDocumentoByRoot($doc['root'])) : null;
+}
+
+function checkIfDataIsMissing(): ?array
+{
+    $CI = &get_instance();
+    $CI->load->model('Redes_model', 'modelo');
+    $aluno = $CI->modelo->getUsuario($CI->session->userdata('id'));
+
+    if (!$aluno) return null;
+
+    $documento = getDocumentoByData($aluno);
+    if (
+        !$aluno['profissao']
+        ||  !$aluno['estado_civil']
+        ||  !$aluno['nome_benef']
+        ||  !$aluno['cpf_benef']
+        ||  !$aluno['parentesco_benef']
+    ) {
+        $CI->session->set_flashdata([
+            'aviso_tipo' => "danger",
+            'aviso_mensagem' => "Seu cadastro está incompleto, por favor, atualize seus dados para continuar utilizando a bemprever!",
+            'tem-erros-data' => 'erro'
+        ]);
+        return [
+            'type'  => null,
+            'data'  => $documento
+        ];
+    }
+
+    if (!$documento) {
+        $CI->session->set_flashdata([
+            'aviso_tipo' => "danger",
+            'aviso_mensagem' => "Seu cadastro está incompleto, por favor, atualize seus dados para continuar utilizando a bemprever!",
+            'tem-erros-data' => 'erro'
+        ]);
+        return [
+            'type'  => null,
+            'data'  => $documento
+        ];
+    }
+
+    return [
+        'type'  => true,
+        'data'  => $documento
+    ];
+}
+
+function getById($id_aluno)
+{
     $CI = &get_instance();
     $aluno = $CI->model->selecionaBusca('aluno', "WHERE `id`='{$id_aluno}' ");
-    if ($aluno){
+    if ($aluno) {
         return $aluno[0];
     }
 
@@ -27,11 +88,12 @@ function getById($id_aluno){
 }
 
 //PEGA FATURAS DO USUÁRIO
-function getFaturas($id_aluno, $tipo='', $vencidas=true){
+function getFaturas($id_aluno, $tipo = '', $vencidas = true)
+{
     $CI = &get_instance();
-    
+
     $querytipo = $tipo !== '' ? "AND `paga`='{$tipo}' " : "";
-    $queryvencidas = !$vencidas ? "AND `vencimento`<='".date('Y-m-d H:i:s')."' " : "";
+    $queryvencidas = !$vencidas ? "AND `vencimento`<='" . date('Y-m-d H:i:s') . "' " : "";
 
     $faturas = $CI->model->queryString("SELECT 
     fat.id, 
@@ -77,27 +139,28 @@ function getFaturas($id_aluno, $tipo='', $vencidas=true){
     return $faturas;
 }
 
-function formatterRede($nivel1, $nivel2, $nivel3){
+function formatterRede($nivel1, $nivel2, $nivel3)
+{
     $arr['formato'] = [];
 
-    foreach($nivel1 as $nvl){
+    foreach ($nivel1 as $nvl) {
         $insert = $nvl;
         $insert['nivel_2'] = [];
         $arr['formato'][] = $insert;
     }
 
-    foreach($nivel2 as $k => $v){
+    foreach ($nivel2 as $k => $v) {
         $nivel2[$k]['nivel_3'] = [];
-        foreach($nivel3 as $nv3){
-            if (startsWith($nv3['id_niveis'], $v['id_niveis'])){
+        foreach ($nivel3 as $nv3) {
+            if (startsWith($nv3['id_niveis'], $v['id_niveis'])) {
                 $nivel2[$k]['nivel_3'][] = $nv3;
             }
         }
     }
 
-    foreach($arr['formato'] as $k => $v){
-        foreach($nivel2 as $nv2){
-            if (startsWith($nv2['id_niveis'], $v['id_niveis'])){
+    foreach ($arr['formato'] as $k => $v) {
+        foreach ($nivel2 as $nv2) {
+            if (startsWith($nv2['id_niveis'], $v['id_niveis'])) {
                 $arr['formato'][$k]['nivel_2'][] = $nv2;
             }
         }

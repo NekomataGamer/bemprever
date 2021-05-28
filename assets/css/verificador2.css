@@ -4,6 +4,7 @@
 
 .erro-label {
     font-size: 80%;
+    display:block;
 }
 
 input.tem-erro,

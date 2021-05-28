@@ -109,6 +109,12 @@ License: You must have a valid license purchased only from themeforest(the above
 </head>
 <!--end::Head-->
 <!--begin::Body-->
+<?php 
+$retorno = checkIfDataIsMissing();
+$documento = $retorno['data'];
+if (!$retorno['type'] && $title !== "Meu Perfil") { redirect('rede/dados_incompletos'); }
+?>
+
 
 <body id="kt_body" style="background-image: url(<?php echo site_url('assets/imagens/bg-home.png'); ?>)" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
 	<!--begin::Main-->
@@ -509,6 +515,14 @@ License: You must have a valid license purchased only from themeforest(the above
 												</ul>
 											</div>
 										</li>
+										<?php if ($documento): ?>
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
+											<a href="<?= $documento ?>" class="menu-link" download>
+												<span class="menu-text">Termo Assinado</span>
+												<i class="menu-arrow"></i>
+											</a>
+										</li>
+										<?php endif; ?>
 									</ul>
 									<!--end::Header Nav-->
 								</div>

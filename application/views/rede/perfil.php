@@ -1,5 +1,19 @@
 <?php include_once(ROOT_PATH . '/assets/includes/rede/header.php'); ?>
+<!-- Verificador CSS -->
+<link type="text/css" href="<?php echo site_url('assets/css/verificador2.css'); ?>" rel="stylesheet">
+<style>
+    #formularioPerfil .card,
+    #formularioPerfil .card-group,
+    #formularioPerfil .card-nav .tab-content {
+        margin-bottom: 0px;
+        height: 100%;
+    }
 
+    #formularioPerfil .row,
+    #formularioPerfil .row {
+        padding-bottom: 1.5rem;
+    }
+</style>
 <script>
     function alterarSenha() {
         if ($('#senhaAt').prop('readonly')) {
@@ -15,161 +29,237 @@
 </script>
 <div class="page-section border-bottom-2">
     <div class="container page__container">
-    <form method="post" action="<?php echo site_url('rede/perfil/update'); ?>" enctype="multipart/form-data" class="col-md-12 p-0 mx-auto">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
+        <form id="formularioPerfil" method="post" action="<?php echo site_url('rede/perfil/update'); ?>" enctype="multipart/form-data" class="col-md-12 p-0 mx-auto">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
 
-                        <h5 class="card-title mb-4">Dados de login</h5>
-                        <div class="form-group">
-                            <label class="form-label" for="username">Usuario: *</label>
-                            <input name="login" id="username" type="text" class="form-control" value="<?php echo $aluno[0]['login'] ?>" placeholder="Seu usuario..." required>
+                            <h5 class="card-title mb-4">Dados iniciais</h5>
+                            <div class="form-group">
+                                <label class="form-label" for="username">Usuario: *</label>
+                                <input name="login" id="username" type="text" class="form-control" value="<?php echo $aluno[0]['login'] ?>" placeholder="Seu usuario..." required>
+                            </div>
+                            <div class="form-row mb-3">
+                                <div class="col">
+                                    <label class="form-label" for="password">Senha: </label>
+                                    <div class="input-group mb-3">
+                                        <input name="senha" id="senhaAt" type="password" class="form-control" placeholder="*********************" readonly>
+                                        <div class="input-group-append">
+                                            <button id="alterar_password" class="btn btn-light" type="button" onclick="alterarSenha();" style="height: 36px;">
+                                                Alterar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label" for="confirm_password">Confirmar Senha: *</label>
+                                    <input name="confirmar_senha" igual="senha" id="confirm_password" type="password" class="form-control" placeholder="*********************" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email: *</label>
+                                <input name="email" id="email" type="email" class="form-control" value="<?php echo $aluno[0]['email'] ?>" placeholder="Seu email..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="profissao">Profissão: *</label>
+                                <input name="profissao" id="profissao" value="<?= $aluno[0]['profissao'] ?>" type="profissao" class="form-control" placeholder="Sua profissão..." required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="estado_civil">Estado Civil: *</label>
+                                <select name="estado_civil" id="estado_civil" type="text" class="form-control" required>
+                                    <option value="Solteiro" <?php if ($aluno[0]['estado_civil'] && $aluno[0]['estado_civil'] == "Solteiro") {
+                                                                    echo "selected";
+                                                                } ?>>Solteiro(a)</option>
+                                    <option value="Casado" <?php if ($aluno[0]['estado_civil'] && $aluno[0]['estado_civil'] == "Casado") {
+                                                                echo "selected";
+                                                            } ?>>Casado(a)</option>
+                                    <option value="Separado" <?php if ($aluno[0]['estado_civil'] && $aluno[0]['estado_civil'] == "Separado") {
+                                                                    echo "selected";
+                                                                } ?>>Separado(a)</option>
+                                    <option value="Divorciado" <?php if ($aluno[0]['estado_civil'] && $aluno[0]['estado_civil'] == "Divorciado") {
+                                                                    echo "selected";
+                                                                } ?>>Divorciado(a)</option>
+                                    <option value="Viúvo" <?php if ($aluno[0]['estado_civil'] && $aluno[0]['estado_civil'] == "Viúvo") {
+                                                                echo "selected";
+                                                            } ?>>Viúvo(a)</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-row mb-3">
-                            <div class="col">
-                                <label class="form-label" for="password">Senha: </label>
-                                <div class="input-group mb-3">
-                                    <input name="senha" id="senhaAt" type="password" class="form-control" placeholder="*********************" readonly>
-                                    <div class="input-group-append">
-                                        <button id="alterar_password" class="btn btn-light" type="button" onclick="alterarSenha();" style="height: 36px;">
-                                            Alterar
-                                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Dados Pessoais</h5>
+                            <div class="form-group">
+                                <label class="form-label" for="username">Nome: *</label>
+                                <input name="nome" id="nome" type="text" class="form-control" value="<?php echo $aluno[0]['nome'] ?>" placeholder="Seu nome completo..." required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="nascimento">Nascimento: *</label>
+                                <input name="nascimento" id="nascimento" type="text" class="form-control" value="<?php echo $aluno[0]['nascimento']; ?>" placeholder="XX/XX/XXXX" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="username">CPF / CNPJ: *</label>
+                                <input name="cpf" id="cpf" type="cpf" class="form-control cpf" value="<?php echo $aluno[0]['cpf']; ?>" placeholder="XXX.XXX.XXX-XX" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="password">Telefone: *</label>
+                                <input name="telefone" id="telefone" type="telefone" class="form-control telefone" value="<?php echo $aluno[0]['telefone']; ?>" placeholder="(XX) XXXXX-XXXX" required>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label class="form-label" for="username">Foto:</label>
+                                <div class="custom-file">
+                                    <input name="foto" type="file" id="foto" class="custom-file-input">
+                                    <label for="foto" class="custom-file-label">Escolher Arquivo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h5 class="card-title mb-4">Dados do beneficiário *</h5>
+
+                            <div class="form-row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="nome_benef">Nome: *</label>
+                                        <input name="nome_benef" id="nome_benef" value="<?= $aluno[0]['nome_benef'] ?>" type="text" class="form-control" placeholder="Nome completo do beneficiário..." required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cpf_benef">CPF: *</label>
+                                        <input name="cpf_benef" id="cpf_benef" value="<?= $aluno[0]['cpf_benef'] ?>" type="cpf" class="form-control cpf" placeholder="CPF do beneficiário..." required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="parentesco_benef">Grau de parentesco: *</label>
+                                        <input name="parentesco_benef" id="parentesco_benef" value="<?= $aluno[0]['parentesco_benef'] ?>" type="text" class="form-control" placeholder="Grau de parentesco..." required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <label class="form-label" for="confirm_password">Confirmar Senha: *</label>
-                                <input name="confirmar_senha" igual="senha" id="confirm_password" type="password" class="form-control" placeholder="*********************" readonly>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="email">Email: *</label>
-                            <input name="email" id="email" type="email" class="form-control" value="<?php echo $aluno[0]['email'] ?>" placeholder="Seu email..." required>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Dados Pessoais</h5>
-                        <div class="form-group">
-                            <label class="form-label" for="username">Nome: *</label>
-                            <input name="nome" id="nome" type="text" class="form-control" value="<?php echo $aluno[0]['nome'] ?>" placeholder="Seu nome completo..." required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="username">CPF / CNPJ: *</label>
-                            <input name="cpf" id="cpf" type="cpf" class="form-control cpf" value="<?php echo $aluno[0]['cpf']; ?>" placeholder="XXX.XXX.XXX-XX" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="password">Telefone: *</label>
-                            <input name="telefone" id="telefone" type="telefone" class="form-control telefone" value="<?php echo $aluno[0]['telefone']; ?>" 
-                            placeholder="(XX) XXXXX-XXXX" required>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label class="form-label" for="username">Foto:</label>
-                            <div class="custom-file">
-                                <input name="foto" type="file" id="foto" class="custom-file-input">
-                                <label for="foto" class="custom-file-label">Escolher Arquivo</label>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h5 class="card-title mb-4">Endereço *</h5>
+
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <label class="form-label" for="username">Cep: *</label>
+                                    <div class="input-group mb-3">
+                                        <input type="cep" id="cep" name="cep" class="form-control cep" value="<?php echo $aluno[0]['cep']; ?>" placeholder="XXXXX-XXX" aria-describedby="basic-addon2" required>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-light" type="button" onclick="getCep($('#cep').val(), '#estado', '#cidade');" style="height: 36px;">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label" for="username">Estado: *</label>
+                                    <select id="estado" onchange="getCidades($(this).val(), '#cidade')" class="form-control selectpicker" title="UF" name="estado" data-live-search="true" data-size="5" required>
+                                        <?php foreach ($estados as $estd) {
+                                            $selected = $estd['nome'] == $aluno[0]['estado'] ? "selected" : "";
+                                            echo '<option value="' . $estd['nome'] . '" ' . $selected . '>' . $estd['uf'] . '</option>';
+                                        } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="username">Cidade: *</label>
+                                    <select id="cidade" class="form-control selectpicker" name="cidade" data-live-search="true" title="Selecione uma cidade..." data-size="5" required>
+                                        <?php foreach ($cidades as $estd) {
+                                            $selected = $estd['nome'] == $aluno[0]['cidade'] ? "selected" : "";
+                                            echo '<option value="' . $estd['nome'] . '" ' . $selected . '>' . $estd['nome'] . '</option>';
+                                        } ?>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="form-row pt-3">
+                                <div class="col-md-5">
+                                    <label class="form-label" for="username">Logradouro: *</label>
+                                    <input name="endereco" id="endereco" type="text" value="<?php echo $aluno[0]['endereco'] ?>" class="form-control" placeholder="Rua, avenida..." required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label" for="username">Numero: *</label>
+                                    <input id="numero" type="number" class="form-control" name="numero" value="<?php echo $aluno[0]['numero'] ?>" placeholder="XXX" step="1" min="0" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label" for="username">Complemento:</label>
+                                    <input name="complemento" id="complemento" type="text" class="form-control" value="<?php echo $aluno[0]['complemento'] ?>" placeholder="">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label" for="username">Bairro: *</label>
+                                    <input name="bairro" id="bairro" type="text" class="form-control" value="<?php echo $aluno[0]['bairro'] ?>" placeholder="Seu bairro..." required>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
+            <?php if (!$documento) : ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
 
-                        <h5 class="card-title mb-4">Endereço *</h5>
+                                <h5 class="card-title mb-4">Documento Assinado *</h5>
 
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                <label class="form-label" for="username">Cep: *</label>
-                                <div class="input-group mb-3">
-                                    <input type="cep" id="cep" name="cep" class="form-control cep" value="<?php echo $aluno[0]['cep']; ?>" placeholder="XXXXX-XXX" aria-describedby="basic-addon2" required>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-light" type="button" onclick="getCep($('#cep').val(), '#estado', '#cidade');" style="height: 36px;">
-                                            <i class="fa fa-search"></i>
-                                        </button>
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="form-check">
+                                            <label class="form-check-label" for="exampleCheck1" style="font-size:14px;">
+                                                <span class="text-danger">Siga os passos abaixo para enviar seu documento assinado:</span>
+                                                <br><br>
+                                                <li>
+                                                    Baixe e imprima nossa
+                                                    <a class="text-primary fbold" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">CARTA DE ORIENTAÇÃO AO ASSOCIADO</a>:
+                                                    <br><a class="btn btn-secondary" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">Baixar Documento</a>
+                                                </li>
+                                                <br>
+                                                <li>Preencha os campos com seus dados à caneta preta ou azul.</li>
+                                                <br>
+                                                <li>Anexe abaixo o documento escaneado (ou uma foto de celular totalmente visível).</li>
+                                                <input type="file" name="documento" accept="image/png, image/jpeg, image/jpg" required>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <label class="form-label" for="username">Estado: *</label>
-                                <select id="estado" onchange="getCidades($(this).val(), '#cidade')" class="form-control selectpicker" title="UF" name="estado" data-live-search="true" data-size="5" required>
-                                    <?php foreach ($estados as $estd) {
-                                        $selected = $estd['nome'] == $aluno[0]['estado'] ? "selected" : "";
-                                        echo '<option value="' . $estd['nome'] . '" ' . $selected . '>' . $estd['uf'] . '</option>';
-                                    } ?>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="username">Cidade: *</label>
-                                <select id="cidade" class="form-control selectpicker" name="cidade" data-live-search="true" title="Selecione uma cidade..." data-size="5" required>
-                                    <?php foreach ($cidades as $estd) {
-                                        $selected = $estd['nome'] == $aluno[0]['cidade'] ? "selected" : "";
-                                        echo '<option value="' . $estd['nome'] . '" ' . $selected . '>' . $estd['nome'] . '</option>';
-                                    } ?>
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="form-row pt-3">
-                            <div class="col-md-5">
-                                <label class="form-label" for="username">Logradouro: *</label>
-                                <input name="endereco" id="endereco" type="text" value="<?php echo $aluno[0]['endereco'] ?>" class="form-control" placeholder="Rua, avenida..." required>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label" for="username">Numero: *</label>
-                                <input id="numero" type="number" class="form-control" name="numero" value="<?php echo $aluno[0]['numero'] ?>" placeholder="XXX" step="1" min="0" required>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label" for="username">Complemento:</label>
-                                <input name="complemento" id="complemento" type="text" class="form-control" value="<?php echo $aluno[0]['complemento'] ?>" placeholder="">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label" for="username">Bairro: *</label>
-                                <input name="bairro" id="bairro" type="text" class="form-control" value="<?php echo $aluno[0]['bairro'] ?>" placeholder="Seu bairro..." required>
-                            </div>
                         </div>
                     </div>
                 </div>
+            <?php endif; ?>
+            <div class="text-center">
+                <button id="submeteForm" type="submit" class="btn btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;Salvar Alterações</button>
             </div>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;Salvar Alterações</button>
-        </div>
         </form>
     </div>
 </div>
 
 <!-- // END Page Content -->
 <?php include_once(ROOT_PATH . '/assets/includes/rede/footer.php'); ?>
+<!-- Validador de formulários -->
+<script src="<?php echo site_url('assets/js/verificador.js'); ?>"></script>
+<script src="<?php echo site_url('assets/js/verificador_datas5.js'); ?>"></script>
 
-<?php
-if ($this->session->flashdata('aviso_tipo')) { ?>
-    <script>
-        $(document).ready(function() {
-            var options = {
-                "closeButton": true,
-                "positionClass": "posicao-toast",
-                "progressBar": true,
-                "timeOut": 5000
-            }
-            <?php if ($this->session->flashdata('aviso_tipo') == 'warning' || $this->session->flashdata('aviso_tipo') == '3' || $this->session->flashdata('aviso_tipo') == 'atencao') { ?>
-                toastr.warning('<?php echo $this->session->flashdata('aviso_msg'); ?>', 'Atenção', options);
-            <?php } else if ($this->session->flashdata('aviso_tipo') == 'success' || $this->session->flashdata('aviso_tipo') == '0' || $this->session->flashdata('aviso_tipo') == 'sucesso') { ?>
-                toastr.success('<?php echo $this->session->flashdata('aviso_mensagem'); ?>', 'Sucesso!', options);
-            <?php } else if ($this->session->flashdata('aviso_tipo') == 'error' || $this->session->flashdata('aviso_tipo') == '1' || $this->session->flashdata('aviso_tipo') == 'danger' || $this->session->flashdata('aviso_tipo') == 'erro' || $this->session->flashdata('aviso_tipo') == 'perigo') { ?>
-                toastr.error('<?php echo $this->session->flashdata('aviso_mensagem'); ?>', 'Erro!', options);
-            <?php } ?>
-        });
-    </script>
-<?php } ?>
 <script>
     function mascaraCep(obj) {
         var i = 0;
@@ -184,7 +274,7 @@ if ($this->session->flashdata('aviso_tipo')) { ?>
         var or = obj.value;
         var v = or.replace(/\D/g, '');
 
-        if (v.length > 14){
+        if (v.length > 14) {
             v = v.substring(0, 14);
         }
         if (v.length >= 10) {
@@ -298,5 +388,14 @@ if ($this->session->flashdata('aviso_tipo')) { ?>
         $('.cpf').on('keyup', function() {
             mascaraCPF(this);
         });
+
+        $('#nascimento').on('keyup blur change', function() {
+            MascaraData(this);
+        });
+
+        
+        <?php if (isset($erros) && $erros == 1) : ?>
+            $('#submeteForm').click();
+        <?php endif; ?>
     });
 </script>

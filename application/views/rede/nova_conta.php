@@ -35,7 +35,7 @@
     <link type="text/css" href="<?php echo site_url('assets/assets_old'); ?>/css/toastr.css" rel="stylesheet">
 
     <!-- Verificador CSS -->
-    <link type="text/css" href="<?php echo site_url('assets/css/verificador.css'); ?>" rel="stylesheet">
+    <link type="text/css" href="<?php echo site_url('assets/css/verificador2.css'); ?>" rel="stylesheet">
 
     <!-- bootstrap selectpicker -->
     <!-- Latest compiled and minified CSS -->
@@ -91,6 +91,18 @@
             color: #367294;
             background-color: transparent;
             border-color: #367294;
+        }
+
+        [dir] .card,
+        [dir] .card-group,
+        [dir] .card-nav .tab-content {
+            margin-bottom: 0px;
+            height: 100%;
+        }
+
+        [dir=ltr] .row,
+        [dir=rtl] .row {
+            padding-bottom: 1.5rem;
         }
     </style>
 </head>
@@ -223,6 +235,11 @@
                                                 <option value="ex">Estrangeira</option>
                                             </select>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label" for="profissao">Profissão: *</label>
+                                            <input name="profissao" id="profissao" type="profissao" class="form-control" placeholder="Sua profissão..." required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -233,6 +250,16 @@
                                         <div class="form-group">
                                             <label class="form-label" for="username">Nome: *</label>
                                             <input name="nome" id="nome" type="text" class="form-control" placeholder="Seu nome completo..." required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="estado_civil">Estado Civil: *</label>
+                                            <select name="estado_civil" id="estado_civil" type="text" class="form-control" required>
+                                                <option value="Solteiro">Solteiro(a)</option>
+                                                <option value="Casado">Casado(a)</option>
+                                                <option value="Separado">Separado(a)</option>
+                                                <option value="Divorciado">Divorciado(a)</option>
+                                                <option value="Viúvo">Viúvo(a)</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="nascimento">Nascimento: *</label>
@@ -259,6 +286,37 @@
                                             <div class="custom-file">
                                                 <input name="foto" type="file" id="foto" class="custom-file-input">
                                                 <label for="foto" class="custom-file-label">Escolher Arquivo</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <h5 class="card-title mb-4">Dados do beneficiário *</h5>
+
+                                        <div class="form-row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="nome_benef">Nome: *</label>
+                                                    <input name="nome_benef" id="nome_benef" type="text" class="form-control" placeholder="Nome completo do beneficiário..." required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="cpf_benef">CPF: *</label>
+                                                    <input name="cpf_benef" id="cpf_benef" type="cpf" class="form-control" placeholder="CPF do beneficiário..." required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="parentesco_benef">Grau de parentesco: *</label>
+                                                    <input name="parentesco_benef" id="parentesco_benef" type="text" class="form-control" placeholder="Grau de parentesco..." required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -337,8 +395,8 @@
                                                         <span class="text-danger">É necessário fazer alguns passos para prosseguir com seu cadastro:</span>
                                                         <br><br>
                                                         <li>
-                                                            Baixe e imprima nossa 
-                                                            <a class="text-primary fbold" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">CARTA DE ORIENTAÇÃO AO ASSOCIADO</a>: 
+                                                            Baixe e imprima nossa
+                                                            <a class="text-primary fbold" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">CARTA DE ORIENTAÇÃO AO ASSOCIADO</a>:
                                                             <br><a class="btn btn-secondary" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">Baixar Documento</a>
                                                         </li>
                                                         <br>
@@ -349,7 +407,7 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="col-md-12">
                                                 <hr>
                                                 <div class="form-check">

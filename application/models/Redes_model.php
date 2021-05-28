@@ -25,4 +25,13 @@ class Redes_model extends CI_Model {
 
         return $query->result_array();
     }
+
+    public function getUsuario($id) {
+        $query = $this->db->query("SELECT aln.*, doc.id_aluno, doc.root, doc.arquivo FROM aluno as aln 
+        LEFT JOIN documento_termos as doc ON doc.id_aluno = aln.id
+        WHERE aln.id = '{$id}'
+        AND tipo='rede' ");
+        $result = $query->result_array();
+        return ($result) ? $result[0] : null;
+    }
 }

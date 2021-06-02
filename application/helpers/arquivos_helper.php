@@ -77,8 +77,12 @@ function removeDocumento($id_documento)
     $doc = $CI->model->selecionaBusca('documento_termos', "WHERE id='{$id_documento}' ");
     if (isset($doc[0]['id'])) {
         $CI->model->remove('documento_termos', $doc[0]['id']);
-        if (file_exists($doc[0]['root'])) {
-            unlink($doc[0]['root']);
+        $arrayRemoval = (strpos($doc[0]['root'], ';') !== false) ? explode(";", $doc[0]['root']) : [$doc[0]['root']];
+
+        foreach ($arrayRemoval as $remove) {
+            if (file_exists($remove)) {
+                unlink($remove);
+            }
         }
     }
 }

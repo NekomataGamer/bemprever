@@ -23,7 +23,7 @@
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Email</a>
                                         </th>
                                         <th>
-                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Documento</a>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Documentos</a>
                                         </th>
                                         <th>
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">IP cadastrado</a>
@@ -35,12 +35,7 @@
                                 <tbody class="list" id="search">
                                     <?php if (count($usuarios) > 0) {
                                         foreach ($usuarios as $fat) {
-                                            $documento = "<span class='text-danger'>Não enviado</span>";
-                                            if (isset($fat['root']) && !empty($fat['root'])){
-                                                $documento = '<a href="'. site_url(getDocumentoByRoot($fat['root'])) . '" target="_blank" >
-                                                    <img src="' . site_url(getDocumentoByRoot($fat['root'])) . '" alt="documento" style="max-height:100px; width: auto;" />
-                                                </a>';
-                                            }
+                                            $documento = retornaDocsUsuario($fat);
                                             $btns = '<a class="dropdown-item" 
                                                 href="javascript:void(0);"
                                                     data-href="' . site_url('admin/rede/confirmar_cadastro/' . $fat['id']) . '"
@@ -51,8 +46,8 @@
                                                     data-toggle="aviso-modal"
                                                     title="Confirmar cadastro na rede"
                                                 href="javascript:void(0);"><i class="fa fa-check"></i>&nbsp;Confirmar cadastro</a>';
-                                                
-                                                $btns2 = '<a class="dropdown-item" 
+
+                                            $btns2 = '<a class="dropdown-item" 
                                                 href="javascript:void(0);"
                                                     data-href="' . site_url('admin/rede/nao_confirmar_cadastro/' . $fat['id']) . '"
                                                     data-titulo="<i class=' . "'fas fa-uncheck'" . '></i> Pedir Novo Documento"

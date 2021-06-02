@@ -109,10 +109,12 @@ License: You must have a valid license purchased only from themeforest(the above
 </head>
 <!--end::Head-->
 <!--begin::Body-->
-<?php 
+<?php
 $retorno = checkIfDataIsMissing();
 $documento = $retorno['data'];
-if (!$retorno['type'] && $title !== "Meu Perfil") { redirect('rede/dados_incompletos'); }
+if (!$retorno['type'] && $title !== "Meu Perfil") {
+	redirect('rede/dados_incompletos');
+}
 ?>
 
 
@@ -515,13 +517,36 @@ if (!$retorno['type'] && $title !== "Meu Perfil") { redirect('rede/dados_incompl
 												</ul>
 											</div>
 										</li>
-										<?php if ($documento): ?>
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
-											<a href="<?= $documento ?>" class="menu-link" download>
-												<span class="menu-text">Termo Assinado</span>
-												<i class="menu-arrow"></i>
-											</a>
-										</li>
+										<?php if (isset($documento) && isset($documento[0]) && !empty($documento)) : ?>
+											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
+												<a href="javascript:void(0)" onclick="downloadTermos()" class="menu-link">
+													<span class="menu-text">Termo Assinado</span>
+													<i class="menu-arrow"></i>
+												</a>
+											</li>
+
+											<script>
+												var urls = <?php echo json_encode($documento); ?>;
+
+												function downloadTermos() {
+													var temporaryDownloadLink = document.createElement("a");
+													temporaryDownloadLink.style.display = 'none';
+
+													document.body.appendChild(temporaryDownloadLink);
+
+													for (var n = 0; n < urls.length; n++) {
+														var download = urls[n];
+														let num = n + 1;
+														let type = download.split('.');
+														type = type[type.length - 1];
+														temporaryDownloadLink.setAttribute('href', download);
+														temporaryDownloadLink.setAttribute('download', "Documento-assinado("+num+")."+type);
+														temporaryDownloadLink.click();
+													}
+
+													document.body.removeChild(temporaryDownloadLink);
+												}
+											</script>
 										<?php endif; ?>
 									</ul>
 									<!--end::Header Nav-->

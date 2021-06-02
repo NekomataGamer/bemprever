@@ -28,8 +28,8 @@ class LinkCadastro extends CI_Controller
     $planos = $this->model->selecionaBusca('plano_rede', "");
     $estados = $this->model->selecionaBusca('estados', "");
     $config = $this->model->selecionaBusca('configuracoes', "");
-    
-    $this->load->view('rede/nova_conta', ['indicador' => $indicador[0], 'planos' => $planos, 'estados' => $estados, 'config' => $config, 'link' => $link, 'cat'=>$this->db->get('servicos_categoria')->result_array()]);
+
+    $this->load->view('rede/nova_conta', ['indicador' => $indicador[0], 'planos' => $planos, 'estados' => $estados, 'config' => $config, 'link' => $link, 'cat' => $this->db->get('servicos_categoria')->result_array()]);
   }
 
   public function testeJuno()
@@ -66,9 +66,11 @@ class LinkCadastro extends CI_Controller
   //INSERE O DOCUMENTO DO ALUNO
   private function insereDocumento($cpf_aluno)
   {
-    $path = getPathDocumentos($cpf_aluno);
     $rootPath = getRootDocumentos($cpf_aluno);
-    return upload_file($path, $rootPath, 'documento');
+
+    $documentos = $this->input->post('documentos');
+
+    return uploadByBase64($rootPath, $documentos);
   }
 
   //CADASTRO DO ALUNO
@@ -82,9 +84,9 @@ class LinkCadastro extends CI_Controller
     $linkIndicador = $this->input->post('link_indicador');
     $data = [];
     $data = returnArray('aluno_espera');
-    if (!loginValidator($data['login'])){
+    if (!loginValidator($data['login'])) {
       addFunctions($data, ['login']);
-      gera_aviso('erro', 'O login não pode ter espaços em branco nem caracteres especiais.', 'rede/nova_conta?&link='.$linkIndicador);
+      gera_aviso('erro', 'O login não pode ter espaços em branco nem caracteres especiais.', 'rede/nova_conta?&link=' . $linkIndicador);
       exit;
     }
 
@@ -103,7 +105,7 @@ class LinkCadastro extends CI_Controller
 
     if (!checa_ja_cadastrado($args)) {
       addFunctions($data, ['login', 'cpf']);
-      gera_aviso('erro', 'Já existe um usuário com esse login ou CPF / CNPJ, tente novamente.', 'rede/nova_conta?&link='.$linkIndicador);
+      gera_aviso('erro', 'Já existe um usuário com esse login ou CPF / CNPJ, tente novamente.', 'rede/nova_conta?&link=' . $linkIndicador);
       exit;
     }
 
@@ -115,7 +117,7 @@ class LinkCadastro extends CI_Controller
     }
     $data['id_plano']     = $plano[0]['id'];
     $data['ip_assinado']  = $_SERVER['REMOTE_ADDR'];
-    
+
     $idnew = $this->model->insere_id('aluno_espera', $data);
     if ($idnew) {
       $aluno = $this->model->selecionaBusca('aluno_espera', "WHERE id='{$idnew}' ");

@@ -71,7 +71,8 @@ function upload_file($path, $rootpath, $field = 'arquivos')
     return $retorno;
 }
 
-function removeDocumento($id_documento) {
+function removeDocumento($id_documento)
+{
     $CI = &get_instance();
     $doc = $CI->model->selecionaBusca('documento_termos', "WHERE id='{$id_documento}' ");
     if (isset($doc[0]['id'])) {
@@ -102,5 +103,47 @@ function getDocumentoByRoot($documentoRoot): ?string
     $arr = explode('uploads/', $documentoRoot);
     if (!isset($arr[1])) return null;
 
-    return 'uploads/'.$arr[1];
+    return 'uploads/' . $arr[1];
+}
+
+
+
+function uploadByBase64($rootPath, $documentos)
+{
+    $retorno = null;
+
+    if ($documentos && is_array($documentos)) {
+        $dataSendFullPath = [];
+        $dataSendFileName = [];
+        if (!is_dir($rootPath)) {
+            mkdir($rootPath, 0777, TRUE);
+        }
+        for ($i = 0; $i < count($documentos); $i++) {
+            $doc = $documentos[$i];
+            $baseDataFormat = explode(',', $doc)[0];
+            $baseDataOptions = explode('/', $baseDataFormat);
+            $baseDataType = str_replace("data:", "", $baseDataOptions[0]);
+            $baseDataExt = str_replace(";base64", "", $baseDataOptions[1]);
+
+            if ($baseDataType !== "image") {
+                throw new Exception("Tipo de arquivo inválido!");
+            } else if ($baseDataExt !== "jpeg" && $baseDataExt !== "png" && $baseDataExt !== "gif" && $baseDataExt !== "jpg") {
+                throw new Exception("Formato de arquivo inválido!");
+            }
+
+            $number = $i + 1;
+            $fileName = (new Datetime())->format('U') . "-doc-assinado-(" . $number . ")." . $baseDataExt;
+            $output_file = $rootPath . $fileName;
+
+            if (file_put_contents($output_file, file_get_contents($doc))) {
+                $dataSendFullPath[] = $output_file;
+                $dataSendFileName[] = $fileName;
+            }
+        }
+
+        $retorno['full_path'] = implode(';', $dataSendFullPath);
+        $retorno['file_name'] = implode(';', $dataSendFileName);
+    }
+
+    return $retorno;
 }

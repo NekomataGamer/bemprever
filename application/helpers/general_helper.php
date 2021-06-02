@@ -1,12 +1,13 @@
 <?php
 function str_replace_first($from, $to, $content)
 {
-    $from = '/'.preg_quote($from, '/').'/';
+    $from = '/' . preg_quote($from, '/') . '/';
 
     return preg_replace($from, $to, $content, 1);
 }
 
-function getIdString($s){
+function getIdString($s)
+{
     if (strpos($s, '-') === false) return $s;
 
     return explode('-', $s)[0];
@@ -17,27 +18,30 @@ function getIdString($s){
 /* GERADOR DE ERROS GERAIS */
 /* PASSAR MENSAGEM DE ERRO OU DEIXAR A MSG PADRÃO */
 # SEGUNDO CAMPO É O RETORNO DA FUNÇÃO < DEFAULT: FALSE >
-function throwError($msgErro = "Um erro inesperado ocorreu.", $retorno=false){
+function throwError($msgErro = "Um erro inesperado ocorreu.", $retorno = false)
+{
     $CI = &get_instance();
     $CI->session->set_flashdata(array('aviso_tipo' => 1, 'aviso_mensagem' => $msgErro));
     return $retorno;
 }
 // ====================================================================================================================
 
-function formataCPF($cpf){
-    $newcpf = preg_replace("[^0-9]","", $cpf);
+function formataCPF($cpf)
+{
+    $newcpf = preg_replace("[^0-9]", "", $cpf);
     $concat = substr_replace($newcpf, '.', 3, 0);
     $concat = substr_replace($concat, '.', 7, 0);
     $concat = substr_replace($concat, '-', 11, 0);
     return $concat;
 }
 
-function formataTel($tel){
-    $newtel = preg_replace("[^0-9]","", $tel);
+function formataTel($tel)
+{
+    $newtel = preg_replace("[^0-9]", "", $tel);
     $concat = '';
-    if (strlen($newtel) >= 10){
+    if (strlen($newtel) >= 10) {
         $concat2 = strlen($newtel) - 1;
-        $newtel = '('.$newtel;
+        $newtel = '(' . $newtel;
         $concat = substr_replace($newtel, ') ', 3, 0);
         $concat = substr_replace($concat, '-', $concat2, 0);
     } else {
@@ -47,26 +51,27 @@ function formataTel($tel){
     return $concat;
 }
 
-function formataCep($cep){
-    $newcep = preg_replace("[^0-9]","", $cep);
+function formataCep($cep)
+{
+    $newcep = preg_replace("[^0-9]", "", $cep);
     $concat2 = strlen($newcep) - 3;
     $concat = substr_replace($newcep, '-', $concat2, 0);
     return $concat;
 }
 
-function startsWith ($string, $startString) 
-{ 
-    $len = strlen($startString); 
-    return (substr($string, 0, $len) === $startString); 
+function startsWith($string, $startString)
+{
+    $len = strlen($startString);
+    return (substr($string, 0, $len) === $startString);
 }
 
-function endsWith($string, $endString) 
-{ 
-    $len = strlen($endString); 
-    if ($len == 0) { 
-        return true; 
-    } 
-    return (substr($string, -$len) === $endString); 
+function endsWith($string, $endString)
+{
+    $len = strlen($endString);
+    if ($len == 0) {
+        return true;
+    }
+    return (substr($string, -$len) === $endString);
 }
 
 function gera_aviso($tipo, $mensagem, $redirect)
@@ -94,13 +99,13 @@ function RandomString($length)
     return $randstring;
 }
 
-function checaRotaTem($val, $unique=false)
+function checaRotaTem($val, $unique = false)
 {
     $rotaAtual = uri_string();
-    if ($unique){
+    if ($unique) {
         $exploder = explode('/', $rotaAtual);
-        foreach($exploder as $exp){
-            if ($exp == $val){
+        foreach ($exploder as $exp) {
+            if ($exp == $val) {
                 return true;
             }
         }
@@ -148,72 +153,77 @@ function contains($str, $arr)
     return false;
 }
 
-function verifDataPossui($dt, $format=true){
-    if (isset($dt) && !empty($dt) && $dt != '0000-00-00 00:00:00'){
+function verifDataPossui($dt, $format = true)
+{
+    if (isset($dt) && !empty($dt) && $dt != '0000-00-00 00:00:00') {
         return $format ? formataData($dt) : $dt;
     } else {
         return "Não possui";
     }
 }
 
-function formataData($dt, $seconds = false, $minutes = true){
-    if (strpos($dt, ' ') !== false){
+function formataData($dt, $seconds = false, $minutes = true)
+{
+    if (strpos($dt, ' ') !== false) {
         $obj = explode(' ', $dt);
         $news = explode('-', $obj[0]);
 
-        if ($seconds){
-            return $news[2].'/'.$news[1].'/'.$news[0].' '.$obj[1];
+        if ($seconds) {
+            return $news[2] . '/' . $news[1] . '/' . $news[0] . ' ' . $obj[1];
         }
 
-        if ($minutes){
+        if ($minutes) {
             $hhmm = explode(':', $obj[1]);
-            return $news[2].'/'.$news[1].'/'.$news[0].' '.$hhmm[0].':'.$hhmm[1];
+            return $news[2] . '/' . $news[1] . '/' . $news[0] . ' ' . $hhmm[0] . ':' . $hhmm[1];
         } else {
-            return $news[2].'/'.$news[1].'/'.$news[0];
+            return $news[2] . '/' . $news[1] . '/' . $news[0];
         }
     }
 
     $news = explode('-', $dt);
-    return $news[2].'/'.$news[1].'/'.$news[0];
+    return $news[2] . '/' . $news[1] . '/' . $news[0];
 }
 
-function formataDataBL($dt){
-    if (strpos($dt, ' ') !== false){
+function formataDataBL($dt)
+{
+    if (strpos($dt, ' ') !== false) {
         $obj = explode(' ', $dt);
         $news = explode('-', $obj[0]);
-        return $news[2].'/'.$news[1].'/'.$news[0].'<br/>'.$obj[1];
+        return $news[2] . '/' . $news[1] . '/' . $news[0] . '<br/>' . $obj[1];
     }
 
     $news = explode('-', $dt);
-    return $news[2].'/'.$news[1].'/'.$news[0];
+    return $news[2] . '/' . $news[1] . '/' . $news[0];
 }
 
-function formataDataBrSemTime($dt){
-    if (strpos($dt, ' ') !== false){
+function formataDataBrSemTime($dt)
+{
+    if (strpos($dt, ' ') !== false) {
         $obj = explode(' ', $dt);
         $news = explode('-', $obj[0]);
-        return $news[2].'/'.$news[1].'/'.$news[0];
+        return $news[2] . '/' . $news[1] . '/' . $news[0];
     }
 
     $news = explode('-', $dt);
-    return $news[2].'/'.$news[1].'/'.$news[0];
+    return $news[2] . '/' . $news[1] . '/' . $news[0];
 }
 
-function formataDataInsert($dt){
-    if (strpos($dt, ' ') !== false){
+function formataDataInsert($dt)
+{
+    if (strpos($dt, ' ') !== false) {
         $obj = explode(' ', $dt);
         $news = explode('/', $obj[0]);
 
         $exploder2 = explode(':', $obj[1]);
-        if (count($exploder2) == 3){
-            return $news[2].'-'.$news[1].'-'.$news[0].' '.$obj[1];
+        if (count($exploder2) == 3) {
+            return $news[2] . '-' . $news[1] . '-' . $news[0] . ' ' . $obj[1];
         } else {
-            return $news[2].'-'.$news[1].'-'.$news[0].' '.$exploder2[0].':'.$exploder2[1].':00';
+            return $news[2] . '-' . $news[1] . '-' . $news[0] . ' ' . $exploder2[0] . ':' . $exploder2[1] . ':00';
         }
     }
 
     $news = explode('/', $dt);
-    return $news[2].'-'.$news[1].'-'.$news[0];
+    return $news[2] . '-' . $news[1] . '-' . $news[0];
 }
 
 function temPermissao($n)
@@ -288,10 +298,11 @@ function addTimeData($data, $val, $time = 'dia')
     return $datetime->format('Y-m-d H:i:s');
 }
 
-function removerDir($dir){
-    $files = array_diff(scandir($dir), array('.','..'));
+function removerDir($dir)
+{
+    $files = array_diff(scandir($dir), array('.', '..'));
     foreach ($files as $file) {
-      (is_dir("$dir/$file")) ? removerDir("$dir/$file") : unlink("$dir/$file");
+        (is_dir("$dir/$file")) ? removerDir("$dir/$file") : unlink("$dir/$file");
     }
     return rmdir($dir);
 }
@@ -310,16 +321,18 @@ function inserir_obj($tabela, $post)
             } else {
                 $insere[$field] = $post[$field];
             }
-        } else if (strpos($field, "arquivos") !== false || 
-        strpos($field, "imagens") !== false || 
-        strpos($field, "fotos") !== false || 
-        strpos($field, "foto") !== false || 
-        strpos($field, "imagem") !== false || 
-        strpos($field, "arquivo") !== false || 
-        strpos($field, "capa") !== false ||
-        strpos($field, "caminho") !== false || 
-        strpos($field, "ficha_tecnica") !== false
-        || strpos($field, "thumb") !== false) {
+        } else if (
+            strpos($field, "arquivos") !== false ||
+            strpos($field, "imagens") !== false ||
+            strpos($field, "fotos") !== false ||
+            strpos($field, "foto") !== false ||
+            strpos($field, "imagem") !== false ||
+            strpos($field, "arquivo") !== false ||
+            strpos($field, "capa") !== false ||
+            strpos($field, "caminho") !== false ||
+            strpos($field, "ficha_tecnica") !== false
+            || strpos($field, "thumb") !== false
+        ) {
             $tipouser =  'aluno/';
             $idadd = 1;
             if ($tabela == 'admin') {
@@ -332,7 +345,7 @@ function inserir_obj($tabela, $post)
                 $lastid = $CI->model->queryString("SELECT id FROM `professor` ORDER BY id DESC LIMIT 1");
                 $idadd = isset($lastid[0]['id']) ? $lastid[0]['id'] + 1 : $idadd;
                 $insere['id'] = $idadd;
-            } else if ($tabela == "aluno"){
+            } else if ($tabela == "aluno") {
                 $lastid = $CI->model->queryString("SELECT id FROM `aluno` ORDER BY id DESC LIMIT 1");
                 $idadd = isset($lastid[0]['id']) ? $lastid[0]['id'] + 1 : $idadd;
                 $insere['id'] = $idadd;
@@ -344,10 +357,10 @@ function inserir_obj($tabela, $post)
             } else {
                 $idadd = 0;
             }
-            
+
             $idpasta = $idadd != 0 ? $idadd : $CI->session->userdata('id');
             $nompasta = isset($post['login']) ? rawurlencode($post['login']) : rawurlencode($CI->session->userdata('login'));
-            if ($tabela == 'curso'){
+            if ($tabela == 'curso') {
                 $nompasta = $post['nome'];
             }
 
@@ -392,16 +405,18 @@ function atualizar_obj($tabela, $post, $id, $key = "id")
             } else {
                 $insere[$field] = $post[$field];
             }
-        } else if (strpos($field, "arquivos") !== false 
-        || strpos($field, "imagens") !== false 
-        || strpos($field, "fotos") !== false 
-        || strpos($field, "foto") !== false 
-        || strpos($field, "imagem") !== false 
-        || strpos($field, "arquivo") !== false 
-        || strpos($field, "caminho") !== false 
-        || strpos($field, "ficha_tecnica") !== false
-        || strpos($field, "capa") !== false
-        || strpos($field, "thumb") !== false) {
+        } else if (
+            strpos($field, "arquivos") !== false
+            || strpos($field, "imagens") !== false
+            || strpos($field, "fotos") !== false
+            || strpos($field, "foto") !== false
+            || strpos($field, "imagem") !== false
+            || strpos($field, "arquivo") !== false
+            || strpos($field, "caminho") !== false
+            || strpos($field, "ficha_tecnica") !== false
+            || strpos($field, "capa") !== false
+            || strpos($field, "thumb") !== false
+        ) {
             $tipouser =  'aluno/';
             $idadd = $id;
             if ($tabela == 'admin') {
@@ -413,7 +428,7 @@ function atualizar_obj($tabela, $post, $id, $key = "id")
             }
             $idpasta = $idadd != 0 ? $idadd : $CI->session->userdata('id');
             $nompasta = isset($post['login']) ? rawurlencode($post['login']) : rawurlencode($CI->session->userdata('login'));
-            if ($tabela == 'curso'){
+            if ($tabela == 'curso') {
                 $idpasta = $anterior[0]['id'];
                 $nompasta = $post['nome'];
             }
@@ -432,20 +447,20 @@ function atualizar_obj($tabela, $post, $id, $key = "id")
                 $data = array('arquivo_data' => $CI->upload->data());
                 $insere[$field] = $data['arquivo_data']['file_name'];
                 //if (isset($anterior[0][$field]) && !empty($anterior[0][$field]) && $anterior[0][$field] != $data['arquivo_data']['file_name']) {
-                    //if ($tabela != 'curso'){
-                        //$path = $folder . $anterior[0][$field];
-                        //unlink($path);
-                    //} else {
-                        //$path = get_url($id, $anterior[0]['nome'], $anterior[0]['capa']);
-                        //unlink($path);
-                   // }
+                //if ($tabela != 'curso'){
+                //$path = $folder . $anterior[0][$field];
+                //unlink($path);
+                //} else {
+                //$path = get_url($id, $anterior[0]['nome'], $anterior[0]['capa']);
+                //unlink($path);
+                // }
                 //}
             } else if ($tabela == 'curso') {
-                if ($anterior[0]['nome'] != $post['nome']){
-                    try{
-                        rename(get_url_h($id, $anterior[0]['nome'], $anterior[0]['capa']), $folder.'/'.$anterior[0]['capa']);
-                     } catch (Exception $e){
-                     }
+                if ($anterior[0]['nome'] != $post['nome']) {
+                    try {
+                        rename(get_url_h($id, $anterior[0]['nome'], $anterior[0]['capa']), $folder . '/' . $anterior[0]['capa']);
+                    } catch (Exception $e) {
+                    }
                 }
             }
         }
@@ -455,9 +470,60 @@ function atualizar_obj($tabela, $post, $id, $key = "id")
     return $att;
 }
 
+function retornaDocsUsuario($usuario, $icone = "")
+{
+    $usuario = (isset($usuario['id'])) ? $usuario : $usuario[0];
+
+    $documento = "<span class='text-danger'>Não enviado</span>";
+    if (isset($usuario['root']) && !empty($usuario['root'])  && trim($usuario['root']) != "") {
+        if (strpos($usuario['root'], ";")) {
+            $imagens = explode(";", $usuario['root']);
+            $documento = "";
+            for ($i = 0; $i < count($imagens); $i++) {
+                $documento .= '<a href="' . site_url(getDocumentoByRoot($imagens[$i])) . '" class="d-block text-primary" target="_blank" >
+                    '.$icone.' Documento Assinado (' . ($i + 1) . ')
+                </a>';
+            }
+        } else {
+            $documento = '<a href="' . site_url(getDocumentoByRoot($usuario['root'])) . '" target="_blank" >
+                '.$icone.' Documento Assinado ( 1 )
+            </a>';
+        }
+    }
+    return $documento;
+}
+
+
+function retornaDocsUsuarioDropdown($usuario)
+{
+    $usuario = (isset($usuario['id'])) ? $usuario : $usuario[0];
+
+    $documento = '<a class="dropdown-item text-danger" href="javascript:void(0)">
+            <span class="text-danger">
+                <i class="fas fa-file-alt"></i>&nbsp;Não enviado
+            </span>
+        </a>';
+    if (isset($usuario['root']) && !empty($usuario['root'])  && trim($usuario['root']) != "") {
+        if (strpos($usuario['root'], ";")) {
+            $imagens = explode(";", $usuario['root']);
+            $documento = "";
+            for ($i = 0; $i < count($imagens); $i++) {
+                $documento .= '<a class="dropdown-item" href="' . site_url(getDocumentoByRoot($imagens[$i])) . '" target="_blank" >
+                    <i class="fas fa-file-alt"></i>&nbsp;Documento Assinado (' . ($i + 1) . ')
+                </a>';
+            }
+        } else {
+            $documento = '<a class="dropdown-item" href="' . site_url(getDocumentoByRoot($usuario['root'])) . '" target="_blank" >
+                <i class="fas fa-file-alt"></i>&nbsp;Documento Assinado ( 1 )
+            </a>';
+        }
+    }
+    return $documento;
+}
+
 function returnPath($imagem)
 {
-    if ($imagem != "padrao.jpg"){
+    if ($imagem != "padrao.jpg") {
         $CI = &get_instance();
         $tipouser =  'aluno/';
         if ($CI->session->userdata('nivel_adm') == 1) {
@@ -474,7 +540,7 @@ function returnPath($imagem)
 function checkRemoteFile($url)
 {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_URL, $url);
     // don't download content
     curl_setopt($ch, CURLOPT_NOBODY, 1);
     curl_setopt($ch, CURLOPT_FAILONERROR, 1);
@@ -482,20 +548,18 @@ function checkRemoteFile($url)
 
     $result = curl_exec($ch);
     curl_close($ch);
-    if($result !== FALSE)
-    {
+    if ($result !== FALSE) {
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
 
-function truncateText($text, $maxlength){
+function truncateText($text, $maxlength)
+{
     $nlength = strlen($text);
-    
-    if ($nlength > $maxlength) return substr($text, 0, $maxlength - 3).'...';
+
+    if ($nlength > $maxlength) return substr($text, 0, $maxlength - 3) . '...';
 
     return $text;
 }
@@ -506,9 +570,9 @@ function getImgPerf($imagem)
     if (!isset($imagem) || empty($imagem)) return site_url('assets/imagens/padrao.jpg');
     $img = returnPath($imagem);
 
-    if (!checkRemoteFile($img)){
-        $img = site_url('uploads/'.$imagem);
-        if (!checkRemoteFile($img)){
+    if (!checkRemoteFile($img)) {
+        $img = site_url('uploads/' . $imagem);
+        if (!checkRemoteFile($img)) {
             $img = site_url('assets/imagens/padrao.jpg');
         }
     }
@@ -517,9 +581,9 @@ function getImgPerf($imagem)
 
 function returnPath2($imagem, $path, $id, $login)
 {
-    if ($imagem != "padrao.jpg" && $imagem != ""){
+    if ($imagem != "padrao.jpg" && $imagem != "") {
         $CI = &get_instance();
-        $tipouser =  $path.'/';
+        $tipouser =  $path . '/';
         return site_url('uploads/' . $tipouser . '/' . $id . '-' . rawurlencode($login) . '/' . $imagem);
     } else {
         return site_url('assets/imagens/padrao.jpg');

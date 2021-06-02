@@ -39,16 +39,7 @@
                                     <?php if (count($usuarios) > 0) {
                                         foreach ($usuarios as $fat) {
                                             $btns = '';
-                                            $documento = '<a class="dropdown-item text-danger" href="javascript:void(0)">
-                                                            <i class="fas fa-file-alt"></i>&nbsp;Sem Documento
-                                                        </a>';
-                                            if (isset($fat['root']) 
-                                                && !empty($fat['root']) 
-                                                && trim($fat['root']) != ""){
-                                                $documento = '<a class="dropdown-item" href="' . site_url(getDocumentoByRoot($fat['root'])) . '" target="_blank">
-                                                <i class="fas fa-file-alt"></i>&nbsp;Visualizar Documento
-                                            </a>';
-                                            }
+                                            $documento = retornaDocsUsuarioDropdown($fat);
                                             if ($fat['ativo'] == 0){
                                                 $btns .= '<a class="dropdown-item" 
                                                 href="javascript:void(0);"

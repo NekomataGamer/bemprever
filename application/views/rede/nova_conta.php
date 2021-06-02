@@ -389,22 +389,24 @@
                                         <h5 class="card-title mb-4">Passos finais *</h5>
 
                                         <div class="form-row">
-                                            <div class="col-md-12">
-                                                <div class="form-check">
-                                                    <label class="form-check-label" for="exampleCheck1" style="font-size:14px;">
-                                                        <span class="text-danger">É necessário fazer alguns passos para prosseguir com seu cadastro:</span>
-                                                        <br><br>
-                                                        <li>
-                                                            Baixe e imprima nossa
-                                                            <a class="text-primary fbold" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">CARTA DE ORIENTAÇÃO AO ASSOCIADO</a>:
-                                                            <br><a class="btn btn-secondary" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">Baixar Documento</a>
-                                                        </li>
-                                                        <br>
-                                                        <li>Preencha os campos com seus dados à caneta preta ou azul.</li>
-                                                        <br>
-                                                        <li>Anexe abaixo o documento escaneado (ou uma foto de celular totalmente visível).</li>
-                                                        <input type="file" name="documento" accept="image/png, image/jpeg, image/jpg" required>
-                                                    </label>
+                                            <div class="col-md-12" style="font-size:14px;">
+                                                <span class="text-danger">É necessário fazer alguns passos para prosseguir com seu cadastro:</span>
+                                                <br><br>
+                                                <li>
+                                                    Baixe e imprima nossa
+                                                    <a class="text-primary fbold" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>">CARTA DE ORIENTAÇÃO AO ASSOCIADO</a>:
+                                                    <br><a class="btn btn-secondary" href="<?php echo site_url('carta_de_orientacao_ao_associado') ?>"><i class="fa fa-download"></i>&nbsp;&nbsp;Baixar Documento</a>
+                                                </li>
+                                                <br>
+                                                <li>Preencha os campos com seus dados à caneta preta ou azul.</li>
+                                                <br>
+                                                <li>Anexe abaixo os documentos escaneados (ou fotos de celular totalmente visíveis).</li>
+                                                <input id="fileBtn" type="file" class="fileSender" data-target=".filesToSend" multiple accept="image/png, image/jpeg, image/jpg" style="display:none">
+                                                <div class="d-flex align-items-center filesToSend" style="flex-wrap: wrap;">
+                                                </div>
+                                                <a href="javascript:void(0)" class="btn btn-secondary" onclick="$('#fileBtn').click()"><i class="fa fa-upload"></i>&nbsp;&nbsp;Enviar Arquivos</a>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <input id="temArquivos" required value="" style="opacity:0;width:100%;height:0px;">
                                                 </div>
                                             </div>
 
@@ -468,6 +470,9 @@
     <!-- Validador de formulários -->
     <script src="<?php echo site_url('assets/js/verificador.js'); ?>"></script>
     <script src="<?php echo site_url('assets/js/verificador_datas5.js'); ?>"></script>
+
+    <!-- Helper de arquivos -->
+    <script src="<?php echo site_url('assets/js/fileSender.js'); ?>"></script>
 
     <!-- bootstrap selectpicker -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>

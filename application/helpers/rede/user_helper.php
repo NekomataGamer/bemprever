@@ -17,7 +17,7 @@ function getAssinatura($id_aluno)
     return null;
 }
 
-function getDocumentoBySession(): ?string
+function getDocumentoBySession(): ?array
 {
     $CI = &get_instance();
     $id_aluno = $CI->session->userdata('id');
@@ -26,9 +26,18 @@ function getDocumentoBySession(): ?string
     return getDocumentoByData($doc[0]);
 }
 
-function getDocumentoByData($doc): ?string
+function getDocumentoByData($doc): ?array
 {
-    return (isset($doc['root']) && !empty($doc['root']) && trim($doc['root']) != "") ? site_url(getDocumentoByRoot($doc['root'])) : null;
+    if (!isset($doc['root']) || empty($doc['root']) || trim($doc['root']) == "") return null;
+
+    $urls = (strpos($doc['root'], ";") !== false) ? explode(";", $doc["root"]) : [ $doc["root"] ];
+
+    $retorno = [];
+    foreach($urls as $url) {
+        $retorno[] = site_url(getDocumentoByRoot($url));
+    }
+
+    return $retorno;
 }
 
 function checkIfDataIsMissing(): ?array

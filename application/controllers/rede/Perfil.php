@@ -33,9 +33,11 @@ class Perfil extends CI_Controller
   //INSERE O DOCUMENTO DO ALUNO
   private function insereDocumento($cpf_aluno)
   {
-    $path = getPathDocumentos($cpf_aluno);
     $rootPath = getRootDocumentos($cpf_aluno);
-    return upload_file($path, $rootPath, 'documento');
+
+    $documentos = $this->input->post('documentos');
+
+    return uploadByBase64($rootPath, $documentos);
   }
 
   public function update()

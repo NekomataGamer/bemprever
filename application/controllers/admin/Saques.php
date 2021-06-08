@@ -106,7 +106,7 @@ class Saques extends CI_Controller
       if ($aluno) {
         gerarAvisoAluno($aluno[0]['id'], "Pedido de saque estornado", "Seu pedido de saque foi estornado pela administração.<br/><b>Motivos do estorno:</b> " . $motivo, 1, true);
       }
-      addBalanco($this->session->userdata('id'), $saque[0]['valor'], null, 'entrada', "estorno", "Pedido de saque estornado. ".$motivo);
+      addBalanco($saque[0]['id_aluno'], $saque[0]['valor'], null, 'entrada', "estorno", "Pedido de saque estornado. ".$motivo);
       gera_aviso('sucesso', 'saque estornado e excluído com sucesso.', 'admin/saques/em_aberto');
     }
   }

@@ -49,7 +49,7 @@ class Pagamentos extends CI_Controller
         if (!$id_niveis) return false;
 
         $arr['id_niveis'] = $id_niveis;
-        $arr['cadastro_confirmado'] = 0;
+        $arr['cadastro_confirmado'] = 1;
 
         $idusuario = $this->model->insere_id('aluno', $arr);
         if ($idusuario) {

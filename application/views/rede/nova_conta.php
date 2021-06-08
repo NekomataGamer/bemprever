@@ -389,6 +389,7 @@
                                         <h5 class="card-title mb-4">Passos finais *</h5>
 
                                         <div class="form-row">
+                                            <!--
                                             <div class="col-md-12" style="font-size:14px;">
                                                 <span class="text-danger">É necessário fazer alguns passos para prosseguir com seu cadastro:</span>
                                                 <br><br>
@@ -408,7 +409,7 @@
                                                 <div class="form-group" style="margin-bottom:0px;">
                                                     <input id="temArquivos" required value="" style="opacity:0;width:100%;height:0px;">
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="col-md-12">
                                                 <hr>

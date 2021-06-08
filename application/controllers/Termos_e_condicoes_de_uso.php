@@ -13,6 +13,10 @@ class Termos_e_condicoes_de_uso extends CI_Controller
 
     public function index()
     {
+        http_response_code(404);
+        $this->load->view('errors/html/error_404'); // provide your own HTML for the error page
+        die();
+
         $file = getcwd(). '/assets/termos-de-adesao/TERMO-DE-ADESAO.pdf';
         $filename = 'TERMOS DE ADESÃO _ DECLARACAO DE SAÚDE E ANEXOS 1º alteração.pdf';
 

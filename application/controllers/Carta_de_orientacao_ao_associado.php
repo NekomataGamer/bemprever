@@ -13,6 +13,10 @@ class Carta_de_orientacao_ao_associado extends CI_Controller
 
     public function index()
     {
+        http_response_code(404);
+        $this->load->view('errors/html/error_404'); // provide your own HTML for the error page
+        die();
+        
         $file = getcwd(). '/assets/documentos/carta-orientacao.docx';
         $filename = 'CARTA DE ORIENTAÇÃO AO ASSOCIADO DECLARAÇÃO DE SAUDE.docx';
 

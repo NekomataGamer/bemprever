@@ -517,15 +517,17 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 												</ul>
 											</div>
 										</li>
+										
 										<?php if (isset($documento) && isset($documento[0]) && !empty($documento)) : ?>
-											<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
+											<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="false">
 												<a href="javascript:void(0)" onclick="downloadTermos()" class="menu-link">
 													<span class="menu-text">Termo Assinado</span>
 													<i class="menu-arrow"></i>
 												</a>
-											</li>
+											</li> -->
 
 											<script>
+												/*
 												var urls = <?php echo json_encode($documento); ?>;
 
 												function downloadTermos() {
@@ -545,7 +547,7 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 													}
 
 													document.body.removeChild(temporaryDownloadLink);
-												}
+												} */
 											</script>
 										<?php endif; ?>
 									</ul>

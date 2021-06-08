@@ -214,8 +214,8 @@
                     </div>
                 </div>
             </div>
-            <?php if (!$documento) : ?>
-                <div class="row">
+            <?php /* if (!$documento) : ?>
+                <!-- <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
@@ -247,8 +247,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            <?php endif; ?>
+                </div> -->
+            <?php endif; */ ?>
             <div class="text-center">
                 <button id="submeteForm" type="submit" class="btn btn-primary btn-block"><i class="fa fa-check"></i>&nbsp;&nbsp;Salvar Alterações</button>
             </div>

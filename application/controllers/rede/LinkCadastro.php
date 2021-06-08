@@ -128,6 +128,7 @@ class LinkCadastro extends CI_Controller
         exit;
       }
 
+      /*
       $docPass = $this->insereDocumento($data['cpf']);
       $id_documento = null;
       if ($docPass) {
@@ -141,7 +142,7 @@ class LinkCadastro extends CI_Controller
         addFunctions($data);
         gera_aviso('erro', 'Falha ao enviar seu documento assinado, tente novamente.', 'rede/login');
         exit;
-      }
+      } */
 
       $valPagamento = $plano[0]['adesao'];
 
@@ -158,7 +159,7 @@ class LinkCadastro extends CI_Controller
         redirect($linkpay, 'refresh');
       } else {
         $this->model->remove('aluno_espera', $idnew);
-        removeDocumento($id_documento);
+        #removeDocumento($id_documento);
         addFunctions($data, ['email']);
         gera_aviso('erro', 'Falha ao gerar pagamento, possivelmente os dados de email informados estão incorretos.', 'rede/nova_conta?&link=' . $linkIndicador);
       }

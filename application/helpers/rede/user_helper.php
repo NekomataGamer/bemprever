@@ -67,6 +67,7 @@ function checkIfDataIsMissing(): ?array
         ];
     }
 
+    /*
     if (!$documento) {
         $CI->session->set_flashdata([
             'aviso_tipo' => "danger",
@@ -77,7 +78,7 @@ function checkIfDataIsMissing(): ?array
             'type'  => null,
             'data'  => $documento
         ];
-    }
+    } */
 
     return [
         'type'  => true,

@@ -82,6 +82,8 @@ $route['admin/cursos/provas/desativar/(:num)'] = 'admin/provas/desativar/$1';
 $route['admin/cursos/provas/editar/(:num)'] = 'admin/provas/editar/$1';
 $route['admin/cursos/provas/remover/(:num)'] = 'admin/provas/remover/$1';
 
+$route['admin/mensagens/remover/(:num)'] = 'admin/mensagens/remove/$1';
+
 //rotas faq
 $route['admin/faq/ead'] = 'admin/faq/index/ead';
 $route['admin/faq/professor'] = 'admin/faq/index/professor';

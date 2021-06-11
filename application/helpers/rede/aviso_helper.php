@@ -1,4 +1,19 @@
 <?php
+function getAviso() 
+{
+    $CI = &get_instance();
+    if (!$CI->session->userdata('avisado')) {
+        $mensagens = $CI->model->selecionaBusca('mensagem_ava', "WHERE ativa = '1' ORDER BY RAND() LIMIT 1");
+        if ($mensagens) {
+            $CI->session->set_userdata(['avisado' => 1]);
+            return [
+                'mensagem_ava_titulo' => $mensagens[0]['titulo'],
+                'mensagem_ava_texto' => $mensagens[0]['texto']
+            ];
+        }
+    }
+    return null;
+}
 
 /* AVISOS DA REDE */
 function gerarAvisoAluno($id_aluno, $titulo, $texto, $delete_on_read=1, $email=false){

@@ -28,7 +28,7 @@
             </a> -->
 
             <span class="progression-bar__item-text h5 mb-0 text-uppercase">
-                Listagem de mensagens AVA<br/>
+                Listagem de mensagens<br/>
                 <a href="<?php echo site_url('admin/mensagens/cadastrar'); ?>">
                     <button type="button" class="btn btn-primary" ><i class="fa fa-plus"></i>&nbsp;&nbsp;Cadastrar nova</button>
                 </a>
@@ -42,7 +42,7 @@
 
         <div class="table-responsive" >
             <div class="alert alert-info">
-                Caso mais de 1 mensagem esteja ativa ao mesmo tempo, será mostrado APENAS uma delas aleatóriamente no login do aluno.
+                Caso mais de 1 mensagem esteja ativa ao mesmo tempo, será mostrado APENAS uma delas aleatóriamente no login do usuário.
             </div>
             <table class="table mb-0 thead-border-top-0 table-nowrap data-tables">
                 <thead>

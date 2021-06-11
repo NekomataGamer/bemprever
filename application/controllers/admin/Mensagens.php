@@ -12,7 +12,7 @@ class Mensagens extends CI_Controller
 
         if ($this->session->userdata('nivel_adm') != 1) {
             redirect('admin/login');
-        } else if (!buscaPermissao('mensagens')) {
+        } else if (!buscaPermissao('rede', 'visualizar')) {
             gera_aviso('erro', 'Ação não permitida!', 'admin/index');
         }
 
@@ -29,7 +29,7 @@ class Mensagens extends CI_Controller
 
     public function cadastrar()
     {
-        if (!buscaPermissao('mensagens', 'cadastro')) {
+        if (!buscaPermissao('rede', 'configurar')) {
             gera_aviso('erro', 'Ação não permitida!', 'admin/index');
             exit;
         }
@@ -38,7 +38,7 @@ class Mensagens extends CI_Controller
 
     public function editar($id)
     {
-        if (!buscaPermissao('mensagens', 'editar')) {
+        if (!buscaPermissao('rede', 'administrar')) {
             gera_aviso('erro', 'Ação não permitida!', 'admin/index');
             exit;
         }
@@ -48,7 +48,7 @@ class Mensagens extends CI_Controller
         ]);
     }
 
-    # DESATIVA A MENSAGEM ATUALMENTE ATIVADA (CASO EXISTA) PARA QUE NÃO APARECA PARA OS ALUNOS DO AVA
+    # DESATIVA A MENSAGEM ATUALMENTE ATIVADA (CASO EXISTA)
     protected function desativaMsgAtual()
     {
         $mensagem = $this->msg->where('ativa', 1)->fetch();
@@ -58,16 +58,16 @@ class Mensagens extends CI_Controller
         return true;
     }
 
-    # ATIVA A MENSAGEM ENVIADA PARA QUE APAREÇA PARA OS ALUNOS DO AVA
+    # ATIVA A MENSAGEM ENVIADA
     protected function ativaMsgAtual($id)
     {
         return $this->msg->atualiza(['ativa' => 1], $id);
     }
 
-    #INSERE UMA MENSAGEM NOVA PARA OS ALUNOS DO AVA
+    #INSERE UMA MENSAGEM NOVA
     public function insert()
     {
-        if (!buscaPermissao('mensagens', 'cadastro')) {
+        if (!buscaPermissao('rede', 'configurar')) {
             gera_aviso('erro', 'Ação não permitida!', 'admin/index');
             exit;
         }
@@ -80,17 +80,17 @@ class Mensagens extends CI_Controller
             $this->desativaMsgAtual();
         }
         if ($this->msg->insert($new)) {
-            addRegistro("Cadastrou uma mensagem do AVA:<br/>" . print_r($new, true));
+            addRegistro("Cadastrou uma mensagem:<br/>" . print_r($new, true));
             gera_aviso('sucesso', 'Mensagem cadastrada com sucesso.', 'admin/mensagens');
         } else {
             gera_aviso('erro', 'Falha ao inserir os dados, tente novamente.', 'admin/mensagens');
         }
     }
 
-    #ATUALIZA UMA MENSAGEM PARA OS ALUNOS DO AVA
+    #ATUALIZA UMA MENSAGEM
     public function update($id)
     {
-        if (!buscaPermissao('mensagens', 'editar')) {
+        if (!buscaPermissao('rede', 'configurar')) {
             gera_aviso('erro', 'Ação não permitida!', 'admin/index');
             exit;
         }
@@ -103,17 +103,17 @@ class Mensagens extends CI_Controller
             $this->desativaMsgAtual();
         }
         if ($this->msg->atualiza($new, $id)) {
-            addRegistro("Atualizou a mensagem do AVA #".$id.":<br/>" . print_r($new, true));
+            addRegistro("Atualizou a mensagem #".$id.":<br/>" . print_r($new, true));
             gera_aviso('sucesso', 'Mensagem atualizada com sucesso.', 'admin/mensagens/editar/' . $id);
         } else {
             gera_aviso('erro', 'Falha ao atualizar os dados, tente novamente.', 'admin/mensagens/editar/' . $id);
         }
     }
 
-    #CHAMADA DE ATIVAÇÃO DE UMA MENSAGEM DO AVA
+    #CHAMADA DE ATIVAÇÃO DE UMA MENSAGEM
     public function activate($id)
     {
-        if (!buscaPermissao('mensagens', 'editar')) {
+        if (!buscaPermissao('rede', 'configurar')) {
             gera_aviso('erro', 'Ação não permitida!', 'admin/index');
             exit;
         }
@@ -124,10 +124,10 @@ class Mensagens extends CI_Controller
         }
     }
 
-    #CHAMADA DE DESATIVAÇÃO DE UMA MENSAGEM DO AVA
+    #CHAMADA DE DESATIVAÇÃO DE UMA MENSAGEM
     public function deactivate()
     {
-        if (!buscaPermissao('mensagens', 'editar')) {
+        if (!buscaPermissao('rede', 'configurar')) {
             gera_aviso('erro', 'Ação não permitida!', 'admin/index');
             exit;
         }
@@ -141,14 +141,14 @@ class Mensagens extends CI_Controller
     #REMOVE UMA MENSAGEM
     public function remove($id)
     {
-        if (!buscaPermissao('mensagens', 'remover')) {
+        if (!buscaPermissao('rede', 'configurar')) {
             gera_aviso('erro', 'Ação não permitida!', 'admin/index');
             exit;
         }
         $mensagem = $this->msg->get($id);
 
         if ($mensagem && $this->msg->delete($id)) {
-            addRegistro("Removeu a mensagem do AVA #".$id);
+            addRegistro("Removeu a mensagem #".$id);
             gera_aviso('sucesso', 'Mensagem removida com sucesso.', 'admin/mensagens');
         } else {
             gera_aviso('erro', 'Falha ao remover mensagem, tente novamente.', 'admin/mensagens');

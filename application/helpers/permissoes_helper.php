@@ -245,12 +245,12 @@ function getMenuAdminFields()
                 'cadastro'
             ]
         ],
-        [ #MENU 4 - MENSAGENS AVA
-            'f' => 11,
-            'a' => 'listar',
+        [ #MENU 4 - MENSAGENS
+            'f' => 6,
+            'a' => 'visualizar',
             'c' => [
-                'listar',
-                'cadastro'
+                'visualizar',
+                'configurar'
             ]
         ],
         [ #MENU 5 - MODALIDADE
@@ -423,7 +423,7 @@ function geraMenu($modMenu, $id_field, $permissoes_requeridas, $permissoes_subme
             if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[0]])
             ||  isset($permissoes_submenus[$id_field][$permissoes_requeridas[1]])):
                 $title = '<span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">message</span>
-                    Mensagens AVA
+                    Mensagens
                     <span class="ml-auto sidebar-menu-toggle-icon"></span>';
                 if (isset($permissoes_submenus[$id_field][$permissoes_requeridas[0]])) {
                     $submenu .= '<li class="sidebar-menu-item">

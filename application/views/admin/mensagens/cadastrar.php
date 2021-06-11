@@ -6,7 +6,7 @@
         <div class="progression-bar progression-bar--active-accent">
 
             <span class="progression-bar__item-text h5 mb-0 text-uppercase">
-                Cadastro de Mensagens AVA
+                Cadastro de Mensagens
             </span>
         </div>
     </div>
@@ -34,16 +34,16 @@
                         
                     </div>
                     <div class="form-group">
-                        <small style="font-size:80%">Caso mais de 1 mensagem esteja ativa ao mesmo tempo, será mostrado APENAS uma delas aleatóriamente no login do aluno.</small>
+                        <small style="font-size:80%">Caso mais de 1 mensagem esteja ativa ao mesmo tempo, será mostrado APENAS uma delas aleatóriamente no login do usuário.</small>
                     </div>
 
-                    <button type="button" class="btn btn-primary" onclick="validaCamposMSG();">Cadastrar Mensagem AVA</button>
+                    <button type="button" class="btn btn-primary" onclick="validaCamposMSG();">Cadastrar Mensagem</button>
                 </form>
             </div>
             <div class="col-md-6">
                 <div class="card mb-0">
                     <div class="card-body">
-                        <h5>Cadastrar Mensagem AVA</h5>
+                        <h5>Cadastrar Mensagem</h5>
                         <div class="d-flex mb-8pt">
                             <div class="flex"><strong class="text-70"></strong></div>
                             <strong></strong>
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="flex" style="min-width: 180px">
                                     <small class="text-100">
-                                        Preencha os dados para inserir uma mensagem AVA.
+                                        Preencha os dados para inserir uma mensagem.
                                     </small>
                                 </div>
                             </div>

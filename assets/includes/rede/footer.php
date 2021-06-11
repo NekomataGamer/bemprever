@@ -1,5 +1,32 @@
 </div>
 <!--end::Content-->
+<?php
+$avisoAva = getAviso();
+if ($avisoAva) : ?>
+	<style>
+		#mensagemAvaTxT .modal-body img {
+			max-width: 100% !important;
+		}
+	</style>
+	<div class="modal fade" id="mensagemAvaTxT" tabindex="-1" role="dialog" aria-labelledby="titulo-mensagemAvaTxT" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="titulo-mensagemAvaTxT"><?php echo $avisoAva['mensagem_ava_titulo']; ?></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<?php echo $avisoAva['mensagem_ava_texto']; ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" data-dismiss="modal">Fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
 <!--begin::Footer-->
 <div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
 	<!--begin::Container-->
@@ -1319,6 +1346,9 @@ if ($avisos != '') {
 		$('a[data-toggle="aviso-modal"]').on('click', function() {
 			showModal(this);
 		});
+		if ($('#mensagemAvaTxT').length) {
+			$('#mensagemAvaTxT').modal('show');
+		}
 		if ($('#modal-aviso').length) {
 			$('#modal-aviso').modal('show');
 		}

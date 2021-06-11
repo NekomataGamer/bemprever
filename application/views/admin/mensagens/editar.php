@@ -95,10 +95,6 @@
         var text1 = txtnow.getText();
 
         var retorno = true;
-        if (text1.replace(/\s/g,"") == ""){
-            $('#texto-mensagem').after(`<div class="label-erro text-danger">Preencha o texto!</div>`);
-            retorno = false;
-        }
 
         if ($('#titulo').val().replace(/\s/g,"") == ""){
             $('#titulo').after(`<div class="label-erro text-danger">Preencha o título!</div>`);

@@ -95,11 +95,6 @@ class LinkCadastro extends CI_Controller
         'row' => 'login',
         'op' => '=',
         'value' => $data['login']
-      ],
-      [
-        'row' => 'cpf',
-        'op' => '=',
-        'value' => $data['cpf']
       ]
     ];
 

@@ -130,11 +130,6 @@ class Alunos extends CI_Controller
 
     $args2 = [
         [
-            'row' => 'cpf', 
-            'op' => '=', 
-            'value' => $data['cpf']
-        ],
-        [
             'row' => 'id', 
             'op' => '!=', 
             'value' => $id

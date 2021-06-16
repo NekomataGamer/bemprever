@@ -40,6 +40,13 @@ function getDocumentoByData($doc): ?array
     return $retorno;
 }
 
+function getCategoriasHeader(): array
+{
+    $CI = &get_instance();
+    $CI->load->library('ApiClubeCerto', [$CI], 'clubeCerto');
+    return $CI->clubeCerto->getCategorias();
+}
+
 function checkIfDataIsMissing(): ?array
 {
     $CI = &get_instance();

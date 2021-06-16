@@ -6,9 +6,9 @@ include(getcwd() . '/application/libraries/JsonParser.php');
 
 class ApiClubeCerto
 {
-    private string $user;
-    private string $token;
-    private JsonParser $jsonParser;
+    private $user;
+    private $token;
+    private $jsonParser;
     private $CI; //instancia do codeigniter
 
     public function __construct(&$CI)

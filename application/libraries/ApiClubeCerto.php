@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-include_once(getcwd() . '/application/libraries/JsonParser.php');
+include(getcwd() . '/application/libraries/JsonParser.php');
 
 class ApiClubeCerto
 {

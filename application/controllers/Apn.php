@@ -13,10 +13,6 @@ class Apn extends CI_Controller
 
     public function index()
     {
-        http_response_code(404);
-        $this->load->view('errors/html/error_404'); // provide your own HTML for the error page
-        die();
-        
         $file = getcwd(). '/assets/apn/BPV_APN_1106021.pdf';
         $filename = 'Bemprever Vida - APN.pdf';
 

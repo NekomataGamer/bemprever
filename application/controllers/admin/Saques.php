@@ -120,7 +120,7 @@ class Saques extends CI_Controller
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
       exit;
     }
-    $data['pedidos'] = $this->saques->abertos();
+    $data['pedidos'] = $this->model->selecionaBusca('pedido_saque', "WHERE status='aberto' ");
     $motivo = $this->input->post('motivo');
     foreach ($data['pedidos'] as $ped) {
       

@@ -137,7 +137,7 @@ class Alunos extends CI_Controller
     ];
     
     if (!checa_ja_cadastrado_multiple($args) && !checa_ja_cadastrado_multiple($args2)){
-        gera_aviso('erro', 'Login, CPF já cadastrados em outro aluno!', 'admin/alunos');
+        gera_aviso('erro', 'Login já cadastrado em outro aluno!', 'admin/alunos');
         return '';
     }
 
@@ -169,16 +169,11 @@ class Alunos extends CI_Controller
             'row' => 'login', 
             'op' => '=', 
             'value' => $data['login']
-        ],
-        [
-            'row' => 'cpf', 
-            'op' => '=', 
-            'value' => $data['cpf']
         ]
     ];
     
     if (!checa_ja_cadastrado($args)){
-        gera_aviso('erro', 'Login, CPF já cadastrados em outro aluno!', 'admin/alunos');
+        gera_aviso('erro', 'Login já cadastrado em outro aluno!', 'admin/alunos');
     }
 
     if ($this->model->insere('aluno', $data)){

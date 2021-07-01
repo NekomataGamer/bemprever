@@ -99,8 +99,8 @@ class LinkCadastro extends CI_Controller
     ];
 
     if (!checa_ja_cadastrado($args)) {
-      addFunctions($data, ['login', 'cpf']);
-      gera_aviso('erro', 'Já existe um usuário com esse login ou CPF / CNPJ, tente novamente.', 'rede/nova_conta?&link=' . $linkIndicador);
+      addFunctions($data, ['login']);
+      gera_aviso('erro', 'Já existe um usuário com esse login, tente novamente.', 'rede/nova_conta?&link=' . $linkIndicador);
       exit;
     }
 

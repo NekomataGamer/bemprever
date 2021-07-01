@@ -104,10 +104,38 @@ class Saques extends CI_Controller
     if ($this->estornar($saque[0])) {
       $aluno = $this->model->selecionaBusca('aluno', "WHERE id='{$saque[0]['id_aluno']}' ");
       if ($aluno) {
-        gerarAvisoAluno($aluno[0]['id'], "Pedido de saque estornado", "Seu pedido de saque foi estornado pela administração.<br/><b>Motivos do estorno:</b> " . $motivo, 1, true);
+        $textoComplementar = ($motivo !== "") ? "<br/><b>Motivos do estorno:</b> " . $motivo : "";
+        gerarAvisoAluno($aluno[0]['id'], "Pedido de saque estornado", "Seu pedido de saque foi estornado pela administração.".$textoComplementar, 1, true);
       }
-      addBalanco($saque[0]['id_aluno'], $saque[0]['valor'], null, 'entrada', "estorno", "Pedido de saque estornado. ".$motivo);
+      addBalanco($saque[0]['id_aluno'], $saque[0]['valor'], null, 'entrada', "estorno", "Pedido de saque estornado. " . $motivo);
       gera_aviso('sucesso', 'saque estornado e excluído com sucesso.', 'admin/saques/em_aberto');
     }
+  }
+
+
+  #função de chamada do estorno e retorno do aviso / conclusão do estorno
+  public function estornar_todos()
+  {
+    if (!buscaPermissao('saque', 'administrar')) {
+      gera_aviso('erro', 'Ação não permitida!', 'admin/index');
+      exit;
+    }
+    $data['pedidos'] = $this->saques->abertos();
+    $motivo = $this->input->post('motivo');
+    foreach ($data['pedidos'] as $ped) {
+      
+      if ($ped['status'] == 'concluido') gera_aviso('erro', 'esse saque já esta concluido.', 'admin/saques/concluidos');
+
+      if ($this->estornar($ped)) {
+        $aluno = $this->model->selecionaBusca('aluno', "WHERE id='{$ped['id_aluno']}' ");
+        if ($aluno) {
+          $textoComplementar = ($motivo !== "") ? "<br/><b>Motivos do estorno:</b> " . $motivo : "";
+          gerarAvisoAluno($aluno[0]['id'], "Pedido de saque estornado", "Seu pedido de saque foi estornado pela administração.".$textoComplementar, 1, true);
+        }
+        addBalanco($ped['id_aluno'], $ped['valor'], null, 'entrada', "estorno", "Pedido de saque estornado. " . $motivo);
+      }
+    }
+
+    gera_aviso('sucesso', 'saque estornado e excluído com sucesso.', 'admin/saques/em_aberto');
   }
 }

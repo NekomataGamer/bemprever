@@ -155,11 +155,12 @@ function conectaJuno($config)
         "Authorization: Basic {$auth}"
     ]);
     $result = curl_exec($ch);
-    $result = json_decode($result);
-    if (isset($result->access_token)) {
-        return storeToken($result);
+    $resultDecode = json_decode($result);
+    if (isset($resultDecode->access_token)) {
+        return storeToken($resultDecode);
     }
-    errorHandler($result);
+    log_message('error', $result);
+    errorHandler($resultDecode);
     return false;
 }
 
@@ -278,6 +279,7 @@ function insertWebHooks($config)
 function verifyCobranca($resposta)
 {
     if (!isset($resposta->_embedded->charges[0]->id)) {
+        log_message('error', json_encode($resposta));
         errorHandler($resposta, "Erro de conexão com a juno, tente novamente mais tarde!<br/>código do erro VCX0001");
         return false;
     }

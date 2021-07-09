@@ -297,7 +297,7 @@ function geraCobranca($config, $id, $value, $description, $vencimento, $comprado
     $token = getResourceToken($config);
     
     if ($token) {
-        $vencimento = $vencimento <= date('Y-m-d H:i:s') ? date('Y-m-d').' 23:59:59' : $vencimento;
+        $vencimento = $vencimento <= date('Y-m-d H:i:s') ? addDataDias(1, date('Y-m-d')) : $vencimento;
         $charge = [
             'description' => $description,
             'amount' => floatval($value),

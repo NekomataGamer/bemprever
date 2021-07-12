@@ -23,6 +23,12 @@
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Email</a>
                                         </th>
                                         <th>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">CPF</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Telefone</a>
+                                        </th>
+                                        <th>
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-estado">Estado</a>
                                         </th>
                                         <th>
@@ -71,6 +77,12 @@
                                             </td>
                                             <td class="js-lists-values-email">
                                                 ' . $fat['email'] . '
+                                            </td>
+                                            <td class="js-lists-values-email">
+                                                ' . $fat['cpf'] . '
+                                            </td>
+                                            <td class="js-lists-values-email">
+                                                ' . $fat['telefone'] . '
                                             </td>
                                             <td class="js-lists-values-estado">
                                                 ' . $fat['estado'] . '

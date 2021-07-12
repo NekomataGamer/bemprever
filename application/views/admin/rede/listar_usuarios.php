@@ -20,6 +20,9 @@
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Usuário</a>
                                         </th>
                                         <th>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">CPF</a>
+                                        </th>
+                                        <th>
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Email</a>
                                         </th>
                                         <th>
@@ -100,7 +103,11 @@
                                                 ' . $fat['id'] . '
                                             </td>
                                             <td class="js-lists-values-login">
-                                                ' . $fat['login'] . '
+                                                ' . $fat['login'] . '<br>
+                                                ' . $fat['nome'] . '
+                                            </td>
+                                            <td class="js-lists-values-login">
+                                                ' . $fat['cpf'] . '
                                             </td>
                                             <td class="js-lists-values-email">
                                                 ' . $fat['email'] . '

@@ -135,13 +135,13 @@ function checarPendencias($id_aluno){
     
     if (count($faturas_vencidas) > 0){
         $alnarr = [
-            'bloqueado' => 1
+            'bloqueado' => 0
         ];
 
         $CI->model->update('aluno', $alnarr, $id_aluno);
 
         $arrass = [
-            'status' => 'inativo'
+            'status' => 'ativo'
         ];
 
         $CI->model->update('assinaturas_rede', $arrass, $assinatura[0]['id']);

@@ -44,7 +44,7 @@ class Faturas extends CI_Controller {
     $config = $this->model->selecionaBusca('configuracoes', "");
     if (!$config) gera_aviso('erro', 'Configurações não encontradas.', 'rede/faturas/abertas');
 
-    if (isset($fatura['link_pagamento']) && $fatura['vencimento'] <= date('Y-m-d H:i:s')){
+    if (isset($fatura['link_pagamento']) && $fatura['vencimento'] >= date('Y-m-d H:i:s')){
         redirect($fatura['link_pagamento'], 'refresh');
         exit();
         die();

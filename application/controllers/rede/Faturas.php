@@ -55,6 +55,8 @@ class Faturas extends CI_Controller {
     $linkpay = gerarPagamentoJuno($fatura['id'], $fatura['valor'], $fatura['nome_plano'], $vencimento, $aluno[0], 'faturas');
     if ($linkpay){
         $upd = ['link_pagamento' => $linkpay];
+        $upd['vencimento'] = ($vencimento <= date('Y-m-d')) ? addDataDias(1, date('Y-m-d H:i:s'), "Y-m-d H:i:s") : $vencimento;
+
         $this->model->update('faturas', $upd, $id);
         redirect($linkpay, 'refresh');
         exit();

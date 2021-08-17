@@ -127,6 +127,9 @@
                                                     <a class="dropdown-item" href="' . site_url('admin/alunos/editar/' . $fat['id']) . '">
                                                         <i class="fas fa-pencil-alt"></i>&nbsp;Editar
                                                     </a>
+                                                    <a class="dropdown-item" href="' . site_url('admin/alunos/altera_saldo/' . $fat['id']) . '">
+                                                        <i class="fas fa-money-bill-alt"></i>&nbsp;Alterar Saldo
+                                                    </a>
                                                     ' . $btns . '
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="' . site_url('admin/rede/unilevel/1/' . $fat['id']) . '">

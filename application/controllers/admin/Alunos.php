@@ -40,6 +40,21 @@ class Alunos extends CI_Controller
     $this->load->view('admin/alunos/editar', $data);
   }
 
+  public function altera_saldo($id)
+  {
+    if (!buscaPermissao('aluno', 'editar')) {
+      gera_aviso('erro', 'Ação não permitida!', 'admin/index');
+      exit;
+    }
+    $data['aluno'] = $this->modelo->selecionaBusca('aluno', "WHERE id='{$id}' ");
+    $data['saldo'] = $this->modelo->selecionaBusca('saldo_usuario', "WHERE id='{$id}' ");
+
+    if (!$data['aluno']) gera_aviso('erro', 'Aluno não encontrado', 'admin/alunos');
+    $data['estados'] = $this->model->selecionaBusca('estados', "");
+    $data['cidades'] = $this->model->selecionaBusca('cidades', "");
+    $this->load->view('admin/alunos/editar_saldo', $data);
+  }
+
   public function cadastrar()
   {
     if (!buscaPermissao('aluno', 'cadastro')) {
@@ -51,23 +66,23 @@ class Alunos extends CI_Controller
     $this->load->view('admin/alunos/cadastrar', $data);
   }
 
-  public function ban($id, $un=0)
+  public function ban($id, $un = 0)
   {
     if (!buscaPermissao('aluno', 'remover')) {
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
       exit;
     }
     $redirect = "admin/alunos/index";
-    if ($un == 1){
-        $redirect = "admin/rede/unilevel";
-    } else if ($un == 2){
-        $redirect = "admin/rede/listar_usuarios";
+    if ($un == 1) {
+      $redirect = "admin/rede/unilevel";
+    } else if ($un == 2) {
+      $redirect = "admin/rede/listar_usuarios";
     }
 
     $check = $this->modelo->selecionaBusca('aluno', "WHERE id='{$id}' ");
-    
+
     if (!$check) gera_aviso('erro', 'Aluno não encontrado', $redirect);
-    
+
     $nvarr = ['bloqueado' => 1];
 
     $this->model->update('aluno', $nvarr, $id);
@@ -75,30 +90,45 @@ class Alunos extends CI_Controller
     gera_aviso('erro', 'Aluno bloqueado com sucesso!', $redirect);
   }
 
-  public function unban($id, $un=0)
+  public function unban($id, $un = 0)
   {
     if (!buscaPermissao('aluno', 'remover')) {
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
       exit;
     }
     $redirect = "admin/alunos/index";
-    if ($un == 1){
-        $redirect = "admin/rede/unilevel";
-    } else if ($un == 2){
-        $redirect = "admin/rede/listar_usuarios";
+    if ($un == 1) {
+      $redirect = "admin/rede/unilevel";
+    } else if ($un == 2) {
+      $redirect = "admin/rede/listar_usuarios";
     }
 
     $check = $this->modelo->selecionaBusca('aluno', "WHERE id='{$id}' ");
-    
+
     if (!$check) gera_aviso('erro', 'Aluno não encontrado', $redirect);
-    
+
     $nvarr = ['bloqueado' => 0];
 
     $this->model->update('aluno', $nvarr, $id);
 
     gera_aviso('erro', 'Aluno desbloqueado com sucesso!', $redirect);
   }
-  
+
+  public function update_saldo($id)
+  {
+    if (!buscaPermissao('aluno', 'editar')) {
+      gera_aviso('erro', 'Ação não permitida!', 'admin/index');
+      exit;
+    }
+    $data = returnArray('saldo_usuario');
+
+    if ($this->model->update('saldo_usuario', $data, $id)) {
+      gera_aviso('success', 'Saldo atualizado com sucesso!', 'admin/alunos/altera_saldo/'.$id);
+    }
+
+    gera_aviso('erro', 'Falha ao atualizar o aluno, tente novamente!', 'admin/alunos/altera_saldo/'.$id);
+  }
+
   public function update($id)
   {
     if (!buscaPermissao('aluno', 'editar')) {
@@ -107,42 +137,42 @@ class Alunos extends CI_Controller
     }
     $data = returnArray('aluno');
 
-    if (empty($data)){
-        gera_aviso('erro', 'Dados inválidos', 'admin/alunos');
+    if (empty($data)) {
+      gera_aviso('erro', 'Dados inválidos', 'admin/alunos');
     }
-    if (!loginValidator($data['login'])){
+    if (!loginValidator($data['login'])) {
       gera_aviso('erro', 'O login não pode ter espaços em branco nem caracteres especiais.', 'admin/alunos');
       return '';
     }
 
     $args = [
-        [
-            'row' => 'login', 
-            'op' => '=', 
-            'value' => $data['login']
-        ],
-        [
-            'row' => 'id', 
-            'op' => '!=', 
-            'value' => $id
-        ]
+      [
+        'row' => 'login',
+        'op' => '=',
+        'value' => $data['login']
+      ],
+      [
+        'row' => 'id',
+        'op' => '!=',
+        'value' => $id
+      ]
     ];
 
     $args2 = [
-        [
-            'row' => 'id', 
-            'op' => '!=', 
-            'value' => $id
-        ]
+      [
+        'row' => 'id',
+        'op' => '!=',
+        'value' => $id
+      ]
     ];
-    
-    if (!checa_ja_cadastrado_multiple($args) && !checa_ja_cadastrado_multiple($args2)){
-        gera_aviso('erro', 'Login já cadastrado em outro aluno!', 'admin/alunos');
-        return '';
+
+    if (!checa_ja_cadastrado_multiple($args) && !checa_ja_cadastrado_multiple($args2)) {
+      gera_aviso('erro', 'Login já cadastrado em outro aluno!', 'admin/alunos');
+      return '';
     }
 
-    if ($this->model->update('aluno', $data, $id)){
-        gera_aviso('success', 'Aluno atualizado com sucesso!','admin/alunos');
+    if ($this->model->update('aluno', $data, $id)) {
+      gera_aviso('success', 'Aluno atualizado com sucesso!', 'admin/alunos');
     }
 
     gera_aviso('erro', 'Falha ao atualizar o aluno, tente novamente!', 'admin/alunos');
@@ -156,32 +186,30 @@ class Alunos extends CI_Controller
     }
     $data = returnArray('aluno');
 
-    if (empty($data)){
-        gera_aviso('erro', 'Dados inválidos', 'admin/alunos');
+    if (empty($data)) {
+      gera_aviso('erro', 'Dados inválidos', 'admin/alunos');
     }
 
-    if (!loginValidator($data['login'])){
+    if (!loginValidator($data['login'])) {
       gera_aviso('erro', 'O login não pode ter espaços em branco nem caracteres especiais.', 'admin/alunos');
     }
 
     $args = [
-        [
-            'row' => 'login', 
-            'op' => '=', 
-            'value' => $data['login']
-        ]
+      [
+        'row' => 'login',
+        'op' => '=',
+        'value' => $data['login']
+      ]
     ];
-    
-    if (!checa_ja_cadastrado($args)){
-        gera_aviso('erro', 'Login já cadastrado em outro aluno!', 'admin/alunos');
+
+    if (!checa_ja_cadastrado($args)) {
+      gera_aviso('erro', 'Login já cadastrado em outro aluno!', 'admin/alunos');
     }
 
-    if ($this->model->insere('aluno', $data)){
-        gera_aviso('success', 'Aluno cadastrado com sucesso!','admin/alunos');
+    if ($this->model->insere('aluno', $data)) {
+      gera_aviso('success', 'Aluno cadastrado com sucesso!', 'admin/alunos');
     }
 
     gera_aviso('erro', 'Falha ao cadastrar o aluno, tente novamente!', 'admin/alunos');
   }
-
-  
 }

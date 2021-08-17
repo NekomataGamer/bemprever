@@ -60,7 +60,7 @@ function desativarUsuario($id, $id_fatura){
     $aluno = $CI->model->selecionaBusca('aluno', "WHERE id='{$id}' ");
     if (!$aluno) return false;
 
-    $newarr = ['bloqueado' => 0];
+    $newarr = ['bloqueado' => 1];
     $CI->model->update('aluno', $newarr, $id);
     $newAviso = [
         'id_aluno' => $id,

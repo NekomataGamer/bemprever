@@ -58,9 +58,9 @@ class Login extends CI_Controller
         $user = (array)$login[0];
         $user['nivel_rede'] = 1;
 
-        if ($user['bloqueado'] == 1) {
-          gera_aviso('erro', 'Você esta bloqueado, contate a administração para mais informações.', 'rede/login');
-        } else if ($user['cadastro_confirmado'] == 0) {
+        //if ($user['bloqueado'] == 1) {
+          //gera_aviso('erro', 'Você esta bloqueado, contate a administração para mais informações.', 'rede/login');
+        /* } else */ if ($user['cadastro_confirmado'] == 0) {
           $documento = $this->model->selecionaBusca('documento_termos', "WHERE id_aluno = '{$user['id']}' ");
           if (isset($documento[0]['id'])) {
             gera_aviso('erro', 'Sua conta esta em processo de confirmação de dados pela administração, aguarde a ativação para fazer login.', 'rede/login');

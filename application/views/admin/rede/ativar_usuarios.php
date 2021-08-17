@@ -41,7 +41,18 @@
                                                     data-btn-acao="Inserir usuário"
                                                     data-toggle="aviso-modal"
                                                     title="Inserir usuário na rede"
-                                                href="javascript:void(0);"><i class="fa fa-check"></i>&nbsp;Inserir na rede</a>';
+                                                href="javascript:void(0);"><i class="fa fa-check"></i>&nbsp;Inserir na rede</a>
+                                                
+                                                <a class="dropdown-item" 
+                                                href="javascript:void(0);"
+                                                    data-href="' . site_url('admin/rede/ativar_rede/' . $fat['id'] . '/' . 2) . '"
+                                                    data-titulo="<i class=' . "'fas fa-check'" . '></i> Inserir na rede"
+                                                    data-texto="Deseja realmente inserir o usuário <b>' . $fat['login'] . '</b> na rede <b>SEM SUBIR GANHOS</b>? <small>O usuário será inserido na rede no próximo lugar disponível!</small>"
+                                                    data-btn="Cancelar"
+                                                    data-btn-acao="Inserir usuário sem ganhos"
+                                                    data-toggle="aviso-modal"
+                                                    title="Inserir usuário na rede"
+                                                href="javascript:void(0);"><i class="fa fa-check-circle"></i>&nbsp;Inserir na rede sem ganhos</a>';
                                                 
                                                 $btns2 = '<a class="dropdown-item" 
                                                 href="javascript:void(0);"
@@ -52,7 +63,7 @@
                                                     data-btn-acao="Remover usuário"
                                                     data-toggle="aviso-modal"
                                                     title="Remover usuário na rede"
-                                                href="javascript:void(0);"><i class="fa fa-check"></i>&nbsp;Remover na rede</a>';
+                                                href="javascript:void(0);"><i class="fa fa-trash"></i>&nbsp;Remover na rede</a>';
                                             echo '<tr>
                                             <td>
                                                 #' . $fat['id'] . '

@@ -16,6 +16,8 @@ class Saques extends CI_Controller
 
   public function pedir()
   {
+    return gera_aviso('erro', 'Os saques encontram-se em manutenção e estão temporariamente desativados, para mais informações, consulte a administração.', 'rede/index');
+
     $aluno = $this->model->selecionaBusca('aluno', "WHERE id='".$this->session->userdata('id')."' ");
     $conta_aluno = $this->model->selecionaBusca('conta_usuario', "WHERE id_usuario='".$this->session->userdata('id')."' ");
 
@@ -65,6 +67,8 @@ class Saques extends CI_Controller
 
   public function insere()
   {
+    return gera_aviso('erro', 'Os saques encontram-se em manutenção e estão temporariamente desativados, para mais informações, consulte a administração.', 'rede/index');
+    
     $indicados = $this->model->selecionaBusca('aluno', "WHERE id_indicador='{$this->session->userdata('id')}' LIMIT 2");
     if (count($indicados) < 2){
       gera_aviso('erro', 'Você precisa ter 2 indicados para pedir saque!', 'saques/abertos');

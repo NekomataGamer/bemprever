@@ -168,7 +168,7 @@ class Rede extends CI_Controller
   }
 
   //TRANSFORMA O CADASTRO TEMPORÁRIO DE ALUNO EM PERMANENTE CASO O PAGAMENTO TENHA SIDO EFETUADO COM SUCESSO.
-  protected function cadastrarAluno($id)
+  protected function cadastrarAluno($id, $sobeGanho = true)
   {
     $dados = $this->model->selecionaBusca('aluno_espera', "WHERE `id`='{$id}' ");
     if (!$dados) return false;
@@ -208,7 +208,7 @@ class Rede extends CI_Controller
         'status' => 'ativo',
         'data_pagamento_inicial' => date('Y-m-d H:i:s')
       ]);
-      $this->addGanhoIndicacao($plano[0]['valor'], $dados);
+      if ($sobeGanho) $this->addGanhoIndicacao($plano[0]['valor'], $dados);
       return $this->model->remove('aluno_espera', $dados[0]['id']);
     }
     return false;
@@ -236,13 +236,15 @@ class Rede extends CI_Controller
     gera_aviso('erro', 'Usuário não encontrado', 'admin/rede/ativar_usuarios');
   }
 
-  public function ativar_rede($id)
+  public function ativar_rede($id, $tipo = 0)
   {
     if (!buscaPermissao('rede', 'administrar')) {
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
       exit;
     }
-    if ($this->cadastrarAluno($id)) {
+
+    $sobeGanhos = ($tipo === 0) ? true : false;
+    if ($this->cadastrarAluno($id, $sobeGanhos)) {
       gera_aviso('success', 'Usuário ativado na rede com sucesso', 'admin/rede/ativar_usuarios');
     }
 

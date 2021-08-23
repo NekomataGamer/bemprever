@@ -263,7 +263,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="nascimento">Nascimento: *</label>
-                                            <input name="nascimento" id="nascimento" type="text" class="form-control" placeholder="XX/XX/XXXX" required>
+                                            <input name="nascimento" id="nascimento" type="text" onKeyUp="verifyNascimento(this)" class="form-control" placeholder="XX/XX/XXXX" required>
                                         </div>
                                         <div class="form-group">
                                             <div class="ccpf">
@@ -297,7 +297,7 @@
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <h5 class="card-title mb-4">Dados do beneficiário *</h5>
+                                        <h5 id="dados_benefc" class="card-title mb-4">Dados do beneficiário *</h5>
 
                                         <div class="form-row">
                                             <div class="col-12">
@@ -506,6 +506,68 @@
             v = v.length > 8 ? v.substring(0, 8) : v;
             v = v.replace(/(\d{5})(\d)/, "$1-$2");
             obj.value = v;
+        }
+
+        function verifyNascimento(obj) {
+            $('#alertaNascimento').remove();
+            let [dia, mes, ano] = obj.value.split('/');
+            if (typeof dia !== 'undefined' 
+             && typeof mes !== 'undefined'
+             && typeof ano !== 'undefined'
+             && dia.length >= 2 
+             && mes.length >= 2
+             && ano.length >= 4
+             ){
+                dataNascimento(`${ano}-${mes}-${dia}`);
+             }
+        }
+
+        function avisoErro(aviso, selector='#nascimento')
+        {
+            $('#alertaNascimento').remove();
+            let dangerAlert = `<div id="alertaNascimento" class="alert alert-danger" style="margin-top: .1rem;">
+                ${aviso}
+            </div>`;
+
+            $(selector).parent().append(dangerAlert);
+        }
+
+        function verificaIdade(idade) {
+            if (idade >= 60) {
+                $('#nome_benef').prop('readonly', true);
+                $('#cpf_benef').prop('readonly', true);
+                $('#parentesco_benef').prop('readonly', true);
+
+                $('#nome_benef').prop('required', false);
+                $('#cpf_benef').prop('required', false);
+                $('#parentesco_benef').prop('required', false);
+                avisoErro("Você não pode cadastrar um dependente pois tem 60 anos ou mais!", 
+                '#dados_benefc');
+            } else {
+                $('#nome_benef').prop('readonly', false);
+                $('#cpf_benef').prop('readonly', false);
+                $('#parentesco_benef').prop('readonly', false);
+
+                $('#nome_benef').prop('required', true);
+                $('#cpf_benef').prop('required', true);
+                $('#parentesco_benef').prop('required', true);
+            }
+        }
+
+        function dataNascimento(nascimento) {
+            try {
+                data = new Date(nascimento);
+                var diff_ms = Date.now() - data.getTime(data);
+                var age_dt = new Date(diff_ms);
+
+                let idade = Math.abs(age_dt.getUTCFullYear() - 1970);
+
+                if (!idade || idade < 16) return avisoErro("Data de nascimento inválida!");
+
+                verificaIdade(idade);
+            } catch (e) {
+                avisoErro("Data de nascimento inválida!");
+            }
         }
 
         function mascaraCPF(obj) {

@@ -183,6 +183,14 @@ class Rede extends CI_Controller
     /* ESTA CRON DEVE RODAR 1X AO DIA */
     public function cronFaturas()
     {
+        $last_run = $this->model->selecionaBusca('cron_ganhos', "WHERE tipo='fatura' OR tipo='faturas' ORDER BY last_verify DESC LIMIT 1");
+        if ($last_run) {
+            $lastData = explode(' ', $last_run[0]['last_verify'])[0];
+            if ($lastData == date('Y-m-d')) {
+                return 0;
+            }
+        }
+
         $config = $this->getConfig();
 
         $alunos = $this->model->selecionaBusca('aluno', "WHERE ativo = 1");

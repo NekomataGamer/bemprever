@@ -23,6 +23,10 @@
                         <input name="valor" type="number" step="0.01" min="0" class="form-control" placeholder="Valor da assinatura do plano" required />
                     </div>
                     <div class="form-group">
+                        <label class="form-label" for="name">Valor da adesão: *</label>
+                        <input name="adesao" type="number" step="0.01" min="0" class="form-control" placeholder="Valor da adesão do plano" required />
+                    </div>
+                    <div class="form-group">
                         <label class="form-label" for="name">Serviços:</label>
                         <select onchange="addServico(this)" title="Selecione um serviço para adcionar..." class="form-control selectpicker" data-size="5" data-live-search="true">
                             <?php foreach ($servicos as $s) : ?>
@@ -97,6 +101,10 @@
                         <div class="form-group">
                             <label class="form-label" for="name">Valor da assinatura: *</label>
                             <input name="valor" type="number" value="' . $p['valor'] . '" step="0.01" min="0" class="form-control" placeholder="Valor da assinatura do plano" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="name">Valor da adesão: *</label>
+                            <input name="adesao" type="number" value="' . $p['adesao'] . '" step="0.01" min="0" class="form-control" placeholder="Valor da adesão do plano" required />
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="name">Serviços:</label>

@@ -14,9 +14,11 @@ class Descontos extends CI_Controller
             redirect('rede/login');
         }
     }
-
+    
     public function categoria()
     {
+        redirect('rede/index');
+        exit();
         $id = $this->db->escape_str($this->input->get('id', true));
         $nome = $this->db->escape_str($this->input->get('nome', true));
 
@@ -35,6 +37,8 @@ class Descontos extends CI_Controller
 
     public function estabelecimentos(string $codigo_categoria)
     {
+        redirect('rede/index');
+        exit();
         $this->load->library('ApiClubeCerto', [$this], 'clubeCerto');
         $data = $this->clubeCerto->getEstabelecimentos($codigo_categoria);
 
@@ -43,6 +47,8 @@ class Descontos extends CI_Controller
 
     public function detalhes_estabelecimento()
     {
+        redirect('rede/index');
+        exit();
         $id = $this->db->escape_str($this->input->get('id', true));
         $nome = $this->db->escape_str($this->input->get('nome', true));
         $categoria = $this->db->escape_str($this->input->get('categoria', true));
@@ -67,6 +73,8 @@ class Descontos extends CI_Controller
 
     public function detalhes(string $codigo_estabelecimento)
     {
+        redirect('rede/index');
+        exit();
         $this->load->library('ApiClubeCerto', [$this], 'clubeCerto');
         $data = $this->clubeCerto->getDadosEstabelecimentos($codigo_estabelecimento);
 

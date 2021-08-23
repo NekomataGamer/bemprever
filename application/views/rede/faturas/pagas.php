@@ -36,12 +36,18 @@
                                 <tbody class="list" id="search">
                                     <?php if (count($faturas) > 0) {
                                         foreach ($faturas as $fat) {
+                                            $valor = "R$ ".number_format(($fat['valor']), 2, ',', '');
+                                            if ($fat['taxas'] != 0) {
+                                                $valor = "R$ ".number_format(($fat['valor']), 2, ',', '');
+                                                $valor .= '<br><span class="text-danger">+ R$ ' . number_format($fat['taxas'], 2, ',', '').'</span>
+                                                <br><span class="text-primary">Total: R$ ' . number_format($fat['valor'] + $fat['taxas'], 2, ',', '').'</span>';
+                                            }
                                             echo '<tr>
                                             <td>
                                                 ' . $fat['id'] . '
                                             </td>
                                             <td class="js-lists-values-login">
-                                                ' . number_format($fat['valor'], 2, ',', '') . '
+                                                ' . $valor . '
                                             </td>
                                             <td class="js-lists-values-email">
                                                 <span class="badge badge-success">Paga</span>

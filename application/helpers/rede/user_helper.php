@@ -117,6 +117,8 @@ function getFaturas($id_aluno, $tipo = '', $vencidas = true)
     fat.id_aluno, 
     fat.id_plano, 
     fat.valor, 
+    fat.vencimento_inicial,
+    fat.taxas,
     fat.vencimento, 
     fat.custom, 
     fat.paga, 

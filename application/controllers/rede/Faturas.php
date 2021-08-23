@@ -50,13 +50,25 @@ class Faturas extends CI_Controller {
         die();
     }
 
-    $venc = retornaDataArray($fatura['vencimento']);
+    $vencimento = ( $fatura['vencimento'] <= date('Y-m-d') ) ? 
+    addDataDias(1, date('Y-m-d'), "Y-m-d") 
+    : $fatura['vencimento'];
+
+    
+
+    $venc = retornaDataArray($vencimento);
     $vencimento = $venc['ano'].'-'.$venc['mes'].'-'.$venc['dia'];
-    $linkpay = gerarPagamentoJuno($fatura['id'], $fatura['valor'], $fatura['nome_plano'], $vencimento, $aluno[0], 'faturas');
+    $taxasFatura = calculaJurosVencimento($fatura['vencimento'], $fatura['valor']);
+    $valorFatura = number_format(($fatura['valor'] + $taxasFatura), 2, '.', '');
+
+    $linkpay = gerarPagamentoJuno($fatura['id'], $valorFatura, $fatura['nome_plano'], $vencimento, $aluno[0], 'faturas');
     if ($linkpay){
         $upd = ['link_pagamento' => $linkpay];
-        $upd['vencimento'] = ($vencimento <= date('Y-m-d')) ? addDataDias(1, date('Y-m-d H:i:s'), "Y-m-d H:i:s") : $vencimento;
-
+        $upd['vencimento'] = $vencimento . " 00:00:00";
+        if (is_null($fatura['vencimento_inicial'])){
+          $upd['vencimento_inicial'] = $fatura['vencimento'];
+          $upd['taxas'] = $taxasFatura;
+        }
         $this->model->update('faturas', $upd, $id);
         redirect($linkpay, 'refresh');
         exit();

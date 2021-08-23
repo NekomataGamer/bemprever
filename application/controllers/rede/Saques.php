@@ -27,9 +27,7 @@ class Saques extends CI_Controller
     $data['saldo'] = $this->model->selecionaBusca('saldo_usuario', "WHERE id_aluno='".$this->session->userdata('id')."' ");
     if (!$data['saldo']) return gera_aviso('erro', 'Saldo não encontrado.', 'rede/index');
 
-    if ($aluno[0]['bloqueado'] == 1 || $aluno[0]['ativo'] == 0) {
-        gera_aviso('erro', 'Você não pode pedir saques pois está bloqueado, por favor, contate a administração.', 'rede/index');
-    }
+    if ($aluno[0]['bloqueado'] == 1 || $aluno[0]['ativo'] == 0) return gera_aviso('erro', 'Você não pode pedir saques pois está bloqueado, por favor, contate a administração.', 'rede/index');
 
     $data['assinatura'] = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='".$this->session->userdata('id')."' ");
     if (!$data['assinatura']) return gera_aviso('erro', 'Assinatura não encontrada.', 'rede/index');

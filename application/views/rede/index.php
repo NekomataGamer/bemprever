@@ -135,7 +135,7 @@
                             <div class="card-header border-0 py-5">
                                 <h3 class="card-title align-items-start flex-column">
                                     <span class="card-label font-weight-bolder text-dark">Faturas em aberto</span>
-                                    <span class="text-muted mt-3 font-weight-bold font-size-sm">Veja aqui suas faturas em aberto</span>
+                                    <span class="text-muted mt-3 font-weight-bold font-size-sm"><b class="text-danger">Atenção!</b> <span class="text-danger">Para faturas em atraso será cobrado uma multa de 2% e juros de 0.33% do falor da fatura ao dia.</span></span>
                                 </h3>
                                 <div class="card-toolbar">
                                 </div>
@@ -165,14 +165,29 @@
                                 </div>
                                 <?php
                                 if (count($faturas) > 0) {
-                                    foreach ($faturas as $fat) { ?>
+                                    foreach ($faturas as $fat) {
+                                        $vencimento = ($fat['vencimento_inicial']) ? $fat['vencimento_inicial'] : $fat['vencimento'];
+                                        $multa = calculaJurosVencimento($vencimento, $fat['valor']);
+                                        $total = $fat['valor'] + $multa;
+                                    ?>
                                         <hr>
                                         <div class="row" style="padding-bottom:20px;">
                                             <div class="col-md-2">
                                                 #<?php echo $fat['id']; ?>
                                             </div>
                                             <div class="col-md-2">
-                                                <?php echo 'R$ ' . number_format($fat['valor'], 2, ',', ''); ?>
+                                                <?php $valor = "R$ " . number_format(($fat['valor']), 2, ',', '');
+                                                if ($multa != 0) {
+                                                    $valor = "R$ " . number_format(($fat['valor']), 2, ',', '');
+                                                    $valor .= '<br><span class="text-danger">+ R$ ' . number_format($multa, 2, ',', '') . '</span>
+                                                <br><span class="text-primary">Total: R$ ' . number_format($total, 2, ',', '') . '</span>';
+                                                } else if ($fat['taxas'] != 0) {
+                                                    $valor = "R$ " . number_format(($fat['valor'] - $fat['taxas']), 2, ',', '');
+                                                    $valor .= '<br><span class="text-danger">+ R$ ' . number_format($fat['taxas'], 2, ',', '') . '</span>
+                                                <br><span class="text-primary">Total: R$ ' . number_format($fat['valor'], 2, ',', '') . '</span>';
+                                                }
+                                                echo $valor;
+                                                ?>
                                             </div>
                                             <div class="col-md-2">
                                                 <?php echo '<span class="badge badge-danger">Em aberto</span>'; ?>
@@ -249,19 +264,19 @@
                                                         <span class="text-muted font-weight-bold text-muted d-block"><?php echo $user['nome']; ?></span>
                                                     </td>
                                                     <td>
-                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg"><?php echo isset($indicador['login']) ? $indicador['login'] : '#'.$user['id_indicador']; ?></span>
+                                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg"><?php echo isset($indicador['login']) ? $indicador['login'] : '#' . $user['id_indicador']; ?></span>
                                                         <span class="text-muted font-weight-bold"><?php echo isset($indicador['nome']) ? $indicador['nome'] : ''; ?></span>
                                                     </td>
                                                     <td>
                                                         <div class="d-flex flex-column w-100 mr-2">
                                                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                                                <?php if ($user['bloqueado'] == 0): ?>
+                                                                <?php if ($user['bloqueado'] == 0) : ?>
                                                                     <span class="text-white font-size-sm font-weight-bold badge bg-<?php echo ($user['ativo'] == 1) ? 'success' : 'danger'; ?>"><?php echo ($user['ativo'] == 1) ? 'Ativo' : 'Inativo'; ?></span>
-                                                                <?php else: ?>
+                                                                <?php else : ?>
                                                                     <span class="text-white font-size-sm font-weight-bold badge bg-danger">Bloqueado</span>
                                                                 <?php endif; ?>
                                                             </div>
-                                                            
+
                                                         </div>
                                                     </td>
 

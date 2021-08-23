@@ -20,11 +20,16 @@ class Planos extends CI_Controller
 
   public function insere()
   {
-    $servicos = implode(',', $this->input->post('servicos')) ?? '';
+    $servicosPost = $this->input->post('servicos');
+    $servicos = '';
+    if (is_array($servicosPost) && count($servicosPost) > 0) {
+      $servicos = implode(',', $servicosPost);
+    }
     $update = [
         'nome' => $this->input->post('nome', true), 
         'descricao' => $this->input->post('descricao', true),
         'valor' => $this->input->post('valor', true),
+        'adesao' => $this->input->post('adesao', true),
         'ead' => $this->input->post('ead') ? 1 : false,
         'servicos' => $servicos
     ];

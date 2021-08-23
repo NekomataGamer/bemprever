@@ -9,6 +9,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title mb-4">Faturas em aberto</h5>
+                        <b class="text-danger">Atenção!</b> <span class="text-danger">Para faturas em atraso será cobrado uma multa de 2% e juros de 0.33% do falor da fatura ao dia.</span>
                         <div class="table-responsive">
                             <table class="table mb-0 thead-border-top-0 table-nowrap data-tables">
                                 <thead>
@@ -35,12 +36,27 @@
                                 <tbody class="list" id="search">
                                     <?php if (count($faturas) > 0) {
                                         foreach ($faturas as $fat) {
+                                            $vencimento = ($fat['vencimento_inicial']) ? $fat['vencimento_inicial'] : $fat['vencimento'];
+                                            $multa = calculaJurosVencimento($vencimento, $fat['valor']);
+                                            $total = $fat['valor'] + $multa;
+
+                                            $valor = "R$ " . number_format(($fat['valor']), 2, ',', '');
+                                            if ($multa != 0) {
+                                                $valor = "R$ " . number_format(($fat['valor']), 2, ',', '');
+                                                $valor .= '<br><span class="text-danger">+ R$ ' . number_format($multa, 2, ',', '') . '</span>
+                                                <br><span class="text-primary">Total: R$ ' . number_format($total, 2, ',', '') . '</span>';
+                                            } else if ($fat['taxas'] != 0) {
+                                                $valor = "R$ " . number_format(($fat['valor'] - $fat['taxas']), 2, ',', '');
+                                                $valor .= '<br><span class="text-danger">+ R$ ' . number_format($fat['taxas'], 2, ',', '') . '</span>
+                                                <br><span class="text-primary">Total: R$ ' . number_format($fat['valor'], 2, ',', '') . '</span>';
+                                            }
+
                                             echo '<tr>
                                             <td>
                                                 ' . $fat['id'] . '
                                             </td>
                                             <td class="js-lists-values-login">
-                                                ' . number_format($fat['valor'], 2, ',', '') . '
+                                                ' . $valor . '
                                             </td>
                                             <td class="js-lists-values-email">
                                                 <span class="badge badge-accent">Em aberto</span>

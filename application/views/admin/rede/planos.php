@@ -30,6 +30,7 @@
                         <th>Descrição</th>
                         <th>Serviços</th>
                         <th>Valor Mensal</th>
+                        <th>Valor Adesão</th>
                         <th>Opcoes</th>
                     </tr>
                 </thead>
@@ -63,6 +64,9 @@
                             </td>
                             <td class="js-lists-values-login">
                                 R$ ' . number_format($ent['valor'], 2, ',', '') . '
+                            </td>
+                            <td class="js-lists-values-login">
+                                R$ ' . number_format($ent['adesao'], 2, ',', '') . '
                             </td>
                             <td>
                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#editar_plano_rede'.$ent['id'].'">

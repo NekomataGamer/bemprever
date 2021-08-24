@@ -147,11 +147,11 @@ function checarPendencias($id_aluno)
     $aluno = $CI->model->selecionaBusca('aluno', "WHERE id='{$id_aluno}' ");
     $assinatura = $CI->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$id_aluno}' ");
     $config = $CI->model->selecionaBusca('configuracoes', "");
-    if (!$aluno) return false;
+    if (!$aluno) return true;
 
-    if (!$assinatura) return false;
+    if (!$assinatura) return true;
 
-    if (!$config) return false;
+    if (!$config) return true;
 
     $max_vencimento = subDataDias(0);
     $faturas_vencidas = $CI->model->selecionaBusca('faturas', "WHERE paga='0' AND vencimento < '{$max_vencimento}' ");
@@ -185,6 +185,7 @@ function checarPendencias($id_aluno)
 
         return true;
     }
+    return true;
 }
 
 

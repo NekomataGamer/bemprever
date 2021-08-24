@@ -11,7 +11,7 @@ class HookCron
                 $CI->load->helper('url');
                 $currentURL = current_url();
 
-                if ($currentURL != site_url('rede/faturas/abertas')) {
+                if ($currentURL != site_url('rede/faturas/abertas') && $currentURL != site_url('rede/cron/cronFaturas')) {
                     return gera_aviso(
                         'erro',
                         'Você possui faturas em atraso, para continuar, regularize sua conta. <b>Obs: seu contrato será renovado e reiniciado do zero!</b>',

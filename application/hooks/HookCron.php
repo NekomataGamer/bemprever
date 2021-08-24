@@ -23,6 +23,9 @@ class HookCron
 
         if ($jaRodou) return;
 
+        $CI->model->insere('logs_internos', [
+            'log' => "CRON_" . date('Y-m-d')
+        ]);
 
         $CI->load->library('BackgroundExecuter', null, 'back');
 

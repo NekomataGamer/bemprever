@@ -11,7 +11,7 @@ class HookCron
                 $CI->load->helper('url');
                 $currentURL = current_url();
 
-                if ($currentURL != site_url('rede/faturas/abertas') 
+                if (strpos($currentURL, 'rede/faturas') === false 
                 && $currentURL != site_url('rede/cron/cronFaturas')
                 && $currentURL != site_url('rede/login/logoff')) {
                     return gera_aviso(

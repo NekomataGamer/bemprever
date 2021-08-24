@@ -153,7 +153,7 @@ function checarPendencias($id_aluno)
 
     if (!$config) return true;
 
-    $max_vencimento = subDataDias(0);
+    $max_vencimento = date('Y-m-d H:i:s');
     $faturas_vencidas = $CI->model->selecionaBusca('faturas', "WHERE paga='0' AND vencimento < '{$max_vencimento}' ");
 
     if (count($faturas_vencidas) > 0) {

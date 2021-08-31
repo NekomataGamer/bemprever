@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<div class="page-section container page__container">
+<div class="page-section container page__container" style="overflow-y:auto!important;">
     <div class="col-lg-12 p-0 mx-auto">
 
         <div class="table-responsive">

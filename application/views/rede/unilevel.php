@@ -10,11 +10,11 @@
                     <div class="card-body">
                         <h5 class="card-title mb-4">Unilevel</h5>
                         <div class="row">
-                            <?php for ($i=1; $i<=7; $i++){
+                            <?php for ($i = 1; $i <= 7; $i++) {
                                 $class = $selected == $i ? "btn-primary" : "btn-light";
                                 echo '<div class="col" style="padding:0px!important;text-align:center;">
-                                    <a href="'.site_url('rede/unilevel/'.$i).'">
-                                        <button type="button" class="btn ' . $class . '">'.$i.'º<br/>Nível</button>
+                                    <a href="' . site_url('rede/unilevel/' . $i) . '">
+                                        <button type="button" class="btn ' . $class . '">' . $i . 'º<br/>Nível</button>
                                     </a>
                                 </div>';
                             } ?>
@@ -32,6 +32,9 @@
                                         </th>
                                         <th>
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Nome</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Perna</a>
                                         </th>
                                         <th>
                                             <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-nome">Cadastro</a>
@@ -52,8 +55,12 @@
                                                 ' . $fat['nome'] . '
                                             </td>
                                             <td class="js-lists-values-email">
+                                                ' . $fat['lado'] . '
+                                            </td>
+                                            <td class="js-lists-values-email">
                                                 ' . formataDataBL($fat['criado_em']) . '
                                             </td>
+                                            
                                         </tr>';
                                         }
                                     } else {

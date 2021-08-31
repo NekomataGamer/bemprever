@@ -46,6 +46,17 @@ class Index extends CI_Controller {
     echo $aln;
   }
 
+  public function seleciona($lado)
+  {
+    if ($lado !== 'esquerda' && $lado !== 'direita') return redirect('rede/index');
+
+    $linkUpdate = ['lado' => $lado];
+
+    $this->model->updateKey('link_rede', $linkUpdate, 'id_usuario', $this->session->userdata('id'));
+
+    return redirect('rede/index');
+  }
+
   public function index() {
     $data['linkCadastro'] = geraLinkCadastro($this->session->userdata('id')); //rede/link_cadastro_helper
     $data['lastUsers'] = $this->last_users();

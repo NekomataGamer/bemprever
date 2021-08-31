@@ -153,7 +153,7 @@
                             <img src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-login" alt="">
                             <h4>Seja bem vindo à BEMPREVER!</h4>
                             <p>Escolha seu plano e preencha seus dados abaixo para começar a ter todas as vantagens de ser um <b>membro BEMPREVER</b>.</p>
-                            <h5 style="text-transform:none;"><b>Indicado Por: </b><span class="text-accent"><?php echo $indicador['login']; ?></span><br />
+                            <h5 style="text-transform:none;"><b>Indicado Por: </b><span class="text-accent"><?php echo $indicador['login']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perna: <span class="text-accent"><?php echo ucfirst($busca[0]['lado']); ?></span><br />
                                 <span class="text-primary"><?php echo $indicador['email']; ?></span>
                             </h5>
                         </center>
@@ -197,6 +197,14 @@
                                                         <p><?php echo $planos[0]['descricao']; ?></p>
                                                     </div>
                                                 </div>
+                                                <hr>
+                                                <div class="form-row">
+                                                    <div class="d-flex align-items-center">
+                                                        <input type="checkbox" name="planoMaster" onchange="adquirePlano(this)" style="width: 1rem;height: 1rem;" />
+                                                        <label class="pl-2" style="margin-bottom:0px!important;margin-top: 1px;">Adiquirir <a href="javascript:void(0)" style="cursor:help!important;" class="text-primary" data-target="#pmaster" data-toggle="modal">Plano Master</a></label>
+                                                    </div>
+                                                </div>
+                                                <div id="selectMaster"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -207,7 +215,7 @@
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-body">
-
+                                        <input type="hidden" name="lado" value="<?php echo $busca[0]['lado']; ?>" />
                                         <h5 class="card-title mb-4">Dados Iniciais</h5>
                                         <div class="form-group">
                                             <label class="form-label" for="username">Usuario: *</label>
@@ -437,7 +445,35 @@
         <!-- // END drawer-layout__content -->
 
 
-
+        <div class="modal fade" id="pmaster" tabindex="-1" role="dialog" aria-labelledby="titulo-pmaster" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="titulo-pmaster">Sobre os planos master</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ao adquirir um plano <b>MASTER</b>, seus pontos binários passarão a ser convertidos diariamente, gerando mais ganhos para você!</p>
+                        <?php foreach ($masters as $master) : ?>
+                            <p class="text-primary">Plano de R$ <?= number_format($master['valor'], 2, ',', '.') ?> converte <?= $master['pct_conversao']; ?>% dos seus pontos binários</p>
+                        <?php endforeach; ?>
+                        <p>Seus pontos da menor perna serão convertidos em saldo baseados na taxa de conversão acima, e ela será zerada!</p>
+                        <p>Por exemplo: Um usuário com plano de 3000, 10000 pontos na perna esquerda e 5000 pontos na perna direita, terá os pontos da sua <b>perna direita</b> convertidos com a taxa de <b>60%</b>!
+                            <br>No final o usuário irá receber R$ 3.000,00 a mais!!
+                        </p>
+                        <hr>
+                        <p>Caso o usuário possua uma das pernas zeradas, nenhum ponto será convertido!</p>
+                        <p>O plano <b>master</b> será pago juntamente à adesão</p>
+                        <small class="text-danger" style="font-size:80%;">O ganho máximo está sujeito ao teto mensal do plano!</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- // END Drawer Layout -->
@@ -499,6 +535,24 @@
         </script>
     <?php } ?>
     <script>
+        function adquirePlano(obj) {
+            console.log($(obj).prop('checked'));
+            if (!$(obj).prop('checked')) return $('#selectMaster').html(''); {
+
+                $('#selectMaster').html(`
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <select name="plano_master" class="form-control mt-2" >
+                            <?php foreach ($masters as $m) {
+                                echo '<option value="'.$m['id'].'">R$ ' . $m['valor'] . ' - ' . $m['pct_conversao'] . '% conversão</option>';
+                            } ?>
+                            </select>
+                        </div>
+                    </div>
+                `);
+            }
+        }
+
         function mascaraCep(obj) {
             var i = 0;
             var v = obj.value;
@@ -511,19 +565,18 @@
         function verifyNascimento(obj) {
             $('#alertaNascimento').remove();
             let [dia, mes, ano] = obj.value.split('/');
-            if (typeof dia !== 'undefined' 
-             && typeof mes !== 'undefined'
-             && typeof ano !== 'undefined'
-             && dia.length >= 2 
-             && mes.length >= 2
-             && ano.length >= 4
-             ){
+            if (typeof dia !== 'undefined' &&
+                typeof mes !== 'undefined' &&
+                typeof ano !== 'undefined' &&
+                dia.length >= 2 &&
+                mes.length >= 2 &&
+                ano.length >= 4
+            ) {
                 dataNascimento(`${ano}-${mes}-${dia}`);
-             }
+            }
         }
 
-        function avisoErro(aviso, selector='#nascimento')
-        {
+        function avisoErro(aviso, selector = '#nascimento') {
             $('#alertaNascimento').remove();
             let dangerAlert = `<div id="alertaNascimento" class="alert alert-danger" style="margin-top: .1rem;">
                 ${aviso}
@@ -541,8 +594,8 @@
                 $('#nome_benef').prop('required', false);
                 $('#cpf_benef').prop('required', false);
                 $('#parentesco_benef').prop('required', false);
-                avisoErro("Você não pode cadastrar um dependente pois tem 60 anos ou mais!", 
-                '#dados_benefc');
+                avisoErro("Você não pode cadastrar um dependente pois tem 60 anos ou mais!",
+                    '#dados_benefc');
             } else {
                 $('#nome_benef').prop('readonly', false);
                 $('#cpf_benef').prop('readonly', false);

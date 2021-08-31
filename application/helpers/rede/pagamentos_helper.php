@@ -32,8 +32,8 @@ function configJuno($tipo)
         'resource_token_producao' => '8897B3DF7700FDCD6E60CC55B8DBB64EAE98DC59FB32A9517D94E1410A6AD80A', //token de recursos produção
         'url_sandbox' => "https://sandbox.boletobancario.com", //urlSandbox
         'url_producao' => "https://api.juno.com.br", //urlProducao
-        'env' => 'producao'
-        #'env' => 'sandbox' //ambiente (sandbox ou producao)
+        #'env' => 'producao'
+        'env' => 'sandbox' //ambiente (sandbox ou producao)
     ];
     if ($tipo != 'cadastro') {
         $arr['referencia'] = 'faturas';

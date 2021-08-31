@@ -22,7 +22,11 @@ class Assinatura extends CI_Controller {
     $data['plano'] = $this->model->selecionaBusca('plano_rede', "WHERE id='".$data['assinatura'][0]['id_plano']."' ");
     if (!$data['plano']) gera_aviso('erro', 'Plano não encontrado.', 'rede/index');
 
+    if (!is_null($data['assinatura'][0]['id_adesao_master'])){
+      $master = $this->model->selecionaBusca('adesoes_master', "WHERE id='{$data['assinatura'][0]['id_adesao_master']}' ");
+      $data['master'] = isset($master[0]['id']) ? $master[0] : null;
+  }
+
     $this->load->view('rede/assinaturas/detalhes', $data);
   }
 }
-?>

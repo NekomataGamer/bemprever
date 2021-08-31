@@ -1,5 +1,10 @@
 <?php include_once(ROOT_PATH . '/assets/includes/rede/header.php'); ?>
-
+<style>
+    .btn-primary.btn-outline {
+        background: transparent;
+        color: #6993FF;
+    }
+</style>
 
 
 <!--begin::Entry-->
@@ -60,31 +65,67 @@
                         </div>
                     </div>
                     <div class="col-xl-6">
-                        <!--begin::Mixed Widget 14-->
-                        <div class="card card-custom bgi-no-repeat bgi-size-cover gutter-b card-stretch" style="background-image: url(<?php echo base_url('assets/assetsAlison/'); ?>/media/stock-600x600/img-16.jpg)">
-                            <!--begin::Body-->
-                            <div class="card-body d-flex flex-column align-items-start justify-content-start">
-                                <div class="p-1 flex-grow-1">
-                                    <h3 class="text-white font-weight-bolder line-height-lg mb-5">Conheça Nossos
-                                        <br />Benefícios
-                                    </h3>
+
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <!--begin::Tiles Widget 11-->
+                                <div class="card card-custom bg-danger gutter-b" style="height: 150px">
+                                    <div class="card-body">
+                                        <span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
+                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+                                                <title>Stockholm-icons / General / Thunder</title>
+                                                <desc>Created with Sketch.</desc>
+                                                <defs></defs>
+                                                <g id="Stockholm-icons-/-General-/-Thunder" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect id="Rectangle-10" x="0" y="0" width="24" height="24"></rect>
+                                                    <path d="M12.3740377,19.9389434 L18.2226499,11.1660251 C18.4524142,10.8213786 18.3592838,10.3557266 18.0146373,10.1259623 C17.8914367,10.0438285 17.7466809,10 17.5986122,10 L13,10 L13,4.47708173 C13,4.06286817 12.6642136,3.72708173 12.25,3.72708173 C11.9992351,3.72708173 11.7650616,3.85240758 11.6259623,4.06105658 L5.7773501,12.8339749 C5.54758575,13.1786214 5.64071616,13.6442734 5.98536267,13.8740377 C6.10856331,13.9561715 6.25331908,14 6.40138782,14 L11,14 L11,19.5229183 C11,19.9371318 11.3357864,20.2729183 11.75,20.2729183 C12.0007649,20.2729183 12.2349384,20.1475924 12.3740377,19.9389434 Z" id="Path-3" fill="#000000"></path>
+                                                </g>
+                                            </svg>
+                                            <!--end::Svg Icon-->
+                                            <?php if (isset($assinatura['master']['valor'])) : ?>
+                                                <span class="text-white">
+                                                    MASTER <?= $assinatura['master']['valor']; ?> (<?= $assinatura['master']['pct_conversao'] ?>%)
+                                                </span>
+                                            <?php endif; ?>
+                                        </span>
+                                        <div class="text-inverse-primary font-weight-bolder font-size-h2 mt-3"><?php echo $saldo['pontos_esquerda']; ?></div>
+                                        <a href="#" class="text-inverse-primary font-weight-bold font-size-lg mt-1">Pontuação Esquerda</a>
+                                    </div>
                                 </div>
-                                <a href='#' class="btn btn-link btn-link-warning font-weight-bold">Ver Mais
-                                    <span class="svg-icon svg-icon-lg svg-icon-warning">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Arrow-right.svg-->
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <polygon points="0 0 24 0 24 24 0 24" />
-                                                <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000)" x="11" y="5" width="2" height="14" rx="1" />
-                                                <path d="M9.70710318,15.7071045 C9.31657888,16.0976288 8.68341391,16.0976288 8.29288961,15.7071045 C7.90236532,15.3165802 7.90236532,14.6834152 8.29288961,14.2928909 L14.2928896,8.29289093 C14.6714686,7.914312 15.281055,7.90106637 15.675721,8.26284357 L21.675721,13.7628436 C22.08284,14.136036 22.1103429,14.7686034 21.7371505,15.1757223 C21.3639581,15.5828413 20.7313908,15.6103443 20.3242718,15.2371519 L15.0300721,10.3841355 L9.70710318,15.7071045 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.999999, 11.999997) scale(1, -1) rotate(90.000000) translate(-14.999999, -11.999997)" />
-                                            </g>
-                                        </svg>
-                                        <!--end::Svg Icon-->
-                                    </span></a>
+                                <!--end::Tiles Widget 11-->
                             </div>
-                            <!--end::Body-->
+                            <div class="col-xl-6">
+                                <!--begin::Tiles Widget 11-->
+                                <div class="card card-custom bg-danger gutter-b" style="height: 150px">
+                                    <div class="card-body">
+                                        <span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
+                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Group.svg-->
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+                                                <title>Stockholm-icons / General / Thunder</title>
+                                                <desc>Created with Sketch.</desc>
+                                                <defs></defs>
+                                                <g id="Stockholm-icons-/-General-/-Thunder" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect id="Rectangle-10" x="0" y="0" width="24" height="24"></rect>
+                                                    <path d="M12.3740377,19.9389434 L18.2226499,11.1660251 C18.4524142,10.8213786 18.3592838,10.3557266 18.0146373,10.1259623 C17.8914367,10.0438285 17.7466809,10 17.5986122,10 L13,10 L13,4.47708173 C13,4.06286817 12.6642136,3.72708173 12.25,3.72708173 C11.9992351,3.72708173 11.7650616,3.85240758 11.6259623,4.06105658 L5.7773501,12.8339749 C5.54758575,13.1786214 5.64071616,13.6442734 5.98536267,13.8740377 C6.10856331,13.9561715 6.25331908,14 6.40138782,14 L11,14 L11,19.5229183 C11,19.9371318 11.3357864,20.2729183 11.75,20.2729183 C12.0007649,20.2729183 12.2349384,20.1475924 12.3740377,19.9389434 Z" id="Path-3" fill="#000000"></path>
+                                                </g>
+                                            </svg>
+                                            <!--end::Svg Icon-->
+                                            <?php if (isset($assinatura['master']['valor'])) : ?>
+                                                <span class="text-white">
+                                                    MASTER <?= $assinatura['master']['valor']; ?> (<?= $assinatura['master']['pct_conversao'] ?>%)
+                                                </span>
+                                            <?php endif; ?>
+                                        </span>
+                                        <div class="text-inverse-primary font-weight-bolder font-size-h2 mt-3"><?php echo $saldo['pontos_direita']; ?></div>
+                                        <a href="#" class="text-inverse-primary font-weight-bold font-size-lg mt-1">Pontuação Direita</a>
+                                    </div>
+                                </div>
+                                <!--end::Tiles Widget 12-->
+                            </div>
                         </div>
-                        <!--end::Mixed Widget 14-->
                     </div>
                 </div>
 
@@ -114,7 +155,22 @@
                                         </span>Copiar Link de Cadastro</a>
                                     <!-- <?php echo site_url('rede/LinkCadastro/nova_conta?link=' . $linkCadastro['link']); ?> -->
                                 </div>
-                                <input id="url" type="text" class="form-control" placeholder="Url" aria-label="Url" value="<?php echo site_url('rede/nova_conta?&link=' . $linkCadastro['link']); ?>" readonly aria-describedby="basic-addon2" style="display: z-index: 0;">
+                                <div class="input-group mb-3">
+                                    <input id="url" type="text" class="form-control" placeholder="Url" aria-label="Url" value="<?php echo site_url('rede/nova_conta?&link=' . $linkCadastro['link']); ?>" readonly aria-describedby="basic-addon2" style="display: z-index: 0;">
+                                    <div class="input-group-append">
+                                        <a href="<?= site_url('rede/index/seleciona/esquerda') ?>" class="btn btn-primary <?php if ($linkCadastro['lado'] === 'direita') {
+                                                                                                                                echo 'btn-outline';
+                                                                                                                            } ?> font-weight-bolder font-size-sm" style="width:150px;border-top-left-radius:0.42rem;border-bottom-left-radius:0.42rem;">
+                                            Esquerda
+                                        </a>
+                                        <a href="<?= site_url('rede/index/seleciona/direita') ?>" class="btn btn-primary <?php if ($linkCadastro['lado'] === 'esquerda') {
+                                                                                                                                echo 'btn-outline';
+                                                                                                                            } ?> font-weight-bolder font-size-sm" style="width:150px;">
+                                            Direita
+                                        </a>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <!--end::Header-->
@@ -169,7 +225,7 @@
                                         $vencimento = ($fat['vencimento_inicial']) ? $fat['vencimento_inicial'] : $fat['vencimento'];
                                         $multa = calculaJurosVencimento($vencimento, $fat['valor']);
                                         $total = $fat['valor'] + $multa;
-                                    ?>
+                                ?>
                                         <hr>
                                         <div class="row" style="padding-bottom:20px;">
                                             <div class="col-md-2">

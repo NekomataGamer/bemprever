@@ -29,7 +29,18 @@ class LinkCadastro extends CI_Controller
     $estados = $this->model->selecionaBusca('estados', "");
     $config = $this->model->selecionaBusca('configuracoes', "");
 
-    $this->load->view('rede/nova_conta', ['indicador' => $indicador[0], 'planos' => $planos, 'estados' => $estados, 'config' => $config, 'link' => $link, 'cat' => $this->db->get('servicos_categoria')->result_array()]);
+    $masters = $this->model->selecionaBusca('adesoes_master', "");
+
+    $this->load->view('rede/nova_conta', [
+      'indicador' => $indicador[0],
+      'busca' => $busca,
+      'planos' => $planos,
+      'estados' => $estados,
+      'config' => $config,
+      'link' => $link,
+      'masters' => $masters,
+      'cat' => $this->db->get('servicos_categoria')->result_array()
+    ]);
   }
 
   public function testeJuno()
@@ -113,6 +124,17 @@ class LinkCadastro extends CI_Controller
     $data['id_plano']     = $plano[0]['id'];
     $data['ip_assinado']  = $_SERVER['REMOTE_ADDR'];
 
+    $valPagamento = $plano[0]['adesao'];
+
+    $plano_master = $this->input->post('plano_master');
+    if (isset($plano_master) && !empty($plano_master)) {
+      $master = $this->model->selecionaBusca('adesoes_master', "WHERE id='{$plano_master}' ");
+      if ($master) {
+        $data['plano_master'] = $master[0]['id'];
+        $valPagamento += $master[0]['valor'];
+      }
+    }
+
     $idnew = $this->model->insere_id('aluno_espera', $data);
     if ($idnew) {
       $aluno = $this->model->selecionaBusca('aluno_espera', "WHERE id='{$idnew}' ");
@@ -139,12 +161,9 @@ class LinkCadastro extends CI_Controller
         exit;
       } */
 
-      $valPagamento = $plano[0]['adesao'];
-
       $dateNow = new DateTime();
       $dateNow->setTimezone(new DateTimeZone('America/Sao_Paulo'));
       $dateNow->add(new DateInterval('P5D'));
-
 
       $linkpay = gerarPagamentoJuno($idnew, $valPagamento, $plano[0]['nome'], $dateNow->format('Y-m-d'), $aluno[0], 'cadastro');
       if ($linkpay) {

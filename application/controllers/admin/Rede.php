@@ -149,86 +149,15 @@ class Rede extends CI_Controller
     $this->load->view('admin/rede/ativar_usuarios', $data);
   }
 
-  protected function addGanhoIndicacao($valor, $enviado)
-  {
-    $indicador = $enviado[0]['id_indicador'];
-    $configurer = $this->model->selecionaBusca('configuracoes', " LIMIT 1");
-    if ($configurer) {
-      $pctGanhoIndicacao = $configurer[0]['ganho_indicacao'];
-      $valorIndicacao = $valor * $pctGanhoIndicacao / 100;
-
-      $planoUser = $this->model->selecionaBusca('assinaturas_rede', "WHERE id_aluno='{$indicador}' AND status='ativo' ");
-
-      $aluno = $this->model->selecionaBusca('aluno', "WHERE id='{$indicador}' AND bloqueado='0' ");
-
-      if (!$planoUser || !$aluno) return false; #usuário não tem plano ou está bloqueado! Não recebe indicação
-
-      return addSaldo($indicador, $valorIndicacao, $planoUser[0]['id'], 'indicacao');
-    }
-  }
-
-  //TRANSFORMA O CADASTRO TEMPORÁRIO DE ALUNO EM PERMANENTE CASO O PAGAMENTO TENHA SIDO EFETUADO COM SUCESSO.
-  protected function cadastrarAluno($id, $sobeGanho = true)
-  {
-    $dados = $this->model->selecionaBusca('aluno_espera', "WHERE `id`='{$id}' ");
-    if (!$dados) return false;
-
-    $documento = $this->model->selecionaBusca('documento_termos', "WHERE `id_aluno_pre`='{$id}' ");
-
-    $arr = $dados[0];
-    unset($arr['gerou_pagamento']);
-    unset($arr['id']);
-    $id_niveis = buscarNivelNovo($arr['id_indicador']);
-    $plano = $this->model->selecionaBusca('plano_rede', "WHERE id='{$arr['id_plano']}' ");
-    unset($arr['id_plano']);
-    $arr['tipo'] = 'rede';
-
-    if (!$plano) return false;
-    if (!$id_niveis) return false;
-
-    $arr['id_niveis'] = $id_niveis;
-    $arr['cadastro_confirmado'] = 1;
-
-    $idusuario = $this->model->insere_id('aluno', $arr);
-    if ($idusuario) {
-      if (isset($documento[0]['id'])) {
-        $updateDocumento = [
-          'id_aluno_pre'  => null,
-          'id_aluno'      => $idusuario
-        ];
-        $this->model->update('documento_termos', $updateDocumento, $documento[0]['id']);
-      }
-
-      $this->model->insere('assinaturas_rede', [
-        'id_aluno' => $idusuario,
-        'id_plano' => $plano[0]['id'],
-        'valor' => $plano[0]['valor'],
-        'pago' => $plano[0]['valor'],
-        'recebido' => 0,
-        'status' => 'ativo',
-        'data_pagamento_inicial' => date('Y-m-d H:i:s')
-      ]);
-      if ($sobeGanho) $this->addGanhoIndicacao($plano[0]['valor'], $dados);
-      return $this->model->remove('aluno_espera', $dados[0]['id']);
-    }
-    return false;
-  }
-
-  //REMOVE ALUNO DA LISTA DE ESPERA
-
-  protected function removeAlunoEspera($id)
-  {
-
-    return $this->model->remove('aluno_espera', $id);
-  }
-
   public function desativar_rede($id)
   {
     if (!buscaPermissao('rede', 'administrar')) {
       gera_aviso('erro', 'Ação não permitida!', 'admin/index');
       exit;
     }
-    if ($this->removeAlunoEspera($id)) {
+
+    $this->load->library("CadastroHandler", null, "chandler");
+    if ($this->chandler->cancelarAluno($id)) {
       gera_aviso('success', 'Usuário removido na rede com sucesso', 'admin/rede/ativar_usuarios');
     }
 
@@ -244,7 +173,9 @@ class Rede extends CI_Controller
     }
 
     $sobeGanhos = ($tipo === 0) ? true : false;
-    if ($this->cadastrarAluno($id, $sobeGanhos)) {
+
+    $this->load->library("CadastroHandler", null, "chandler");
+    if ($this->chandler->cadastrarAluno($id, $sobeGanhos)) {
       gera_aviso('success', 'Usuário ativado na rede com sucesso', 'admin/rede/ativar_usuarios');
     }
 

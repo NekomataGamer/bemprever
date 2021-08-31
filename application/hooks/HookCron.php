@@ -13,7 +13,8 @@ class HookCron
 
                 if (strpos($currentURL, 'rede/faturas') === false 
                 && $currentURL != site_url('rede/cron/cronFaturas')
-                && $currentURL != site_url('rede/login/logoff')) {
+                && $currentURL != site_url('rede/login/logoff')
+                && $currentURL != site_url('rede/dados_incompletos')) {
                     return gera_aviso(
                         'erro',
                         'Você possui faturas em atraso, para continuar, regularize sua conta. <b>Obs: seu contrato será renovado e reiniciado do zero!</b>',
@@ -32,5 +33,6 @@ class HookCron
         $CI->load->library('BackgroundExecuter', null, 'back');
 
         $CI->back->handle("cron/Rede", "cronFaturas");
+        $CI->back->handle("cron/Binario", "binarioCron");
     }
 }

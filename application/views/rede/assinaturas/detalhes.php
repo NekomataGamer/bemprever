@@ -7,8 +7,18 @@
             <div class="col-lg-4">
                 <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                     <div class="card-body">
-                        <h4 class="h2 mb-0"><?php echo $plano[0]['nome']; ?></h4>
-                        <div>Plano Assinado</div>
+                        <h4 class="h2 mb-0">
+                            <?php echo $plano[0]['nome']; ?>
+                        </h4>
+                        <div>
+                            <?php
+                            if (isset($master['valor']) && !empty($master)) {
+                                echo "<span class='text-primary'>MASTER {$master['valor']} ({$master['pct_conversao']}% conversão binária)</span>";
+                            } else {
+                                echo "<span class='text-primary'>SEM CONVERSÃO BINÁRIA</span>";
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,11 +48,14 @@
                     <div class="card-body">
                         <h5 class="card-title mb-4">Plano</h5>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <b>Nome</b>
                             </div>
-                            <div class="col-6">
-                                <b>Valor</b>
+                            <div class="col-4">
+                                <b>Adesão</b>
+                            </div>
+                            <div class="col-4">
+                                <b>Mensalidade</b>
                             </div>
                         </div>
                         <?php
@@ -50,17 +63,38 @@
                             foreach ($plano as $pln) { ?>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <?php echo $pln['nome']; ?>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
+                                        <?php echo 'R$ ' . number_format($pln['adesao'], 2, ',', ''); ?>
+                                    </div>
+                                    <div class="col-4">
                                         <?php echo 'R$ ' . number_format($pln['valor'], 2, ',', ''); ?>
                                     </div>
                                 </div>
                                 <hr>
+                                <?php if (isset($master['valor']) && !empty($master)) : ?>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <?php echo "MASTER {$master['valor']}"; ?>
+                                        </div>
+                                        <div class="col-4">
+                                            <?php echo 'R$ ' . number_format($master['valor'], 2, ',', ''); ?>
+                                        </div>
+                                        <div class="col-4">
+                                            <?php echo ' - '; ?>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                <?php endif; ?>
                                 <div class="row">
                                     <div class="col-12">
                                         <?php echo nl2br($pln['descricao']); ?>
+                                        <?php if (isset($master['valor']) && !empty($master)) : ?>
+                                            <br><br>
+                                            <?php echo "{$master['pct_conversao']}% de conversão binária"; ?>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
 
@@ -106,7 +140,7 @@
                                         <?php echo 'R$ ' . number_format($pln['recebido'], 2, ',', ''); ?>
                                     </div>
                                     <div class="col-md-3">
-                                        <?php echo $pln['status'] == 'ativo' ? '<span class="badge badge-success">'.ucfirst($pln['status']).'</span>' : '<span class="badge badge-accent">'.ucfirst($pln['status']).'</span>'; ?>
+                                        <?php echo $pln['status'] == 'ativo' ? '<span class="badge badge-success">' . ucfirst($pln['status']) . '</span>' : '<span class="badge badge-accent">' . ucfirst($pln['status']) . '</span>'; ?>
                                     </div>
                                 </div>
 

@@ -20,7 +20,8 @@ function geraLinkCadastro($id, $force = false)
         $token = $id . '_' . urlencode($aluno['login']) . '-'.time();
         $newlink = array(
             'id_usuario' => $id,
-            'link' => $token
+            'link' => $token,
+            'lado' => 'esquerda'
         );
         if ($CI->model->insere('link_rede', $newlink)) {
             return $newlink;

@@ -9,7 +9,9 @@ function getSaldo($id_aluno)
     } else {
         $newsaldo = array(
             'id_aluno' => $id_aluno,
-            'saldo' => 0
+            'saldo' => 0,
+            'pontos_esquerda' => 0,
+            'pontos_direita' => 0
         );
         $id_saldo = $CI->model->insere_id('saldo_usuario', $newsaldo);
         if ($id_saldo) {
@@ -59,7 +61,8 @@ function addGanhoAssinatura($id_aluno, $val)
     if (!$assinatura) return false;
 
     $nvarr = [
-        'recebido' => $assinatura[0]['recebido'] + $val
+        'recebido' => $assinatura[0]['recebido'] + $val,
+        'ganho_mensal' => $assinatura[0]['ganho_mensal'] + $val
     ];
     return $CI->model->update('assinaturas_rede', $nvarr, $assinatura[0]['id']);
 }
@@ -88,7 +91,7 @@ function addSaldo($id_aluno, $valor, $id_plano = null, $tipo = '')
 
     if ($CI->model->update('saldo_usuario', $nvSaldo, $saldo['id'])) {
         if (isset($id_plano) && $tipo != '') {
-            if ($tipo == 'residual' || $tipo == 'indicacao') {
+            if ($tipo == 'residual' || $tipo == 'indicacao' || $tipo == 'binario') {
                 addGanhoAssinatura($id_aluno, $valor);
             }
             return addBalanco($id_aluno, $valor, $id_plano, 'entrada', $tipo);

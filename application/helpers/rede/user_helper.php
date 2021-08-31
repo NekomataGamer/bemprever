@@ -10,6 +10,12 @@ function getAssinatura($id_aluno)
         $retorno = $assinatura[0];
         $plano = $CI->model->selecionaBusca('plano_rede', "WHERE id='{$assinatura[0]['id_plano']}' ");
         $retorno['plano'] = isset($plano[0]['id']) ? $plano[0] : null;
+
+        if (!is_null($assinatura[0]['id_adesao_master'])){
+            $master = $CI->model->selecionaBusca('adesoes_master', "WHERE id='{$assinatura[0]['id_adesao_master']}' ");
+            $retorno['master'] = isset($master[0]['id']) ? $master[0] : null;
+        }
+
         return $retorno;
     } else if ($id_aluno == 1) {
         return [];

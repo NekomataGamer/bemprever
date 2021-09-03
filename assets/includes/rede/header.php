@@ -34,7 +34,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!--end::Global Theme Styles-->
 	<!--begin::Layout Themes(used by all pages)-->
 	<!--end::Layout Themes-->
-	<link rel="shortcut icon" href="<?php echo site_url('assets/assetsAlison'); ?>/media/logos/fav-icon.png" />
+	<link rel="shortcut icon" href="<?php echo site_url('assets/imagens/faviconspl.png'); ?>" />
 
 	<style>
 		#kt_body {

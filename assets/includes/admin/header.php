@@ -49,7 +49,7 @@
       <!-- bootstrap selectpicker -->
       <!-- Latest compiled and minified CSS -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-
+      <link rel="shortcut icon" href="<?php echo site_url('assets/imagens/faviconspl.png'); ?>" />
       <style>
             #toast-container>.toast-error {
                   background-color: #d9534f !important;

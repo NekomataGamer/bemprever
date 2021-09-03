@@ -14,6 +14,8 @@
         <meta name="robots"
               content="noindex">
 
+              <link rel="shortcut icon" href="<?php echo site_url('assets/imagens/faviconspl.png'); ?>" />
+
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap"
               rel="stylesheet">
 

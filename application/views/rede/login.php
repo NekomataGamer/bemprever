@@ -16,7 +16,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!--begin::Head-->
 	<head><base href="../../../../">
 		<meta charset="utf-8" />
-		<title>Login | Bem Prever</title>
+		<title>Login | SPL Assistência Familiar</title>
 		<meta name="description" content="Login page example" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -96,7 +96,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<!--begin::Login Header-->
 						<div class="d-flex flex-center mb-15">
 							<a href="#">
-								<img src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="max-h-100px logo-login" alt="">
+								<img src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" class="max-h-100px logo-login" alt="LOGO EMPRESA">
 							</a>
 						</div>
 						<!--end::Login Header-->

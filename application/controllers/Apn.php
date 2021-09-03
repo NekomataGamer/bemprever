@@ -13,8 +13,8 @@ class Apn extends CI_Controller
 
     public function index()
     {
-        $file = getcwd(). '/assets/apn/BPV_APN_1106021.pdf';
-        $filename = 'Bemprever Vida - APN.pdf';
+        $file = getcwd(). '/assets/apn/REGIMENTO_INTERNO_SPL.pdf';
+        $filename = 'Regimento Interno SPL.pdf';
 
         header('Content-type: application/pdf');
         header('Content-Disposition: inline; filename="' . $filename . '"');

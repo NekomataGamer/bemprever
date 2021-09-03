@@ -17,7 +17,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <head>
 	<base href="">
 	<meta charset="utf-8" />
-	<title>BemPrever</title>
+	<title>SPL Assistência Familiar || Backoffice</title>
 	<meta name="description" content="Updates and statistics" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -124,7 +124,7 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 	<div id="kt_header_mobile" class="header-mobile">
 		<!--begin::Logo-->
 		<a href="<?php echo site_url('rede/index'); ?>">
-			<img alt="Logo" src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-default max-h-30px" />
+			<img alt="Logo" src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" class="logo-default max-h-30px" />
 		</a>
 		<!--end::Logo-->
 		<!--begin::Toolbar-->
@@ -163,8 +163,8 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 							<!--begin::Header Logo-->
 							<div class="header-logo">
 								<a href="<?php echo base_url('rede/index'); ?>">
-									<img alt="Logo" src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-default max-h-40px" />
-									<img alt="Logo" src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-sticky max-h-40px" />
+									<img alt="Logo" src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" class="logo-default max-h-40px" />
+									<img alt="Logo" src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" class="logo-sticky max-h-40px" />
 								</a>
 							</div>
 
@@ -444,16 +444,16 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 																</svg>
 																<!--end::Svg Icon-->
 															</span>
-															<span class="menu-text">APN Bemprever</span>
+															<span class="menu-text">Regimento Interno SPL</span>
 														</a>
 													</li>
 
-													<li class="menu-item" aria-haspopup="true">
+													<!-- <li class="menu-item" aria-haspopup="true">
 														<a target="_blank" href="<?php echo site_url('termos_e_condicoes_de_uso'); ?>" class="menu-link">
 															<span class="svg-icon menu-icon">
-																<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+																
 																<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-																	<!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+
 																	<title>Stockholm-icons / Files / File</title>
 																	<desc>Created with Sketch.</desc>
 																	<defs></defs>
@@ -464,7 +464,6 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 																		<rect id="Rectangle-Copy" fill="#000000" x="6" y="15" width="5" height="2" rx="1"></rect>
 																	</g>
 																</svg>
-																<!--end::Svg Icon-->
 															</span>
 															<span class="menu-text">Termo De Adesão</span>
 														</a>
@@ -473,9 +472,9 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 													<li class="menu-item" aria-haspopup="true">
 														<a target="_self" href="<?php echo site_url('carta_de_orientacao_ao_associado'); ?>" class="menu-link">
 															<span class="svg-icon menu-icon">
-																<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
+																
 																<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-																	<!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+																	
 																	<title>Stockholm-icons / Files / File</title>
 																	<desc>Created with Sketch.</desc>
 																	<defs></defs>
@@ -486,7 +485,6 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 																		<rect id="Rectangle-Copy" fill="#000000" x="6" y="15" width="5" height="2" rx="1"></rect>
 																	</g>
 																</svg>
-																<!--end::Svg Icon-->
 															</span>
 															<span class="menu-text">Carta De Orientação Ao Associado</span>
 														</a>
@@ -495,9 +493,7 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 													<li class="menu-item" aria-haspopup="true">
 														<a target="_self" href="<?php echo site_url('requerimento_de_abertura_de_evento'); ?>" class="menu-link">
 															<span class="svg-icon menu-icon">
-																<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Library.svg-->
 																<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-																	<!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
 																	<title>Stockholm-icons / Files / File</title>
 																	<desc>Created with Sketch.</desc>
 																	<defs></defs>
@@ -508,11 +504,10 @@ if (!$retorno['type'] && $title !== "Meu Perfil") {
 																		<rect id="Rectangle-Copy" fill="#000000" x="6" y="15" width="5" height="2" rx="1"></rect>
 																	</g>
 																</svg>
-																<!--end::Svg Icon-->
 															</span>
 															<span class="menu-text">Requerimento De Abertura De Evento</span>
 														</a>
-													</li>
+													</li> -->
 
 												</ul>
 											</div>

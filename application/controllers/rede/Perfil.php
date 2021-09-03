@@ -108,7 +108,7 @@ class Perfil extends CI_Controller
   public function minhas_credenciais()
   {
     $data['title'] = 'Minhas Credenciais';
-    $data['subTitle'] = 'Credenciais bemprever';
+    $data['subTitle'] = 'Credenciais SPL';
     $data['cat'] = $this->db->get('servicos_categoria')->result_array();
 
     $this->load->view('rede/minhas_credenciais', $data);

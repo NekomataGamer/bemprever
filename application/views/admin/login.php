@@ -117,7 +117,7 @@
                         
                         <form method="post" action="<?php echo site_url('admin/login/login'); ?>"
                               class="col-md-5 p-0 mx-auto">
-                            <img src="<?php echo site_url('assets/imagens/BPV-Logo-Color.png'); ?>" style="width:100%;margin-bottom:40px;">
+                              <img src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" style="width:100%;margin-bottom:40px;" alt="LOGO EMPRESA">
                             <div class="form-group">
                                 <label class="form-label"
                                        for="email">Usuario:</label>

@@ -34,7 +34,7 @@ if ($avisoAva) : ?>
 		<!--begin::Copyright-->
 		<div class="text-dark order-2 order-md-1">
 			<span class="text-muted font-weight-bold mr-2"><?php echo date('Y') ?>©</span>
-			<a href="https://bckcode.com.br" target="_blank" class="text-dark-75 text-hover-primary">BemPrever</a>
+			<a href="https://bckcode.com.br" target="_blank" class="text-dark-75 text-hover-primary">SPL</a>
 		</div>
 		<!--end::Copyright-->
 		<!--begin::Nav-->
@@ -283,7 +283,7 @@ if ($avisoAva) : ?>
 					</span>
 				</span>
 				<div class="d-flex flex-column flex-grow-1 mr-2">
-					<a href="#" class="font-weight-normel text-dark-75 text-hover-primary font-size-lg mb-1">Bem Vindo(a) à Bemprever!</a>
+					<a href="#" class="font-weight-normel text-dark-75 text-hover-primary font-size-lg mb-1">Bem Vindo(a) à SPL!</a>
 					<span class="text-muted font-size-sm">Now</span>
 				</div>
 				<!-- <span class="font-weight-bolder text-info py-1 font-size-lg">+8%</span> -->

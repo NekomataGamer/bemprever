@@ -33,7 +33,7 @@
 
                 <span class="avatar avatar-xl sidebar-brand-icon h-auto">
 
-                    <img src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Branco.png'); ?>" alt="logo" class="img-fluid" />
+                    <img src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" alt="logo" class="img-fluid" />
 
                 </span>
 

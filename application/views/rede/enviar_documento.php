@@ -138,8 +138,8 @@
             <div class="pb-32pt">
                 <div class="container page__container">
                     <center>
-                        <img src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-login" alt="">
-                        <h4>Seja bem vindo à BEMPREVER!</h4>
+                        <img src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" class="logo-login" alt="">
+                        <h4>Seja bem vindo à SPL!</h4>
                         <div class="alert alert-danger">
                             <p>Encontramos <b>dados inconsistentes ou mal focados</b> no seu último envio do documento, por favor, envie um documento escaneado ou uma foto <b>VISÍVEL</b> da carta preenchida.</p>
                         </div>

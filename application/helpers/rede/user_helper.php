@@ -71,7 +71,7 @@ function checkIfDataIsMissing(): ?array
     ) {
         $CI->session->set_flashdata([
             'aviso_tipo' => "danger",
-            'aviso_mensagem' => "Seu cadastro está incompleto, por favor, atualize seus dados para continuar utilizando a bemprever!",
+            'aviso_mensagem' => "Seu cadastro está incompleto, por favor, atualize seus dados para continuar utilizando a SPL!",
             'tem-erros-data' => 'erro'
         ]);
         return [
@@ -84,7 +84,7 @@ function checkIfDataIsMissing(): ?array
     if (!$documento) {
         $CI->session->set_flashdata([
             'aviso_tipo' => "danger",
-            'aviso_mensagem' => "Seu cadastro está incompleto, por favor, atualize seus dados para continuar utilizando a bemprever!",
+            'aviso_mensagem' => "Seu cadastro está incompleto, por favor, atualize seus dados para continuar utilizando a SPL!",
             'tem-erros-data' => 'erro'
         ]);
         return [

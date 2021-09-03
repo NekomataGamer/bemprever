@@ -66,7 +66,7 @@ function desativarUsuario($id, $id_fatura){
         'id_aluno' => $id,
         'titulo' => '<i class="fa fa-ban"></i> Fatura em atraso',
         'texto' => 'Por possuir pendências em sua conta, seus pedidos de saque e ganhos foram bloqueados. 
-        Para voltar a usufruir de todas as vantagens da BEMPREVER, por favor, regularize sua conta!<br/><br/>
+        Para voltar a usufruir de todas as vantagens da SPL, por favor, regularize sua conta!<br/><br/>
         <span class="text-muted">Você pode pagar sua fatura clicando no botão abaixo!<span><br/>
         <a href="'.site_url('rede/pagarFatura/'.$id_fatura).'"><button type="button" class="btn btn-primary"><i class="fa fa-check"></i> Pagar Fatura</button></a>',
         'delete_on_read' => 1

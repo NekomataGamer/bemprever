@@ -150,9 +150,9 @@
                         <input type="hidden" name="id_indicador" value="<?php echo $indicador['id']; ?>" />
                         <input type="hidden" name="link_indicador" value="<?php echo $link; ?>" />
                         <center>
-                            <img src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" class="logo-login" alt="">
-                            <h4>Seja bem vindo à BEMPREVER!</h4>
-                            <p>Escolha seu plano e preencha seus dados abaixo para começar a ter todas as vantagens de ser um <b>membro BEMPREVER</b>.</p>
+                            <img src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" class="logo-login" alt="">
+                            <h4>Seja bem vindo à SPL!</h4>
+                            <p>Escolha seu plano e preencha seus dados abaixo para começar a ter todas as vantagens de ser um <b>membro SPL</b>.</p>
                             <h5 style="text-transform:none;"><b>Indicado Por: </b><span class="text-accent"><?php echo $indicador['login']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perna: <span class="text-accent"><?php echo ucfirst($busca[0]['lado']); ?></span><br />
                                 <span class="text-primary"><?php echo $indicador['email']; ?></span>
                             </h5>

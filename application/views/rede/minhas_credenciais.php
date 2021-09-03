@@ -21,7 +21,7 @@
 							<div class="card card-custom card-stretch gutter-b">
 								<div class="card-body d-flex p-0">
 									<div class="flex-grow-1 p-20 pb-40 card-rounded flex-grow-1 bgi-no-repeat" style="background-position: calc(100% + 0.5rem) bottom; background-size: 35% auto; background-image: url('<?php echo base_url('assets/assetsAlison/media/svg/humans/custom-10.svg')?>')">
-										<h2 class="text-dark pb-5 font-weight-bolder"><img src="https://bemprevervida.com.br/assets/imagens/BPV-Logo-Color-Login.png" width="250px"/></h2>
+										<h2 class="text-dark pb-5 font-weight-bolder"><img src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" width="250px"/></h2>
 										Beneficiário:
 										<p class="text-dark-80pb-8 font-size-h4"><strong><?php echo $this->session->userdata('nome');?></strong>
 										</p>

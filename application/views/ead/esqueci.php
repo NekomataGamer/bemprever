@@ -59,7 +59,7 @@
       <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
             <div class="mdk-drawer-layout__content page-content d-flex justify-content-center">
 
-                  <!-- Header https://bemprevervida.com.br/assets/imagens/BPV-Logo-Color-Login.png -->
+                  <!-- Header https://bemprevervida.com.br/assets/imagens/LOGO_SPL_HOR.png -->
 
 
 
@@ -75,7 +75,7 @@
                         <div class="container page__container">
 
                               <form method="post" action="<?php echo site_url('ead/login/gera_recuperacao'); ?>" class="col-md-5 p-0 mx-auto">
-                                    <img src="<?php echo site_url('assets/imagens/BPV-Logo-Color-Login.png'); ?>" style="width:100%;">
+                                    <img src="<?php echo site_url('assets/imagens/LOGO_SPL_HOR.png'); ?>" style="width:100%;">
                                     <div class="form-group">
                                           <label class="form-label" for="email">Email:</label>
                                           <input name="email" id="email" type="email" class="form-control" placeholder="Seu email ..." required>

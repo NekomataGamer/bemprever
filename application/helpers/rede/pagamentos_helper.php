@@ -24,12 +24,12 @@ function configJuno($tipo)
         'descricao_cadastro' => "Pagamento inicial do plano {val}",
         'descricao_faturas' => "Pagamento mensal do plano {val}",
         'referencia' => 'aluno_espera',
-        'clientId_producao' => "j56GQNPK1LkygO1H", //clientID juno
-        'clientSecret_producao' => "9a13l{t0G>J@-Tn:l)U;Re>5t|}rzjL1", //clientSecret juno
+        'clientId_producao' => "toBmrqmfoCmlrR6t", //clientID juno
+        'clientSecret_producao' => "nZ)w*-~88K1_Bz=q%-x0hiJoV+wtOa<j", //clientSecret juno
         'clientId_sandbox' => '21Gopv6Xbd2DdtyF', //clientID juno SANDBOX
         'clientSecret_sandbox' => 'Q>g@3FGUn#3g+N6IR4FM@i?!Cx9~gk(e', //Secret juno SANDBOX
         'resource_token_sandbox' => 'F7BC4AADD17D656F70A79B41C46ACEF41A66431C0960A9DF97B92EBF07917B43', //token de recursos sandbox
-        'resource_token_producao' => '8897B3DF7700FDCD6E60CC55B8DBB64EAE98DC59FB32A9517D94E1410A6AD80A', //token de recursos produção
+        'resource_token_producao' => 'B05D70AD771477918D9295DCAC8D5837B39372748043845F974FE803E4380288', //token de recursos produção
         'url_sandbox' => "https://sandbox.boletobancario.com", //urlSandbox
         'url_producao' => "https://api.juno.com.br", //urlProducao
         'env' => 'producao'

@@ -51,4 +51,21 @@ class Pagamentos extends CI_Controller
             gera_aviso('erro', 'Ação não permitida.', 'rede/index');
         }
     }
+
+    public function AlteraVencimentos()
+    {
+        $faturas = $this->model->selecionaBusca('faturas', "WHERE vencimento < '2021-09-10 00:00:00' AND paga='0' ");
+
+        foreach($faturas as $fat){
+            $usuario = $this->model->selecionaBusca('aluno', "WHERE id = '{$fat['id_aluno']}' ");
+
+            if (!$usuario) continue;
+
+            $nvUser['bloqueado'] = 0;
+            $nvFatura['vencimento'] = '2021-09-10 23:59:59';
+            $this->model->update('faturas', $nvFatura, $fat['id']);
+
+            $this->model->update('aluno', $nvUser, $nvUser['id']);
+        }
+    }
 }

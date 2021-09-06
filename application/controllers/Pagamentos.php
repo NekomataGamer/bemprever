@@ -54,18 +54,10 @@ class Pagamentos extends CI_Controller
 
     public function AlteraVencimentos()
     {
-        $faturas = $this->model->selecionaBusca('faturas', "WHERE vencimento < '2021-09-10 00:00:00' AND paga='0' ");
-
-        foreach($faturas as $fat){
-            $usuario = $this->model->selecionaBusca('aluno', "WHERE id = '{$fat['id_aluno']}' ");
-
-            if (!$usuario) continue;
-
+        $usuarios = $this->model->selecionaBusca('aluno', "WHERE bloqueado = '1' ");
+        foreach($usuarios as $us){
             $nvUser['bloqueado'] = 0;
-            $nvFatura['vencimento'] = '2021-09-10 23:59:59';
-            $this->model->update('faturas', $nvFatura, $fat['id']);
-
-            $this->model->update('aluno', $nvUser, $nvUser['id']);
+            $this->model->update('aluno', $nvUser, $us['id']);
         }
     }
 }

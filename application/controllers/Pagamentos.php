@@ -54,10 +54,10 @@ class Pagamentos extends CI_Controller
 
     public function AlteraVencimentos()
     {
-        $usuarios = $this->model->selecionaBusca('aluno', "WHERE bloqueado = '1' ");
+        /*$usuarios = $this->model->selecionaBusca('aluno', "WHERE bloqueado = '1' ");
         foreach($usuarios as $us){
             $nvUser['bloqueado'] = 0;
             $this->model->update('aluno', $nvUser, $us['id']);
-        }
+        }*/
     }
 }
